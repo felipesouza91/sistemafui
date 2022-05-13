@@ -1,0 +1,45 @@
+<p-dialog [(visible)]="display" [modal]="true" (onHide)="fechado()" #panel>
+  <p-header> Cadatro Informação </p-header>
+  <form [formGroup]="form" class="size-lg">
+    <div class="p-fluid p-formgrid p-grid">
+      <div class="p-field p-col-12 p-md-6">
+        <label>Nome Cliente:</label>
+        <input type="text" pInputText formControlName="cliente" />
+      </div>
+      <div class="p-field p-col-12 p-md-6">
+        <label>Data da Criação</label>
+        <p-calendar
+          formControlName="creationDate"
+          dateFormat="dd/mm/yy"
+          showTime="true"
+        ></p-calendar>
+      </div>
+      <div class="p-field p-col-12">
+        <label>Informação</label>
+        <textarea
+          style="height: 100px"
+          pInputTextarea
+          formControlName="descricao"
+        ></textarea>
+      </div>
+      <div class="p-field p-col-12" formGroupName="createdBy">
+        <label>Criado por:</label>
+        <input pInputText type="text" formControlName="nome" />
+      </div>
+    </div>
+  </form>
+  <p-footer>
+    <div class="p-grid p-dir-rev">
+      <div class="p-col">
+        <button pButton label="Limpar" class="p-button-danger"></button>
+        <button
+          pButton
+          class="p-button-success"
+          label="Salvar"
+          (click)="save()"
+          [disabled]="!auth.temPermissao('49')"
+        ></button>
+      </div>
+    </div>
+  </p-footer>
+</p-dialog>

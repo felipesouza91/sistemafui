@@ -1,0 +1,38 @@
+<div class="p-d-flex p-flex-column">
+  <app-navbar
+    *ngIf="exibindoNavBar()"
+    (atendimento)="teste($event)"
+  ></app-navbar>
+  <div class="layout p-d-flex">
+    <div class="p-grid p-jc-center">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
+
+<p-toast position="top-center"></p-toast>
+
+<p-confirmDialog
+  header="Confirmação"
+  icon="pi pi-exclamation-triangle"
+  acceptLabel="Sim"
+  rejectLabel="Não"
+  acceptButtonStyleClass="p-button-danger"
+></p-confirmDialog>
+
+<div *ngIf="displayAtendimento">
+  <app-cadastro-atendimento
+    [display]="displayAtendimento"
+    (closed)="displayAtendimento = $event"
+  ></app-cadastro-atendimento>
+</div>
+<!--
+<div *ngIf="exibindoNavBar()">
+  <p-splitButton
+    class="ui-button-rounded"
+    [model]="opcoes"
+    styleClass="botoaOpc"
+    icon="fas fa-plus"
+  ></p-splitButton>
+</div>
+-->

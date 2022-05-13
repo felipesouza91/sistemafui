@@ -1,0 +1,9 @@
+.size-lg {
+  width: 40vw !important;
+}
+
+@media screen and (max-width: 150rem) {
+  .size-lg {
+    width: 100% !important;
+  }
+}

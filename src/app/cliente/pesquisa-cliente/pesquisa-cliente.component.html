@@ -1,0 +1,179 @@
+<div class="p-grid">
+  <div class="p-col">
+    <h1>Pesquisa de Cliente</h1>
+  </div>
+</div>
+<form (ngSubmit)="pesquisar()" [formGroup]="formPesquisa">
+  <div class="p-fluid p-formgrid p-grid">
+    <div class="p-field p-md-2 p-col-12">
+      <label>Status do Cliente</label>
+      <p-selectButton
+        [options]="status"
+        #a
+        formControlName="ativo"
+      ></p-selectButton>
+    </div>
+    <div class="p-field p-md-2 p-col-12">
+      <label>Filtro</label>
+      <p-dropdown
+        #abc
+        (onChange)="resertDescricao($event)"
+        [options]="filtroOptions"
+        formControlName="tipoFiltro"
+      ></p-dropdown>
+    </div>
+    <div class="p-field p-md-8 p-col-12" *ngIf="abc.value == 0"></div>
+    <div
+      class="p-field p-md-8 p-col-12"
+      *ngIf="abc.value >= 1 && abc.value <= 2"
+    >
+      <label>Descrição</label>
+      <input
+        type="text"
+        pInputText
+        formControlName="descricao"
+        (keyup.enter)="pesquisar()"
+        pKeyFilter="pint"
+      />
+    </div>
+    <div
+      class="p-field p-md-8 p-col-12"
+      *ngIf="abc.value >= 3 && abc.value <= 6"
+    >
+      <label>Descrição</label>
+      <input
+        pInputText
+        formControlName="descricao"
+        (keyup.enter)="pesquisar()"
+      />
+    </div>
+    <div class="p-field p-md-2 p-col-12">
+      <button type="submit" pButton label="Pesquisar"></button>
+    </div>
+  </div>
+</form>
+<div class="p-grid">
+  <div class="p-col">
+    <p-table
+      styleClass="p-datatable-gridlines p-datatable-responsive-demo"
+      [value]="clientes"
+      [responsive]="true"
+      rowHover="false"
+      [paginator]="true"
+      [(rows)]="filtro.size"
+      dataKey="id"
+      [lazy]="true"
+      [rowsPerPageOptions]="[5, 10, 15]"
+      [totalRecords]="totalElementos"
+      (onLazyLoad)="aoMudarPagina($event)"
+      #tab
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 2.25em"></th>
+          <th>Razão Social</th>
+          <th>Nome Fantasia</th>
+          <th>Dominio</th>
+          <th>Endereço</th>
+          <th class="col-acoes">Ações</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-cliente let-expanded="expanded">
+        <tr>
+          <td>
+            <a
+              href="#"
+              [pRowToggler]="cliente"
+              pTooltip="Mais informações"
+              tooltipPosition="right"
+            >
+              <i
+                [ngClass]="
+                  expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'
+                "
+              ></i>
+            </a>
+          </td>
+          <td>
+            <span class="p-column-title">Razão Social: </span>
+            {{ cliente.razaoSocial }}
+          </td>
+          <td>
+            <span class="p-column-title">Nome Fantasia: </span>
+            {{ cliente.fantazia }}
+          </td>
+          <td>
+            <span class="p-column-title">Dominio: </span>
+            {{ cliente.dominio }}
+          </td>
+          <td>
+            <span class="p-column-title">Endereço</span>
+            {{ cliente.endereco.rua }}, {{ cliente.endereco.numero }}
+          </td>
+          <td class="btn-ajust col-acoes">
+            <span class="p-column-title">Ações: </span>
+            <a
+              disabled="!auth.temQualquerPermissao(['1','2'])"
+              pButton
+              [routerLink]="['/cliente', cliente.id]"
+              icon="fas fa-pencil-alt"
+              pTooltip="Editar"
+              tooltipPosition="top"
+            ></a>
+            <button
+              pButton
+              class="p-button-danger"
+              icon="fas fa-trash-alt"
+              pTooltip="Excluir"
+              [disabled]="!auth.temPermissao('3')"
+              tooltipPosition="top"
+              (click)="remover(cliente)"
+            ></button>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="rowexpansion" let-cliente>
+        <tr>
+          <td [attr.colspan]="6">
+            <div class="p-grid">
+              <div class="p-col">
+                <b>Codigo Service:</b> {{ cliente.codigoService }}
+              </div>
+              <div class="p-col">
+                <b>Codigo Partição:</b> {{ cliente.codigoParticao }}
+              </div>
+              <div class="p-col">
+                <b>Telefone 1:</b> {{ cliente.telefone1 }}
+              </div>
+              <div class="p-col">
+                <b>Telefone 2:</b> {{ cliente.telefone2 }}
+              </div>
+              <div class="p-col"><b>Grupo:</b> {{ cliente.grupo.nome }}</div>
+              <div class="p-col">
+                <b>Bairro:</b> {{ cliente.endereco.bairro.nome }}
+              </div>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="summary">
+        Total de {{ totalElementos }} clientes encontrados!
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="6">Nenhum Cliente encontrado</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+<div class="p-grid p-fluid">
+  <div class="p-md-2 p-col-12">
+    <a
+      routerLink="/cliente/novo"
+      pButton
+      label="Novo Cliente"
+      disabled="!auth.temPermissao('1')"
+    ></a>
+  </div>
+</div>

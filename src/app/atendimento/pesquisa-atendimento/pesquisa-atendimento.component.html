@@ -1,0 +1,82 @@
+<div class="p-grid p-nogutter">
+  <div class="ui-g-12">
+    <h1>Pesquisa de Atendimento</h1>
+    <button (click)="preencher()">Teste</button>
+  </div>
+  <div class="ui-g-12">
+    <p-table [value]="atendimentos" [responsive]="true" dataKey="id">
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 2.25em"></th>
+          <th>Cliente</th>
+          <th>Data de Inicio</th>
+          <th>Usuario Inicio</th>
+          <th>Solicitante</th>
+          <th>Descrição</th>
+          <th>Usuario Termino</th>
+          <th class="col-acoes__os">Ações</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-atendimento let-expanded="expanded">
+        <tr>
+          <td>
+            <a
+              href="#"
+              [pRowToggler]="atendimento"
+              pTooltip="Mais informações"
+              tooltipPosition="left"
+            >
+              <i [ngClass]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></i>
+            </a>
+          </td>
+          <td>
+            <span class="ui-column-title">Cliente: </span>
+            {{ atendimento.fantazia }}
+          </td>
+          <td>
+            <span class="ui-column-title">Data Inicio: </span>
+            {{ atendimento.dataInicio | date: 'dd/MM/yyyy HH:mm' }}
+          </td>
+          <td>
+            <span class="ui-column-title">Usuario Inicio: </span>
+            {{ atendimento.nomeUsuarioInicio }}
+          </td>
+          <td>
+            <span class="ui-column-title">Solicitante: </span>
+            {{ atendimento.solicitante }}
+          </td>
+          <td>
+            <span class="ui-column-title">Descrição </span>
+            {{ atendimento.descricao }}
+          </td>
+          <td class="btn-ajust col-acoes__os">
+            <span class="ui-column-title">Ações: </span>
+          </td>
+          <td class="btn-ajust col-acoes">
+            <span class="ui-column-title">Ações: </span>
+            <a
+              pButton
+              (click)="showDialog(atendimento)"
+              icon="fas fa-pencil-alt"
+              pTooltip="Editar"
+              tooltipPosition="top"
+            ></a>
+            <p-button
+              styleClass="ui-button-danger"
+              icon="fas fa-trash-alt"
+              pTooltip="Excluir"
+              tooltipPosition="top"
+            ></p-button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+<div *ngIf="displayAtendimento">
+  <app-cadastro-atendimento
+    [atendimentoId]="idAtendimento"
+    [display]="displayAtendimento"
+    (closed)="displayAtendimento = $event"
+  ></app-cadastro-atendimento>
+</div>

@@ -1,0 +1,162 @@
+<div class="p-grid">
+  <div class="p-col-12">
+    <h1>Pesquisa de Produtos</h1>
+  </div>
+</div>
+<form (ngSubmit)="pesquisar()" [formGroup]="form">
+  <div class="p-fluid p-formgrid p-grid">
+    <div class="p-col-12 p-lg-4 p-field">
+      <label>Filtro</label>
+      <p-dropdown
+        #drop
+        [options]="filtros"
+        formControlName="tipoFiltro"
+        placeholder="Todos"
+      ></p-dropdown>
+    </div>
+    <div class="p-col-12 p-lg-8 p-field" *ngIf="drop.value">
+      <label>Descrição</label>
+      <input pInputText formControlName="descricao" />
+    </div>
+  </div>
+  <div class="p-grid p-fluid">
+    <div class="p-lg-2 p-col-12">
+      <button pButton label="Pesquisar"></button>
+    </div>
+  </div>
+</form>
+
+<div class="p-grid">
+  <div class="p-col-12">
+    <p-table
+      [value]="produtos"
+      rowHover="true"
+      [rows]="5"
+      [responsive]="true"
+      [paginator]="true"
+      [lazy]="true"
+      [rowsPerPageOptions]="[5, 10, 15]"
+      [totalRecords]="totalRegistros"
+      (onLazyLoad)="aoMudarPagina($event)"
+      styleClass="p-datatable-gridlines p-datatable-responsive-demo"
+      #tab
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 85px">Codigo</th>
+          <th style="width: 22%">Modelo</th>
+          <th>Descrição</th>
+          <th style="width: 15%">Fabricante</th>
+          <th style="width: 122px">Valor Unitário</th>
+          <th class="col-acoes">Ações</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-fab>
+        <tr>
+          <td>
+            <span class="p-column-title">Codigo</span>
+            {{ fab.id }}
+          </td>
+          <td>
+            <span class="p-column-title">Modelo</span>
+            {{ fab.modelo }}
+          </td>
+          <td>
+            <span class="p-column-title">Descrição</span>
+            {{ fab.descricao }}
+          </td>
+          <td>
+            <span class="p-column-title">Fabricante</span>
+            {{ fab.fabricante.descricao }}
+          </td>
+          <td>
+            <span class="p-column-title">Valor Unitário</span>
+            {{ fab.valorUnitario | currency: 'BRL' }}
+          </td>
+          <td class="btn-ajust col-acoes">
+            <span class="p-column-title">Ações</span>
+            <a
+              class="margin-right: 10px"
+              pButton
+              icon="fas fa-pencil-alt"
+              (click)="edit(fab)"
+              disabled="!auth.temPermissao('40')"
+            ></a>
+            <button
+              pButton
+              icon="fas fa-trash-alt"
+              class="p-button-danger"
+              (click)="preDelete(fab.id)"
+              [disabled]="!auth.temPermissao('41')"
+            ></button>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td [attr.colspan]="6">Nenhum registro encontrado</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+<div class="p-grid p-fluid">
+  <div class="p-col-12 p-lg-2">
+    <button pButton label="Novo Produto" (click)="new = true"></button>
+  </div>
+</div>
+
+<p-dialog
+  header="Cadastro Fabricante"
+  [(visible)]="new"
+  [responsive]="true"
+  styleClass="custon"
+  (onHide)="formCad.reset()"
+>
+  <form (submit)="save()" [formGroup]="formCad" class="large-lg">
+    <div class="p-fluid p-formgrid p-grid">
+      <div class="p-col-12 p-field">
+        <label>Modelo:</label>
+        <input pInputText formControlName="modelo" />
+      </div>
+      <div class="p-col-12 p-field">
+        <label>Descrição:</label>
+        <textarea
+          pInputTextarea
+          style="height: 100px"
+          formControlName="descricao"
+        ></textarea>
+      </div>
+      <div class="p-col-7 p-field">
+        <label>Fabricante:</label>
+        <p-autoComplete
+          formControlName="fabricante"
+          [suggestions]="fabricantes"
+          [dropdown]="true"
+          [minLength]="3"
+          placeholder="Selecione ..."
+          field="descricao"
+          (completeMethod)="filtrarFabricantes($event)"
+          styleClass="up-dropdown"
+        ></p-autoComplete>
+      </div>
+      <div class="p-col-5 p-field">
+        <label>Valor Unitário:</label>
+        <p-inputNumber
+          name="valor"
+          formControlName="valorUnitario"
+          mode="currency"
+          currency="BRL"
+          locale="pt-BR"
+        ></p-inputNumber>
+      </div>
+    </div>
+    <p-footer>
+      <div class="p-grid">
+        <div class="p-col p-d-flex p-jc-end p-field">
+          <button pButton label="Salvar"></button>
+        </div>
+      </div>
+    </p-footer>
+  </form>
+</p-dialog>

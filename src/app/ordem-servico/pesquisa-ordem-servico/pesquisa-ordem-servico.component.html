@@ -1,0 +1,206 @@
+<div class="p-grid">
+  <div class="p-col-12">
+    <h1>Pesquisa de Ordem de Serviço</h1>
+  </div>
+</div>
+<form (ngSubmit)="pesquisar()" [formGroup]="form">
+  <div class="p-fluid p-formgrid p-grid">
+    <div class="p-field p-md-2 p-col-12">
+      <label>Filtro</label>
+      <p-dropdown
+        #abc
+        placeholder="Selecione"
+        [options]="filtors"
+        formControlName="tipoFiltro"
+      ></p-dropdown>
+    </div>
+    <div
+      class="p-field p-md-10 p-col-12"
+      *ngIf="abc.value >= 1 && abc.value <= 4"
+    >
+      <label>Descrição</label>
+      <input
+        type="text"
+        [pKeyFilter]="abc.value != 1 ? 'alphanum' : 'pint'"
+        pInputText
+        formControlName="descricao"
+      />
+    </div>
+    <div class="p-field p-md-10 p-col-12" *ngIf="abc.value === 6">
+      <label>Descrição</label>
+      <div class="p-fluid p-formgrid p-grid p-ai-center">
+        <div class="p-col-12 p-md-2">
+          <p-calendar
+            formControlName="dataDe"
+            dateFormat="dd/mm/yy"
+            [locale]="calendarPtBr"
+          ></p-calendar>
+        </div>
+        <div class="p-col-12 p-md-1 p-text-center" style="padding: 10px">
+          <span>ate</span>
+        </div>
+        <div class="p-col-12 p-md-2">
+          <p-calendar
+            formControlName="dataAte"
+            dateFormat="dd/mm/yy"
+            [locale]="calendarPtBr"
+          ></p-calendar>
+        </div>
+      </div>
+    </div>
+    <div class="p-field p-md-4 p-col-12" *ngIf="abc.value === 5">
+      <label>Nivel</label>
+      <p-dropdown
+        [options]="prioridade"
+        formControlName="descricao"
+      ></p-dropdown>
+    </div>
+    <div class="p-grid"></div>
+  </div>
+  <div class="p-grid p-fluid">
+    <div class="p-field p-md-2 p-col-12">
+      <button type="submit" pButton label="Pesquisar"></button>
+    </div>
+  </div>
+</form>
+<div class="p-grid">
+  <div class="p-col">
+    <p-table
+      styleClass="p-datatable-gridlines p-datatable-responsive-demo"
+      [value]="ors"
+      rowHover="false"
+      [paginator]="true"
+      [rows]="filtro.size"
+      dataKey="id"
+      [responsive]="true"
+      [rowsPerPageOptions]="[5, 10, 15]"
+      [lazy]="true"
+      [totalRecords]="totalElementos"
+      (onLazyLoad)="aoMudarPagina($event)"
+      #tab
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 2.25em"></th>
+          <th>Codigo Service</th>
+          <th>Codigo Sigma</th>
+          <th>Nome Cliente</th>
+          <th>Prioridade</th>
+          <th>Motivo da Ordem de Serviço</th>
+          <th>Data Abertura</th>
+          <th class="col-acoes__os">Ações</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-os let-expanded="expanded">
+        <tr>
+          <td>
+            <a
+              href="#"
+              [pRowToggler]="os"
+              pTooltip="Mais informações"
+              tooltipPosition="left"
+            >
+              <i
+                [ngClass]="
+                  expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'
+                "
+              ></i>
+            </a>
+          </td>
+          <td>
+            <span class="p-column-title">Codigo Service: </span>
+            {{ os.codigoService }}
+          </td>
+          <td>
+            <span class="p-column-title">Codigo Sigma: </span>
+            {{ os.codigoSigma }}
+          </td>
+          <td>
+            <span class="p-column-title">Nome Cliente: </span>
+            {{ os.cliente.fantazia }}
+          </td>
+          <td>
+            <span class="p-column-title">Prioridade </span>
+            {{ os.prioridadeOs }}
+          </td>
+          <td>
+            <span class="p-column-title">Motivo da O.S.: </span>
+            {{ os.motivoOs.descricao }}
+          </td>
+          <td>
+            <span class="p-column-title">Data Abertura: </span>
+            {{ os.dataAbertura | date: 'dd/MM/yyyy HH:mm' }}
+          </td>
+          <td class="btn-ajust col-acoes__os">
+            <span class="p-column-title">Ações: </span>
+            <button
+              pButton
+              (click)="showDialog(os.id)"
+              icon="fas fa-pencil-alt"
+              [disabled]="os.fechado == true"
+              pTooltip="Editar"
+              tooltipPosition="top"
+            ></button>
+            <button
+              pButton
+              class="p-button-danger"
+              icon="fas fa-trash-alt"
+              [disabled]="!auth.temPermissao('20')"
+              pTooltip="Excluir"
+              tooltipPosition="top"
+              (click)="confirmarExclusao(os)"
+            ></button>
+            <a
+              style="margin-left: 4px"
+              pButton
+              pTooltip="Fechamento de O.s."
+              icon="fas fa-envelope"
+              tooltipPosition="top"
+              class="ui-button-secondary"
+            ></a>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="rowexpansion" let-os>
+        <tr>
+          <td [attr.colspan]="8">
+            <div class="p-grid">
+              <div class="p-col-12 p-lg-3">
+                <b>Solicitante:</b> {{ os.solicitante }}
+              </div>
+              <div class="p-col-12 p-lg-3">
+                <b>Descrição:</b> {{ os.descricao }}
+              </div>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="summary">
+        Total de {{ totalElementos }} ordens de serviço encontrados!
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td [attr.colspan]="8">Nenhum registro encontrado</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+<div class="p-grid p-fluid">
+  <div class="p-md-3 p-col-12">
+    <a
+      (click)="showDialog()"
+      pButton
+      label="Nova Ordem de Serviço"
+      disabled="!auth.temPermissao('19')"
+    ></a>
+  </div>
+</div>
+<div *ngIf="display">
+  <app-cadastro-ordem-servico
+    [display]="display"
+    [cliente]="cliente"
+    [os]="ordem"
+    (closed)="finalizou($event)"
+  ></app-cadastro-ordem-servico>
+</div>

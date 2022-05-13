@@ -1,0 +1,185 @@
+import { HttpParams } from '@angular/common/http';
+import { SistemFHttp } from './../seguranca/sistemaf-http';
+import { Injectable } from '@angular/core';
+
+import { environment } from '../../environments/environment';
+
+import { Resultado } from './../core/mode';
+import { Cliente } from '../core/mode';
+import { IClientInput } from '../core/models-input';
+export class FiltroCliente {
+  ativo: boolean;
+  tipoFiltro: number;
+  descricao: string;
+  page = 0;
+  size = 5;
+}
+
+@Injectable()
+export class ClienteService {
+  clienteUrl: string;
+
+  constructor(private http: SistemFHttp) {
+    this.clienteUrl = `${environment.apiUrl}/clientes`;
+  }
+
+  salvar({
+    ativo,
+    codigoParticao,
+    codigoService,
+    dominio,
+    endereco,
+    fantazia,
+    grupo,
+    razaoSocial,
+    telefone1,
+    telefone2,
+  }: IClientInput): Promise<Cliente> {
+    return this.http
+      .post(this.clienteUrl, {
+        ativo,
+        codigoParticao,
+        codigoService,
+        dominio,
+        endereco: {
+          ...endereco,
+          bairro: {
+            id: endereco.bairro.id,
+          },
+        },
+        fantazia,
+        grupo: {
+          id: grupo.id,
+        },
+        razaoSocial,
+        telefone1,
+        telefone2,
+      })
+      .toPromise()
+      .then((resp) => resp as Cliente);
+  }
+
+  update(
+    id: number,
+    {
+      ativo,
+      codigoParticao,
+      codigoService,
+      dominio,
+      endereco,
+      fantazia,
+      grupo,
+      razaoSocial,
+      telefone1,
+      telefone2,
+    }: IClientInput
+  ): Promise<Cliente> {
+    return this.http
+      .put(`${this.clienteUrl}/${id}`, {
+        ativo,
+        codigoParticao,
+        codigoService,
+        dominio,
+        endereco: {
+          ...endereco,
+          bairro: {
+            id: endereco.bairro.id,
+          },
+        },
+        fantazia,
+        grupo: {
+          id: grupo.id,
+        },
+        razaoSocial,
+        telefone1,
+        telefone2,
+      })
+      .toPromise()
+      .then((resp) => resp as Cliente);
+  }
+
+  excluir(codigo: number): Promise<any> {
+    return this.http
+      .delete(`${this.clienteUrl}/${codigo}`)
+      .toPromise()
+      .then(() => null);
+  }
+
+  pesquisar(filtro: FiltroCliente): Promise<Resultado<Cliente>> {
+    const params = this.createUrlParams(filtro);
+    return this.http
+      .get(this.clienteUrl, { params })
+      .toPromise()
+      .then((resp: any) => {
+        return new Resultado<Cliente>(
+          resp.totalElements,
+          resp.first,
+          resp.content
+        );
+      });
+  }
+
+  pesquisaPorCodigo(codigo: number): Promise<Cliente> {
+    return this.http
+      .get(`${this.clienteUrl}/${codigo}`)
+      .toPromise()
+      .then((resp) => resp as Cliente);
+  }
+
+  pesquisarPorFantazia(value: any): Promise<Resultado<Cliente>> {
+    const params = new HttpParams();
+    params.append('fantazia', value);
+    return this.http
+      .get(this.clienteUrl, { params })
+      .toPromise()
+      .then(
+        (resp: any) =>
+          new Resultado<Cliente>(resp.totalElements, resp.first, resp.content)
+      );
+  }
+
+  private createUrlParams(filtro: FiltroCliente): HttpParams {
+    let params = new HttpParams();
+    if (filtro.page) {
+      params = params.set('page', filtro.page.toString());
+    }
+    if (filtro.size) {
+      params = params.set('size', filtro.size.toString());
+    }
+    if (filtro.ativo !== null) {
+      params = params.set('ativo', filtro.ativo.toString());
+    }
+    if (filtro.tipoFiltro) {
+      switch (filtro.tipoFiltro) {
+        case 1: {
+          params = params.set('service', filtro.descricao);
+          break;
+        }
+        case 2: {
+          params = params.set('sigma', filtro.descricao);
+          break;
+        }
+        case 3: {
+          params = params.set('razaoSocial', filtro.descricao);
+          break;
+        }
+        case 4: {
+          params = params.set('fantazia', filtro.descricao);
+          break;
+        }
+        case 5: {
+          params = params.set('dominio', filtro.descricao);
+          break;
+        }
+        case 6: {
+          params = params.set('endereco', filtro.descricao);
+          break;
+        }
+        default: {
+          break;
+        }
+      }
+    }
+    return params;
+  }
+}

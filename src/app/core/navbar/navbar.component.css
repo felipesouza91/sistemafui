@@ -1,0 +1,127 @@
+.navbar {
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  align-items: center;
+  height: 65px;
+  background-color: #000;
+}
+.navbar-item {
+  display: flex;
+  flex: 1;
+  max-width: 95%;
+  justify-content: space-between;
+  align-items: center;
+}
+.navbar-toggle {
+  font-size: 22px;
+}
+
+.navbar-menuitem {
+  padding: 15px;
+}
+
+.navbar-menuitem a {
+  color: #c0bbb7;
+  text-decoration: none;
+}
+
+.navbar-menuitem a:hover {
+  color: #fff;
+}
+
+.navbar-menuitem.ativo {
+  background-color: #494541;
+}
+
+.navbar-left {
+  text-align: center;
+}
+
+.menu {
+  font-size: 1.3em;
+  color: white;
+  display: inline;
+  list-style-type: none;
+}
+
+.menu-item-first {
+  margin-top: 0px;
+}
+
+i {
+  font-size: 15px;
+}
+
+.menu-icon {
+  margin-top: 0px !important;
+  text-align: center;
+  padding: 15px;
+}
+
+a:hover > i {
+  color: #f4b942;
+}
+i {
+  color: white;
+}
+
+.menu-icon {
+  margin-top: 10px;
+}
+
+.menu-item.ativo,
+.menu-item-first.ativo {
+  background-color: #494541;
+}
+
+.user-panel {
+  display: flex;
+  align-items: center;
+}
+
+.user-panel a {
+  margin-top: 0 !important;
+}
+
+.user-panel button {
+  margin-right: 10px;
+  color: #fff;
+}
+
+.user-panel .user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-panel .user-info a {
+  color: #fff;
+}
+
+.user-panel .user-info span {
+  font-size: 15px;
+  color: #fff;
+}
+
+.user-panel .user-info a.logoff {
+  font-size: 12px;
+  color: #f13;
+}
+
+.user-panel > img {
+  background: #fff;
+  margin-right: 10px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+@media (max-width: 1024px) {
+  .navbar-toggle {
+    padding: 10px;
+    margin-left: 0;
+    font-size: 22px;
+  }
+}

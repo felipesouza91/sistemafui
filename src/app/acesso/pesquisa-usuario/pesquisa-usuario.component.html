@@ -1,0 +1,88 @@
+<div class="p-grid">
+  <div class="p-col">
+    <h1>Pesquisa Usuário</h1>
+  </div>
+</div>
+<form (ngSubmit)="pesquisar()" [formGroup]="form">
+  <div class="p-fluid p-formgrid p-grid">
+    <div class="p-col-12 p-field p-lg-4">
+      <label>Filtro:</label>
+      <p-dropdown [options]="filtros" fromControlName="opcao" #opt></p-dropdown>
+    </div>
+    <div class="p-col-12 p-field p-lg-8" *ngIf="opt.value >= 0">
+      <label>Descricao</label>
+      <input type="text" pInputText fromControlName="descricao" />
+    </div>
+  </div>
+  <div class="p-col-12 p-grid p-lg-2">
+    <button type="submit" pButton label="Pesquisar"></button>
+  </div>
+</form>
+
+<div class="p-grid">
+  <div class="p-col">
+    <p-table
+      styleClass="p-datatable-gridlines p-datatable-responsive-demo"
+      [value]="listUsuario"
+      rowHover="true"
+      [paginator]="true"
+      [rows]="10"
+      [responsive]="true"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th class="ativo">Status</th>
+          <th>Nome</th>
+          <th>Apelido</th>
+          <th>Grupo Acesso</th>
+          <th class="col-acoes">Ações</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-usuario>
+        <tr>
+          <td class="ativo">
+            <span class="p-column-title">Status:</span>
+            {{ usuario.ativo ? 'Ativo' : 'Desativado' }}
+          </td>
+          <td>
+            <span class="p-column-title">Nome:</span>
+            {{ usuario.nome }}
+          </td>
+          <td>
+            <span class="p-column-title">Apelido:</span>
+            {{ usuario.apelido }}
+          </td>
+          <td>
+            <span class="p-column-title">Grupo Acesso:</span>
+            {{ usuario.nomeGrupoAcesso }}
+          </td>
+          <td class="btn-ajust col-acoes">
+            <span class="p-column-title">Ações</span>
+            <a
+              disabled="!auth.temPermissao('31')"
+              [routerLink]="['/usuario', usuario.id]"
+              pButton
+              icon="fas fa-pencil-alt"
+              pTooltip="Editar"
+              tooltipPosition="top"
+            ></a>
+            <button
+              pButton
+              [disabled]="!auth.temPermissao('29')"
+              class="p-button-danger"
+              (click)="confirmaExclusao(usuario.id)"
+              pTooltip="Excluir"
+              tooltipPosition="top"
+              icon="fas fa-trash-alt"
+            ></button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+<div class="p-grid">
+  <div class="p-col-12 p-lg-2">
+    <a routerLink="/usuario/novo" pButton label="Novo Usuário"></a>
+  </div>
+</div>

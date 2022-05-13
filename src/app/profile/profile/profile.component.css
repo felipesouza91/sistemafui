@@ -1,0 +1,18 @@
+.ajust {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-image img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background-color: #000;
+}

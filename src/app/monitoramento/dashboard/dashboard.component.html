@@ -1,0 +1,48 @@
+<div class="ui-g">
+  <div class="ui-g">
+    <div class="ui-g-2 ui-md-2">
+      <p-table [value]="cars">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Evento</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-car>
+            <tr>
+                <td>{{car.vin}}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+    </div>
+    <div class="ui-g-2 ui-md-2">
+        <p-table [value]="cars">
+          <ng-template pTemplate="header">
+              <tr>
+                  <th>Evento</th>
+              </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-car>
+              <tr>
+                  <td>{{car.vin}}</td>
+              </tr>
+          </ng-template>
+      </p-table>
+    </div>
+    <div class="ui-g-8 ui-g-nopad">
+      <label >teste1</label>
+      <input>
+      <label >teste2</label>
+      <input>
+      <label >teste3</label>
+      <input>
+      <label >teste4</label>
+      <input>
+      <label >teste5</label>
+      <input>
+
+    </div>
+
+    <div class="ui-g-12">
+        Footer
+    </div>
+</div>

@@ -1,0 +1,100 @@
+<div class="p-grid">
+  <div class="p-col">
+    <h1>Pesquisa de Verificação</h1>
+  </div>
+</div>
+<div class="p-grid">
+  <div class="p-col-12 p-fluid p-lg-3">
+    <a (click)="showDialog()" pButton label="Nova Verificação"></a>
+  </div>
+</div>
+<div class="p-grid">
+  <div class="p-col">
+    <p-table
+      styleClass="p-datatable-gridlines p-datatable-responsive-demo"
+      [value]="listVerificao"
+      rowHover="false"
+      [paginator]="true"
+      [rows]="filtro.size"
+      [responsive]="true"
+      [lazy]="true"
+      [totalRecords]="totalElementos"
+      (onLazyLoad)="aoMudarPagina($event)"
+      #tab
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Status</th>
+          <th>Hd</th>
+          <th>Dias Gravados</th>
+          <th>Data do Teste</th>
+          <th>Equipamento</th>
+          <th>Usuário</th>
+          <th class="col-acoes">Ações</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-verificacao>
+        <tr>
+          <td>
+            <span class="p-column-title">Status: </span>
+            {{ verificacao.status }}
+          </td>
+          <td>
+            <span class="p-column-title">Hd: </span>
+            {{ verificacao.hd }}
+          </td>
+          <td>
+            <span class="p-column-title">Dias Gravados: </span>
+            {{ verificacao.qtdGravacao }}
+          </td>
+          <td>
+            <span class="p-column-title">Data do teste</span>
+            {{ verificacao.dataTeste | date: 'dd/MM/yyyy HH:mm' }}
+          </td>
+          <td>
+            <span class="p-column-title">Equipamento: </span>
+            {{ verificacao.fabricante }} - {{ verificacao.modeloDVr }}
+          </td>
+          <td>
+            <span class="p-column-title">Usuário: </span>
+            {{ verificacao.nomeUsuario }}
+          </td>
+          <td class="btn-ajust col-acoes__os">
+            <span class="p-column-title">Ações: </span>
+            <a
+              pButton
+              (click)="showDialog(verificacao.id)"
+              icon="fas fa-pencil-alt"
+              pTooltip="Editar"
+              tooltipPosition="top"
+              disabled="!auth.temQualquerPermissao(['25','27'])"
+            ></a>
+            <button
+              pButton
+              [disabled]="!auth.temPermissao('26')"
+              class="p-button-danger"
+              icon="fas fa-trash-alt"
+              pTooltip="Excluir"
+              tooltipPosition="top"
+              (click)="confirmarExclusao(verificacao.id)"
+            ></button>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td [attr.colspan]="7">Nenhum registro encontrado</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<div *ngIf="display">
+  <app-cadastro-verificacao
+    [cliente]="cliente"
+    [display]="display"
+    [verificacao]="idVerificacao"
+    (closed)="finalizou($event)"
+  ></app-cadastro-verificacao>
+</div>

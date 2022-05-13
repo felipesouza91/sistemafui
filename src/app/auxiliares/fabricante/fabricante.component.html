@@ -1,0 +1,119 @@
+<div class="p-gri">
+  <div class="p-col">
+    <h1>Pesquisa de Fabricante</h1>
+  </div>
+</div>
+
+<form (ngSubmit)="pesquisar()" [formGroup]="formPes">
+  <div class="p-fluid p-formgrid p-grid">
+    <div class="p-col-12 p-field">
+      <label>Descrição</label>
+      <input pInputText formControlName="descricao" />
+    </div>
+
+    <div class="p-lg-2 p-col-12 p-field">
+      <button pButton label="Pesquisar"></button>
+    </div>
+  </div>
+</form>
+
+<div class="p-grid">
+  <div class="p-col-12">
+    <p-table
+      [value]="fabricantes"
+      rowHover="true"
+      [rows]="5"
+      [responsive]="true"
+      [paginator]="true"
+      [lazy]="true"
+      [rowsPerPageOptions]="[5, 10, 15]"
+      [totalRecords]="totalRegistros"
+      (onLazyLoad)="aoMudarPagina($event)"
+      styleClass="p-datatable-gridlines p-datatable-responsive-demo"
+      #tab
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 100px">Codigo</th>
+          <th>Nome</th>
+          <th class="col-acoes">Ações</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-fab>
+        <tr>
+          <td>
+            <span class="p-column-title">Codigo</span>
+            {{ fab.id }}
+          </td>
+          <td>
+            <span class="p-column-title">Cidade</span>
+            {{ fab.descricao }}
+          </td>
+          <td class="btn-ajust col-acoes">
+            <span class="p-column-title">Ações</span>
+            <a
+              class="margin-right: 10px"
+              pButton
+              icon="fas fa-pencil-alt"
+              (click)="edit(fab)"
+              disabled="!auth.temPermissao('37')"
+            ></a>
+            <button
+              pButton
+              icon="fas fa-trash-alt"
+              class="p-button-danger"
+              (click)="preDelete(fab.id)"
+              [disabled]="!auth.temPermissao('38')"
+            ></button>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td [attr.colspan]="3">Nenhum registro encontrado</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<div class="p-grid p-fluid">
+  <div class="p-lg-2 p-col-12">
+    <button
+      pButton
+      label="Cadastro"
+      (click)="this.new = true"
+      [disabled]="!auth.temPermissao('37')"
+    ></button>
+  </div>
+</div>
+
+<p-dialog
+  header="Cadastro Fabricante"
+  [(visible)]="new"
+  responsive="true"
+  [style]="{ width: '700px' }"
+>
+  <form (submit)="save()" [formGroup]="form" class="size-lg">
+    <div class="p-fluid p-formgrid p-grid">
+      <div class="p-col-12 p-field">
+        <label>Nome:</label>
+        <input pInputText formControlName="descricao" />
+        <div class="error-customize" *ngIf="form.get('descricao').dirty">
+          <p-message
+            *ngIf="form.get('descricao').hasError('required')"
+            severity="error"
+            text="Campo obrigatorio"
+          ></p-message>
+        </div>
+      </div>
+    </div>
+    <p-footer>
+      <div class="p-grid">
+        <div class="p-col p-d-flex p-jc-end">
+          <button pButton label="Cadastrar" [disabled]="form.invalid"></button>
+        </div>
+      </div>
+    </p-footer>
+  </form>
+</p-dialog>

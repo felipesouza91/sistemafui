@@ -1,0 +1,160 @@
+<p-dialog
+  [(visible)]="display"
+  [modal]="true"
+  (onHide)="fechado()"
+  #panel
+  [resizable]="false"
+  [draggable]="false"
+  [keepInViewport]="true"
+>
+  <p-header> Cadastro Ordem Servico </p-header>
+  <form (ngSubmit)="criar()" [formGroup]="formOs">
+    <div class="p-fluid p-formgrid p-grid mydialog">
+      <div class="p-lg-8 p-col-12 p-field form-invalid">
+        <label>Nome Cliente</label>
+        <p-autoComplete
+          formControlName="cliente"
+          [suggestions]="listCliente"
+          #cliente
+          (completeMethod)="filtroCliente($event)"
+          [minLength]="3"
+          field="fantazia"
+        ></p-autoComplete>
+        <div
+          class="error-customize"
+          *ngIf="formOs.get('cliente').touched || formOs.get('cliente').dirty"
+        >
+          <p-message
+            *ngIf="formOs.get('cliente').hasError('required')"
+            severity="error"
+            text="Informe o nome do solicitante"
+          ></p-message>
+          <p-message
+            *ngIf="formOs.get('cliente').hasError('minlength')"
+            severity="error"
+            text="Informe no minimo 2 caracteres"
+          ></p-message>
+          <p-message
+            *ngIf="formOs.get('cliente').hasError('maxlength')"
+            severity="error"
+            text="Informe no maximo 255 caracteres"
+          ></p-message>
+        </div>
+      </div>
+      <div class="p-lg-4 p-col-12 p-field">
+        <label>Codigo Service</label>
+        <input
+          pInputText
+          [value]="cliente.value?.codigoService"
+          [disabled]="true"
+        />
+      </div>
+      <div class="p-lg-4 p-col-12 p-field">
+        <label>N° O.s. Service</label>
+        <input pKeyFilter="pint" pInputText formControlName="codigoService" />
+      </div>
+      <div class="p-lg-4 p-col-12 p-field">
+        <label>N° O.s. Sigma</label>
+        <input pKeyFilter="pint" pInputText formControlName="codigoSigma" />
+      </div>
+      <div class="p-lg-4 p-col-12 p-field">
+        <label>Data Abertura</label>
+        <p-calendar
+          formControlName="dataAbertura"
+          dateFormat="dd/mm/yy"
+          showTime="true"
+        ></p-calendar>
+      </div>
+
+      <div class="p-lg-8 p-col-12 p-field">
+        <label>Solicitante</label>
+        <input type="text" pInputText formControlName="solicitante" />
+        <div class="error-customize" *ngIf="formOs.get('solicitante').touched">
+          <p-message
+            *ngIf="formOs.get('solicitante').hasError('required')"
+            severity="error"
+            text="Informe o nome do solicitante"
+          ></p-message>
+          <p-message
+            *ngIf="formOs.get('solicitante').hasError('minlength')"
+            severity="error"
+            text="Informe no minimo 2 caracteres"
+          ></p-message>
+          <p-message
+            *ngIf="formOs.get('solicitante').hasError('maxlength')"
+            severity="error"
+            text="Informe no maximo 255 caracteres"
+          ></p-message>
+        </div>
+      </div>
+      <div class="p-lg-4 p-col-12 p-field">
+        <label>Prioridade</label>
+        <p-dropdown
+          formControlName="prioridadeOs"
+          [options]="prioridades"
+          placeholder="Selecione"
+        ></p-dropdown>
+        <div class="error-customize" *ngIf="formOs.get('prioridadeOs').touched">
+          <p-message
+            *ngIf="formOs.get('prioridadeOs').hasError('required')"
+            severity="error"
+            text="Selecione a prioridade"
+          ></p-message>
+        </div>
+      </div>
+      <div class="p-col-12 p-field">
+        <label>Motivo Ordem Serviço</label>
+        <p-autoComplete
+          formControlName="motivoOs"
+          [suggestions]="listMotivoOs"
+          (completeMethod)="filtroMotivoOs($event)"
+          [minLength]="3"
+          field="descricao"
+          [dropdown]="true"
+        >
+        </p-autoComplete>
+        <div class="error-customize" *ngIf="formOs.get('motivoOs').touched">
+          <p-message
+            *ngIf="formOs.get('motivoOs').hasError('required')"
+            severity="error"
+            text="Selecione o motivo da ordem"
+          ></p-message>
+        </div>
+      </div>
+
+      <div class="p-col-12 p-field form-invalid">
+        <label>Observação</label>
+        <div style="height: 100px">
+          <textarea
+            pInputTextarea
+            [rows]="5"
+            [autoResize]="false"
+            formControlName="descricao"
+          ></textarea>
+        </div>
+        <div class="error-customize" *ngIf="formOs.get('descricao').touched">
+          <p-message
+            *ngIf="formOs.get('descricao').hasError('required')"
+            severity="error"
+            text="Informe uma descrição para a ordem"
+          ></p-message>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <p-footer>
+    <button
+      (click)="criar()"
+      pButton
+      label="Salvar"
+      [disabled]="formOs.invalid || !auth.temPermissao('19')"
+    ></button>
+    <button
+      type="reset"
+      pButton
+      label="Limpar"
+      class="p-button-danger"
+    ></button>
+  </p-footer>
+</p-dialog>

@@ -1,0 +1,111 @@
+<div class="p-grid p-fluid">
+  <div class="p-col-12">
+    <h1>Cadastro de Ususario</h1>
+  </div>
+  <div class="p-col-12 content">
+    <div class="p-fluid p-formgrid p-grid p-flex-column">
+      <form (ngSubmit)="criar()" [formGroup]="formUsuario">
+        <div class="p-col-12 p-lg-12 p-field">
+          <label>Status</label>
+          <p-toggleButton
+            formControlName="ativo"
+            onLabel="Ativo"
+            offLabel="Desativado"
+          ></p-toggleButton>
+        </div>
+
+        <div class="p-col-12 p-field">
+          <label>Nome Funcionario</label>
+          <input type="text" pInputText formControlName="nome" />
+          <div class="error-customize" *ngIf="formUsuario.get('nome').touched">
+            <p-message
+              *ngIf="formUsuario.get('nome').hasError('required')"
+              severity="error"
+              text="Selecione uma fabricante"
+            ></p-message>
+          </div>
+        </div>
+
+        <div class="p-col-12 p-field">
+          <label>Usuario</label>
+          <input type="text" pInputText formControlName="apelido" />
+          <div
+            class="error-customize"
+            *ngIf="formUsuario.get('apelido').touched"
+          >
+            <p-message
+              *ngIf="formUsuario.get('apelido').hasError('required')"
+              severity="error"
+              text="Selecione uma fabricante"
+            ></p-message>
+          </div>
+        </div>
+
+        <div class="p-col-12 p-field">
+          <label>Senha</label>
+          <input
+            type="password"
+            weakLabel="Senha fraca"
+            promptLabel="Digite uma senha"
+            mediumLabel="Senha media"
+            strongLabel="Senha forte"
+            pPassword
+            formControlName="senha"
+          />
+          <div class="error-customize" *ngIf="formUsuario.get('senha').touched">
+            <p-message
+              *ngIf="formUsuario.get('senha').hasError('required')"
+              severity="error"
+              text="Selecione uma fabricante"
+            ></p-message>
+          </div>
+        </div>
+
+        <div class="p-col-12 p-field">
+          <label>Grupo de Acesso</label>
+          <p-dropdown
+            [options]="grupos"
+            placeholder="Selecionar"
+            formControlName="grupoAcesso"
+          ></p-dropdown>
+          <div
+            class="error-customize"
+            *ngIf="formUsuario.get('grupoAcesso').touched"
+          >
+            <p-message
+              *ngIf="formUsuario.get('grupoAcesso').hasError('required')"
+              severity="error"
+              text="Selecione uma grupo"
+            ></p-message>
+          </div>
+        </div>
+        <div class="p-d-flex p-flex-wrap">
+          <div class="p-lg-6 p-col-12 p-field">
+            <button
+              pButton
+              label="Salvar"
+              [disabled]="formUsuario.invalid || !auth.temPermissao('28')"
+            ></button>
+          </div>
+          <div class="p-lg-6 p-col-12 p-field">
+            <button
+              type="reset"
+              pButton
+              label="Limpar"
+              class="p-button-danger"
+            ></button>
+          </div>
+        </div>
+
+        <div class="p-lg-12 p-col-12 p-field">
+          <button
+            routerLink="/usuario"
+            pButton
+            label="Voltar para Usuarios"
+            class="p-button-link"
+          ></button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

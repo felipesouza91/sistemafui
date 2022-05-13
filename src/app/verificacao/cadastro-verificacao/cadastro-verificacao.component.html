@@ -1,0 +1,74 @@
+<p-dialog
+  [(visible)]="display"
+  [modal]="true"
+  [responsive]="true"
+  (onHide)="fechado()"
+  #panelV
+  [style]="{ width: '450px' }"
+>
+  <p-header> Cadastro verificação </p-header>
+  <form (ngSubmit)="criar()" [formGroup]="form">
+    <div class="p-fluid p-formgrid p-grid">
+      <div class="p-col-12 p-field">
+        <label>Data Teste</label>
+        <p-calendar
+          formControlName="dataTeste"
+          dateFormat="dd/mm/yy"
+          showTime="true"
+        ></p-calendar>
+      </div>
+
+      <div class="p-col-12 p-field">
+        <label>Status</label>
+        <p-dropdown
+          [options]="status"
+          placeholder="Selecione"
+          formControlName="status"
+        ></p-dropdown>
+      </div>
+
+      <div class="p-col-12 p-field">
+        <label>Dvr</label>
+        <p-dropdown
+          [options]="dvrs"
+          placeholder="Selecione"
+          formControlName="dvr"
+        ></p-dropdown>
+      </div>
+      <div class="p-col-12 p-field p-lg-6">
+        <label>Tempo Gravação</label>
+        <p-inputMask formControlName="qtdGravacao" mask="9?9999"></p-inputMask>
+      </div>
+      <div class="p-col-12 p-field p-lg-6">
+        <label>Tamanho Hd</label>
+        <div class="ui-inputgroup">
+          <p-inputMask
+            formControlName="hd"
+            mask="999aa"
+            placeholder="99TB or 99GB"
+            characterPattern="[tgbTGB]"
+          ></p-inputMask>
+        </div>
+      </div>
+      <div class="p-col-12 p-field" formGroupName="usuario">
+        <label>Usuario</label>
+        <input pInputText formControlName="nome" />
+      </div>
+    </div>
+  </form>
+
+  <p-footer>
+    <button
+      (click)="criar()"
+      pButton
+      label="Salvar"
+      [disabled]="form.invalid || !auth.temPermissao('25')"
+    ></button>
+    <button
+      type="reset"
+      pButton
+      label="Limpar"
+      class="p-button-danger"
+    ></button>
+  </p-footer>
+</p-dialog>

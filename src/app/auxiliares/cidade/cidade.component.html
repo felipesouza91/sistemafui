@@ -1,0 +1,122 @@
+<div class="p-grid">
+  <div class="p-col">
+    <h1>
+      {{
+        !opt
+          ? 'Pesquisar Cidade'
+          : !form.value.id
+          ? 'Nova Cidade'
+          : 'Editando cidade'
+      }}
+    </h1>
+  </div>
+</div>
+<form (ngSubmit)="opt ? criar() : pesquisar()" [formGroup]="form">
+  <div class="p-fluid p-formgrid p-grid">
+    <div class="p-col-12 p-field">
+      <label>Nome</label>
+      <input type="text" pInputText name="nome" formControlName="nome" />
+      <div class="error-customize" *ngIf="form.get('nome').touched">
+        <p-message
+          *ngIf="form.get('nome').hasError('required')"
+          severity="error"
+          text="Digita um nome para cidade"
+        ></p-message>
+        <p-message
+          *ngIf="form.get('nome').hasError('minlength')"
+          severity="error"
+          text="Digite no minimo 4 caracteres"
+        ></p-message>
+        <p-message
+          *ngIf="form.get('nome').hasError('maxlength')"
+          severity="error"
+          text="Digite no maximo 70 caracteres"
+        ></p-message>
+      </div>
+    </div>
+    <div class="p-col-12 p-field p-lg-1" *ngIf="!opt">
+      <button pButton label="Pesquisar" [disabled]="form.invalid"></button>
+    </div>
+    <div class="p-col-12 p-field p-lg-1" *ngIf="opt">
+      <button
+        pButton
+        label="Salvar"
+        [disabled]="form.invalid || !auth.temPermissao('7')"
+      ></button>
+    </div>
+    <div class="p-col-12 p-field p-lg-1">
+      <button
+        type="reset"
+        pButton
+        label="Limpar"
+        class="p-button-danger"
+        (click)="configFormulario(false)"
+      ></button>
+    </div>
+  </div>
+</form>
+<p-blockUI [blocked]="opt" [target]="tab">
+  <i class="pi pi-lock" style="font-size: 3rem"></i>
+</p-blockUI>
+<div class="p-grid">
+  <div class="p-col">
+    <p-table
+      styleClass="p-datatable-gridlines p-datatable-responsive-demo"
+      [value]="cidades"
+      rowHover="true"
+      [rows]="filtro.size"
+      [responsive]="true"
+      [paginator]="true"
+      [lazy]="true"
+      [totalRecords]="totalRegistros"
+      (onLazyLoad)="aoMudarPagina($event)"
+      #tab
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Nome</th>
+          <th class="col-acoes">Ações</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-cidade>
+        <tr>
+          <td>
+            <span class="p-column-title">Cidade</span>
+            {{ cidade.nome }}
+          </td>
+          <td class="btn-ajust col-acoes">
+            <span class="p-column-title">Ações</span>
+            <a
+              class="margin-right: 10px"
+              pButton
+              icon="fas fa-pencil-alt"
+              (click)="editarAjust(cidade, true)"
+              disabled="!auth.temPermissao('7')"
+            ></a>
+            <button
+              pButton
+              icon="fas fa-trash-alt"
+              class="p-button-danger"
+              (click)="remover(cidade)"
+              [disabled]="!auth.temPermissao('8')"
+            ></button>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td [attr.colspan]="2">Nenhum registro encontrado</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+<div class="p-grid p-fluid">
+  <div class="p-lg-2 p-col-12">
+    <button
+      pButton
+      [label]="!opt ? 'Nova Cidade' : 'Pesquisar'"
+      (click)="configFormulario(!opt)"
+    ></button>
+  </div>
+</div>

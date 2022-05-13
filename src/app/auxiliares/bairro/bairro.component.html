@@ -1,0 +1,150 @@
+<div class="p-grid">
+  <div class="p-col">
+    <h1>
+      {{
+        !opt
+          ? 'Pesquisar Bairro'
+          : !form.value.id
+          ? 'Novo Bairro'
+          : 'Editando Bairro'
+      }}
+    </h1>
+  </div>
+</div>
+<form (ngSubmit)="opt ? criar() : pesquisar()" [formGroup]="form">
+  <div class="p-fluid p-formgrid p-grid">
+    <div class="p-lg-8 p-col-12 p-field">
+      <label>Nome</label>
+      <input type="text" pInputText name="nome" formControlName="nome" />
+      <div class="error-customize" *ngIf="form.get('nome').touched">
+        <p-message
+          *ngIf="form.get('nome').hasError('required')"
+          severity="error"
+          text="Nome requerido"
+        ></p-message>
+        <p-message
+          *ngIf="form.get('nome').hasError('minlength')"
+          severity="error"
+          text="Nome deve conter no minimo 3 caracteres"
+        ></p-message>
+        <p-message
+          *ngIf="form.get('nome').hasError('maxlength')"
+          severity="error"
+          text="Nome deve conter no maximo 70 caracteres"
+        ></p-message>
+      </div>
+    </div>
+    <div class="p-lg-4 p-col-12 p-field">
+      <label>Cidade</label>
+      <p-dropdown
+        [options]="cidades"
+        placeholder="Selecionar Cidade"
+        formControlName="cidade"
+      ></p-dropdown>
+      <div class="error-customize" *ngIf="form.get('cidade').touched">
+        <p-message
+          *ngIf="form.get('cidade').hasError('required')"
+          severity="error"
+          text="Selecione uma cidade"
+        ></p-message>
+      </div>
+    </div>
+
+    <div class="p-lg-1 p-col-12 p-field" *ngIf="!opt">
+      <button
+        type="submit"
+        pButton
+        label="Pesquisar"
+        [disabled]="form.invalid"
+      ></button>
+    </div>
+    <div class="p-lg-1 p-col-12 p-field" *ngIf="opt">
+      <button
+        type="submit"
+        pButton
+        label="Salvar"
+        [disabled]="form.invalid || !auth.temPermissao('10')"
+      ></button>
+    </div>
+    <div class="p-lg-1 p-col-12 p-field">
+      <button
+        type="reset"
+        pButton
+        label="Limpar"
+        class="p-button-danger"
+        (click)="resetForm(false)"
+      ></button>
+    </div>
+  </div>
+</form>
+
+<p-blockUI [blocked]="opt" [target]="tbl">
+  <i class="pi pi-lock" style="font-size: 3rem"></i>
+</p-blockUI>
+<div class="p-grid">
+  <div class="p-col">
+    <p-table
+      styleClass="p-datatable-gridlines p-datatable-responsive-demo"
+      [value]="bairros"
+      rowHover="true"
+      [responsive]="true"
+      [totalRecords]="totalElementos"
+      [paginator]="true"
+      [rows]="filtro.size"
+      [lazy]="true"
+      (onLazyLoad)="aoMudarPagina($event)"
+      #tbl
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Bairro</th>
+          <th class="col-cidade">Cidade</th>
+          <th class="col-acoes">Ações</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-bairro>
+        <tr>
+          <td>
+            <span class="p-column-title">Bairro</span>
+            {{ bairro.nome }}
+          </td>
+          <td>
+            <span class="p-column-title">Cidade</span>
+            {{ bairro.cidade.nome }}
+          </td>
+          <td class="btn-ajust col-acoes">
+            <span class="p-column-title">Ações</span>
+            <a
+              class="margin-right: 10px"
+              pButton
+              icon="fas fa-pencil-alt"
+              (click)="formParaEdicao(bairro, true)"
+              disabled="!auth.temPermissao('10')"
+            ></a>
+            <button
+              pButton
+              icon="fas fa-trash-alt"
+              class="p-button-danger"
+              (click)="confirmaExclusao(bairro)"
+              [disabled]="!auth.temPermissao('11')"
+            ></button>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage" let-columns>
+        <tr>
+          <td [attr.colspan]="3">Nenhum registro encontrado!</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+<div class="p-grid p-fluid">
+  <div class="p-lg-2 p-col-12">
+    <button
+      pButton
+      [label]="!opt ? 'Novo Bairro' : 'Pesquisar'"
+      (click)="configFormulario(!opt)"
+    ></button>
+  </div>
+</div>

@@ -1,0 +1,245 @@
+<p-dialog
+  [(visible)]="display"
+  [modal]="true"
+  [responsive]="true"
+  (onHide)="fechado()"
+  #panel
+>
+  <p-header> Cadastro Dvr </p-header>
+  <form (ngSubmit)="criar()" [formGroup]="formDvr" class="size-lg">
+    <div class="p-fluid p-formgrid">
+      <div class="p-grid">
+        <div
+          class="p-field p-col-12 p-lg-6"
+          [ngClass]="[a.value ? 'cliente-ativo' : 'cliente-cancelado']"
+        >
+          <label>Status</label>
+          <p-selectButton
+            [options]="status"
+            #a
+            formControlName="habilitaVerificao"
+          ></p-selectButton>
+          <div
+            class="error-customize"
+            *ngIf="formDvr.get('habilitaVerificao').dirty"
+          >
+            <p-message
+              *ngIf="formDvr.get('habilitaVerificao').hasError('required')"
+              severity="error"
+              text="Campo requerido"
+            ></p-message>
+          </div>
+        </div>
+      </div>
+      <div class="p-grid">
+        <div class="p-field p-col-12 p-lg-6">
+          <label>Porta Http</label>
+          <input pKeyFilter="pint" pInputText formControlName="portaHttp" />
+          <div class="error-customize" *ngIf="formDvr.get('portaHttp').touched">
+            <p-message
+              *ngIf="formDvr.get('portaHttp').hasError('required')"
+              severity="error"
+              text="Campo com preenchimento obrigatorio"
+            ></p-message>
+          </div>
+        </div>
+        <div class="p-field p-col-12 p-lg-6">
+          <label>Porta Servico</label>
+          <input pKeyFilter="pint" pInputText formControlName="portaServico" />
+          <div
+            class="error-customize"
+            *ngIf="formDvr.get('portaServico').touched"
+          >
+            <p-message
+              *ngIf="formDvr.get('portaHttp').hasError('required')"
+              severity="error"
+              text="Campo com preenchimento obrigatorio"
+            ></p-message>
+          </div>
+        </div>
+      </div>
+      <div class="p-grid">
+        <div class="p-field p-col-12 p-lg-6">
+          <label>Fabricante</label>
+          <p-dropdown
+            #fab
+            [options]="fabricantes"
+            placeholder="Selecione um Fabricante"
+            formControlName="fabricante"
+            (onChange)="edicaoDeValidacao(fab.value)"
+          ></p-dropdown>
+          <div
+            class="error-customize"
+            *ngIf="formDvr.get('fabricante').touched"
+          >
+            <p-message
+              *ngIf="formDvr.get('fabricante').hasError('required')"
+              severity="error"
+              text="Selecione uma fabricante"
+            ></p-message>
+          </div>
+        </div>
+        <div class="p-field p-col-12 p-lg-6">
+          <label>Modelo</label>
+          <input type="text" pInputText formControlName="modeloDvr" />
+          <div class="error-customize" *ngIf="formDvr.get('modeloDvr').touched">
+            <p-message
+              *ngIf="formDvr.get('modeloDvr').hasError('required')"
+              severity="error"
+              text="Campo com preenchimento obrigatorio"
+            ></p-message>
+            <p-message
+              *ngIf="formDvr.get('modeloDvr').hasError('minlength')"
+              severity="error"
+              text="Minimo de 4 caracteres"
+            ></p-message>
+            <p-message
+              *ngIf="formDvr.get('modeloDvr').hasError('maxlength')"
+              severity="error"
+              text="Maximo de 50 caracteres"
+            ></p-message>
+          </div>
+        </div>
+      </div>
+      <div class="p-grid" *ngIf="fab.value === 'INTELBRAS'">
+        <div class="p-field p-col-12 p-lg-6">
+          <label>Numero de Serie</label>
+          <input type="text" pInputText formControlName="numeroSerie" />
+          <div
+            class="error-customize"
+            *ngIf="formDvr.get('numeroSerie').touched"
+          >
+            <p-message
+              *ngIf="formDvr.get('numeroSerie').hasError('required')"
+              severity="error"
+              text="Campo com preenchimento obrigatorio"
+            ></p-message>
+            <p-message
+              *ngIf="formDvr.get('numeroSerie').hasError('minlength')"
+              severity="error"
+              text="Minimo de 7 caracteres"
+            ></p-message>
+            <p-message
+              *ngIf="formDvr.get('numeroSerie').hasError('maxlength')"
+              severity="error"
+              text="Maximo de 50 caracteres"
+            ></p-message>
+          </div>
+        </div>
+        <div class="p-field p-col-12 p-lg-6">
+          <label>Somente via Cloud</label>
+          <p-toggleButton
+            formControlName="somenteCloud"
+            onLabel="Sim"
+            offLabel="Não"
+            [onIcon]="'pi pi-check'"
+            offIcon="pi pi-times"
+          ></p-toggleButton>
+        </div>
+      </div>
+      <div class="p-grid">
+        <div class="p-field p-col-12 p-lg-6">
+          <label>IP</label>
+          <p-inputMask
+            mask="9?99.999.999.999"
+            formControlName="ip"
+          ></p-inputMask>
+          <div
+            class="error-customize"
+            *ngIf="formDvr.get('ip').touched || formDvr.get('ip').dirty"
+          >
+            <p-message
+              *ngIf="formDvr.get('ip').hasError('required')"
+              severity="error"
+              text="Campo com preenchimento obrigatorio"
+            ></p-message>
+          </div>
+        </div>
+        <div class="p-field p-col-12 p-lg-6">
+          <label>Mascara Sub-rede</label>
+          <p-inputMask
+            mask="9?99.999.999.999"
+            formControlName="mascara"
+          ></p-inputMask>
+          <div
+            class="error-customize"
+            *ngIf="
+              formDvr.get('mascara').touched || formDvr.get('mascara').dirty
+            "
+          >
+            <p-message
+              *ngIf="formDvr.get('mascara').hasError('required')"
+              severity="error"
+              text="Campo com preenchimento obrigatorio"
+            ></p-message>
+          </div>
+        </div>
+      </div>
+      <div class="p-grid">
+        <div class="p-field p-col-12 p-lg-6">
+          <label>Gateway</label>
+          <p-inputMask
+            mask="9?99.999.999.999"
+            formControlName="gateway"
+          ></p-inputMask>
+          <div
+            class="error-customize"
+            *ngIf="
+              formDvr.get('gateway').touched || formDvr.get('gateway').dirty
+            "
+          >
+            <p-message
+              *ngIf="formDvr.get('gateway').hasError('required')"
+              severity="error"
+              text="Campo com preenchimento obrigatorio"
+            ></p-message>
+          </div>
+        </div>
+        <div class="p-field p-col-12 p-lg-6">
+          <label>DNS Principal</label>
+          <p-inputMask
+            mask="9?99.999.999.999"
+            formControlName="dnsPrincipal"
+          ></p-inputMask>
+          <div
+            class="error-customize"
+            *ngIf="
+              formDvr.get('dnsPrincipal').touched ||
+              formDvr.get('dnsPrincipal').dirty
+            "
+          >
+            <p-message
+              *ngIf="formDvr.get('dnsPrincipal').hasError('required')"
+              severity="error"
+              text="Campo com preenchimento obrigatorio"
+            ></p-message>
+          </div>
+        </div>
+      </div>
+      <div class="p-grid">
+        <div class="p-field p-col-12 p-lg-6">
+          <label>DNS Alternativo</label>
+          <p-inputMask
+            mask="9?99.999.999.999"
+            formControlName="dnsAlternativo"
+          ></p-inputMask>
+        </div>
+      </div>
+    </div>
+  </form>
+  <p-footer>
+    <button
+      type="submit"
+      pButton
+      label="Salvar"
+      [disabled]="formDvr.invalid || !auth.temPermissao('13')"
+      (click)="criar()"
+    ></button>
+    <button
+      type="reset"
+      pButton
+      label="Limpar"
+      class="p-button-danger"
+    ></button>
+  </p-footer>
+</p-dialog>
