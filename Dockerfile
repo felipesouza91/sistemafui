@@ -19,3 +19,8 @@ RUN npm run build:prod
 FROM nginx:1.17.1-alpine
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY --from=builder /usr/src/app/dist/sistemafui /usr/share/nginx/html
+
+CMD ["/bin/sh", "-c", \
+"echo API_URL=[$API_URL], && \
+sed -i s#APP_API_URL#$API_URL#g /usr/share/nginx/html/main.*.js && \
+nginx -g 'daemon off;'"]
