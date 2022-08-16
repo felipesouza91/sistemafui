@@ -1,10 +1,5 @@
-:host {
-  height: 70vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .login {
-  max-width: 550px;
+  padding-top: 150px;
+  max-width: 500px;
+  margin: 0 auto;
 }
