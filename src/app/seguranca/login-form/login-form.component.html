@@ -1,10 +1,10 @@
-<div class="login">
+<div class="flex-column flex ">
   <div class="p-fluid">
     <h1>Login</h1>
   </div>
-  <form (ngSubmit)="login()" [formGroup]="form" class="p-fluid">
+  <form (ngSubmit)="login()" [formGroup]="form" class="p-fluid max-w-full">
     <div class="p-fluid">
-      <div class="p-inputgroup p-field">
+      <div class="p-inputgroup p-field col-4">
         <span class="p-inputgroup-addon"><i class="fa fa-user"></i></span>
         <input
           type="text"
