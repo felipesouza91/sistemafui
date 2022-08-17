@@ -1,8 +1,8 @@
-import {environment} from './../../environments/environment';
-import {AuthService} from './auth.service';
+import { Injectable } from '@angular/core';
+import { environment } from './../../environments/environment';
+import { AuthService } from './auth.service';
 
-import {Injectable} from '@angular/core';
-import {SistemFHttp} from './sistemaf-http';
+import { SistemFHttp } from './sistemaf-http';
 
 @Injectable()
 export class LogoutService {
@@ -14,7 +14,7 @@ export class LogoutService {
 
   logout() {
     return this.http
-      .delete(this.tokenRevokeUrl, {withCredentials: true})
+      .delete(this.tokenRevokeUrl, { withCredentials: true })
       .toPromise()
       .then(() => {
         this.auth.limparAccessToken();

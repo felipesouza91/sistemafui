@@ -1,11 +1,11 @@
-<div class="p-grid">
-  <div class="p-col">
+<div class="grid">
+  <div class="col">
     <h1>Pesquisa de Cliente</h1>
   </div>
 </div>
 <form (ngSubmit)="pesquisar()" [formGroup]="formPesquisa">
-  <div class="p-fluid p-formgrid p-grid">
-    <div class="p-field p-md-2 p-col-12">
+  <div class="p-fluid formgrid grid">
+    <div class="field col-12 lg:col-2">
       <label>Status do Cliente</label>
       <p-selectButton
         [options]="status"
@@ -13,7 +13,7 @@
         formControlName="ativo"
       ></p-selectButton>
     </div>
-    <div class="p-field p-md-2 p-col-12">
+    <div class="field col-12 lg:col-2">
       <label>Filtro</label>
       <p-dropdown
         #abc
@@ -22,11 +22,8 @@
         formControlName="tipoFiltro"
       ></p-dropdown>
     </div>
-    <div class="p-field p-md-8 p-col-12" *ngIf="abc.value == 0"></div>
-    <div
-      class="p-field p-md-8 p-col-12"
-      *ngIf="abc.value >= 1 && abc.value <= 2"
-    >
+    <div class="field col-12 lg:col-8" *ngIf="abc.value == 0"></div>
+    <div class="field col-12 lg:col-8" *ngIf="abc.value >= 1 && abc.value <= 2">
       <label>Descrição</label>
       <input
         type="text"
@@ -36,10 +33,7 @@
         pKeyFilter="pint"
       />
     </div>
-    <div
-      class="p-field p-md-8 p-col-12"
-      *ngIf="abc.value >= 3 && abc.value <= 6"
-    >
+    <div class="field col-12 lg:col-8" *ngIf="abc.value >= 3 && abc.value <= 6">
       <label>Descrição</label>
       <input
         pInputText
@@ -47,17 +41,16 @@
         (keyup.enter)="pesquisar()"
       />
     </div>
-    <div class="p-field p-md-2 p-col-12">
+    <div class="field col-12 lg:col-2">
       <button type="submit" pButton label="Pesquisar"></button>
     </div>
   </div>
 </form>
-<div class="p-grid">
-  <div class="p-col">
+<div class="grid">
+  <div class="col">
     <p-table
-      styleClass="p-datatable-gridlines p-datatable-responsive-demo"
       [value]="clientes"
-      [responsive]="true"
+      responsiveLayout="stack"
       rowHover="false"
       [paginator]="true"
       [(rows)]="filtro.size"
@@ -68,17 +61,17 @@
       (onLazyLoad)="aoMudarPagina($event)"
       #tab
     >
-      <ng-template pTemplate="header">
+      <ng-template pTemplate="header" let-columns>
         <tr>
           <th style="width: 2.25em"></th>
           <th>Razão Social</th>
           <th>Nome Fantasia</th>
           <th>Dominio</th>
           <th>Endereço</th>
-          <th class="col-acoes">Ações</th>
+          <th class="w-10rem justify-content-between">Ações</th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-cliente let-expanded="expanded">
+      <ng-template pTemplate="body" let-cliente let-columns="columns">
         <tr>
           <td>
             <a
@@ -96,7 +89,7 @@
           </td>
           <td>
             <span class="p-column-title">Razão Social: </span>
-            {{ cliente.razaoSocial }}
+            <p style="white-space: pre-wrap">{{ cliente.razaoSocial }}</p>
           </td>
           <td>
             <span class="p-column-title">Nome Fantasia: </span>
@@ -110,7 +103,7 @@
             <span class="p-column-title">Endereço</span>
             {{ cliente.endereco.rua }}, {{ cliente.endereco.numero }}
           </td>
-          <td class="btn-ajust col-acoes">
+          <td class="md:justify-content-between justify-content-start flex">
             <span class="p-column-title">Ações: </span>
             <a
               disabled="!auth.temQualquerPermissao(['1','2'])"
@@ -119,6 +112,7 @@
               icon="fas fa-pencil-alt"
               pTooltip="Editar"
               tooltipPosition="top"
+              class="mr-5 md:mr-0"
             ></a>
             <button
               pButton
@@ -135,21 +129,23 @@
       <ng-template pTemplate="rowexpansion" let-cliente>
         <tr>
           <td [attr.colspan]="6">
-            <div class="p-grid">
-              <div class="p-col">
+            <div class="grid">
+              <div class="col-12 md:col-2">
                 <b>Codigo Service:</b> {{ cliente.codigoService }}
               </div>
-              <div class="p-col">
+              <div class="col-12 md:col-2">
                 <b>Codigo Partição:</b> {{ cliente.codigoParticao }}
               </div>
-              <div class="p-col">
+              <div class="col-12 md:col-2">
                 <b>Telefone 1:</b> {{ cliente.telefone1 }}
               </div>
-              <div class="p-col">
+              <div class="col-12 md:col-2">
                 <b>Telefone 2:</b> {{ cliente.telefone2 }}
               </div>
-              <div class="p-col"><b>Grupo:</b> {{ cliente.grupo.nome }}</div>
-              <div class="p-col">
+              <div class="col-12 md:col-2">
+                <b>Grupo:</b> {{ cliente.grupo.nome }}
+              </div>
+              <div class="col-12 md:col-2">
                 <b>Bairro:</b> {{ cliente.endereco.bairro.nome }}
               </div>
             </div>
@@ -167,8 +163,8 @@
     </p-table>
   </div>
 </div>
-<div class="p-grid p-fluid">
-  <div class="p-md-2 p-col-12">
+<div class="grid p-fluid">
+  <div class="col-12 lg:col-2">
     <a
       routerLink="/cliente/novo"
       pButton
