@@ -1,11 +1,9 @@
-<div class="p-grid">
-  <div class="p-col">
-    <h1>{{ 'Cadastro Cliente' }}</h1>
-  </div>
+<div class="p-col mb-4">
+  <h1>{{ 'Cadastro Cliente' }}</h1>
 </div>
 <form class="form-ajust" (ngSubmit)="criar()" [formGroup]="formCliente">
-  <div class="p-fluid p-formgrid p-grid">
-    <div class="p-field p-col-12 p-md-6 p-lg-3">
+  <div class="p-fluid formgrid grid">
+    <div class="field col-12 lg:col-4">
       <label>Codigo Service</label>
       <input
         pKeyFilter="int"
@@ -14,27 +12,22 @@
         formControlName="codigoService"
       />
     </div>
-    <div class="p-field p-col-12 p-md-6 p-lg-3">
+    <div class="field col-12 lg:col-4">
       <label>Cogido Conta</label>
-      <input
-        pKeyFilter="int"
-        pInputText
+      <p-inputMask
+        mask="9999"
         name="codSigma"
         formControlName="codigoParticao"
-      />
-      <div
-        class="error-customize"
-        *ngIf="formCliente.get('codigoParticao').dirty"
-      >
-        <p-message
-          *ngIf="formCliente.get('codigoParticao').hasError('maxlength')"
-          severity="error"
-          text="No maximo 4 caracteres"
-        ></p-message>
+      ></p-inputMask>
+      <div *ngIf="formCliente.get('codigoParticao').dirty">
+        <app-erro-message
+          *ngIf="formCliente.get('codigoParticao').hasError('required')"
+          [message]="'Campo requerido'"
+        ></app-erro-message>
       </div>
     </div>
     <div
-      class="p-field p-col-12 p-lg-3"
+      class="field col-12 lg:col-4"
       [ngClass]="[a.value ? 'cliente-ativo' : 'cliente-cancelado']"
     >
       <label>Status</label>
@@ -44,116 +37,101 @@
         formControlName="ativo"
       ></p-selectButton>
       <div *ngIf="formCliente.get('ativo').dirty">
-        <p-message
+        <app-erro-message
           *ngIf="formCliente.get('ativo').hasError('required')"
-          severity="error"
-          text="Campo requerido"
-        ></p-message>
+          [message]="'Campo requerido'"
+        ></app-erro-message>
       </div>
     </div>
-    <div class="p-field p-col-12">
+    <div class="field col-12">
       <label>Razão Social</label>
       <input type="text" pInputText formControlName="razaoSocial" />
       <div class="error-customize" *ngIf="formCliente.get('razaoSocial').dirty">
-        <p-message
+        <app-erro-message
           *ngIf="formCliente.get('razaoSocial').hasError('required')"
-          severity="error"
-          text="Razão Social requerido"
-        ></p-message>
-        <p-message
+          [message]="'Razão Social requerido'"
+        ></app-erro-message>
+        <app-erro-message
           *ngIf="formCliente.get('razaoSocial').hasError('minlength')"
-          severity="error"
-          text="Razão Social deve conter no minimo 10 caracteres"
-        ></p-message>
-        <p-message
+          [message]="'Razão Social deve conter no minimo 10 caracteres'"
+        ></app-erro-message>
+        <app-erro-message
           *ngIf="formCliente.get('razaoSocial').hasError('maxlength')"
-          severity="error"
-          text="Razão Social deve conter no maximo 255 caracteres"
-        ></p-message>
+          [message]="'Razão Social deve conter no maximo 255 caracteres'"
+        ></app-erro-message>
       </div>
     </div>
-    <div class="p-field p-col-12">
+    <div class="field col-12">
       <label>Nome Fantasia</label>
       <input type="text" pInputText formControlName="fantazia" />
       <div class="error-customize" *ngIf="formCliente.get('fantazia').dirty">
-        <p-message
+        <app-erro-message
           *ngIf="formCliente.get('fantazia').hasError('required')"
-          severity="error"
-          text="Nome Fantazia requerido"
-        ></p-message>
-        <p-message
+          [message]="'Nome Fantasia requerido'"
+        ></app-erro-message>
+        <app-erro-message
           *ngIf="formCliente.get('fantazia').hasError('minlength')"
-          severity="error"
-          text="Nome Fantazia deve conter no minimo 10 caracteres"
-        ></p-message>
-        <p-message
+          [message]="'Nome Fantasia deve conter no minimo 10 caracteres'"
+        ></app-erro-message>
+        <app-erro-message
           *ngIf="formCliente.get('fantazia').hasError('maxlength')"
-          severity="error"
-          text="Nome Fantazia deve conter no maximo 255 caracteres"
-        ></p-message>
+          [message]="'Nome Fantasia deve conter no maximo 255 caracteres'"
+        ></app-erro-message>
       </div>
     </div>
-    <div class="p-field p-col-12">
+    <div class="field col-12">
       <label>Dominio</label>
       <input type="text" pInputText formControlName="dominio" />
       <div class="error-customize" *ngIf="formCliente.get('dominio').dirty">
-        <p-message
+        <app-erro-message
           *ngIf="formCliente.get('dominio').hasError('required')"
-          severity="error"
-          text="Nome Fantazia requerido"
-        ></p-message>
-        <p-message
+          [message]="'Dominio requerido'"
+        ></app-erro-message>
+        <app-erro-message
           *ngIf="formCliente.get('dominio').hasError('minlength')"
-          severity="error"
-          text="Nome Fantazia deve conter no minimo 10 caracteres"
-        ></p-message>
-        <p-message
+          [message]="'Dominio deve conter no minimo 10 caracteres'"
+        ></app-erro-message>
+        <app-erro-message
           *ngIf="formCliente.get('dominio').hasError('maxlength')"
-          severity="error"
-          text="Nome Fantazia deve conter no maximo 255 caracteres"
-        ></p-message>
+          [message]="'Dominio deve conter no maximo 255 caracteres'"
+        ></app-erro-message>
       </div>
     </div>
-    <div class="p-field p-col-12 p-lg-4">
+    <div class="field col-12 lg:col-4">
       <label>Telefone 1</label>
       <p-inputMask
         mask="99999-999?9"
         formControlName="telefone1"
-        unmask="true"
+        [unmask]="true"
       ></p-inputMask>
     </div>
-    <div class="p-field p-col-12 p-lg-4">
+    <div class="field col-12 lg:col-4">
       <label>Telefone 2</label>
       <p-inputMask
         mask="99999-999?9"
         formControlName="telefone2"
-        unmask="true"
+        [unmask]="true"
       ></p-inputMask>
     </div>
-    <div class="p-field p-col-12 p-lg-4">
+    <div class="field col-12 lg:col-4">
       <label>Grupo</label>
       <p-dropdown
         formControlName="grupo"
         [options]="grupos"
         placeholder="Selecione um Grupo"
       ></p-dropdown>
-      <div class="error-customize" *ngIf="formCliente.get('grupo').touched">
-        <p-message
+      <div *ngIf="formCliente.get('grupo').touched">
+        <app-erro-message
           *ngIf="formCliente.get('grupo').hasError('required')"
-          severity="error"
-          text="Campo requerido"
-        ></p-message>
+          [message]="'Campo requerido'"
+        ></app-erro-message>
       </div>
     </div>
-    <div class="p-col-12">
+    <div class="col-12 my-3">
       <h2>Endereço</h2>
     </div>
-    <div
-      style="width: 100%"
-      class="p-d-flex p-flex-wrap"
-      formGroupName="endereco"
-    >
-      <div class="p-field p-col-12 p-lg-10">
+    <div class="flex w-full flex-wrap" formGroupName="endereco">
+      <div class="field col-12 lg:col-10">
         <label>Rua</label>
         <input type="text" pInputText formControlName="rua" />
         <div
@@ -163,50 +141,43 @@
             formCliente.get('endereco').get('rua').touched
           "
         >
-          <p-message
+          <app-erro-message
             *ngIf="formCliente.get('endereco').get('rua').hasError('required')"
-            severity="error"
-            text="Rua requerido"
-          ></p-message>
-          <p-message
+            [message]="'Campo obrigatorio'"
+          ></app-erro-message>
+          <app-erro-message
             *ngIf="formCliente.get('endereco').get('rua').hasError('maxlength')"
-            severity="error"
-            text="Rua deve conter no maximo 255 caracteres"
-          ></p-message>
+            [message]="'Rua deve conter no maximo 255 caracteres'"
+          ></app-erro-message>
         </div>
       </div>
-      <div class="p-field p-col-12 p-lg-2">
+      <div class="field col-12 lg:col-2">
         <label>Numero</label>
         <input pInputText formControlName="numero" pKeyFilter="pint" />
         <div
           class="error-customize"
           *ngIf="formCliente.get('endereco').get('numero').dirty"
         >
-          <p-message
+          <app-erro-message
             *ngIf="
               formCliente.get('endereco').get('numero').hasError('required')
             "
-            severity="error"
-            text="Número requerido"
-          ></p-message>
+            [message]="'Campo obrigatorio'"
+          ></app-erro-message>
         </div>
       </div>
     </div>
-    <div
-      style="width: 100%"
-      class="p-d-flex p-flex-wrap"
-      formGroupName="endereco"
-    >
-      <div class="p-field p-col-12 p-lg-6">
+    <div class="flex w-full flex-wrap" formGroupName="endereco">
+      <div class="field col-12 lg:col-6">
         <label>Complemento</label>
         <input type="text" pInputText formControlName="complemento" />
       </div>
-      <div class="p-field p-col-12 p-lg-6">
+      <div class="field col-12 lg:col-6">
         <label>Referencia</label>
         <input type="text" pInputText formControlName="referencia" />
       </div>
     </div>
-    <div class="p-field p-col-12 p-lg-6">
+    <div class="field col-12 lg:col-6">
       <label>Cidade</label>
       <p-autoComplete
         [suggestions]="cidades"
@@ -219,7 +190,7 @@
         (onSelect)="listaBairro(cidade.value)"
       ></p-autoComplete>
     </div>
-    <div class="p-field p-col-12 p-lg-6" formGroupName="endereco">
+    <div class="field col-12 lg:col-6" formGroupName="endereco">
       <label>Bairro</label>
       <p-autoComplete
         [suggestions]="bairros"
@@ -242,7 +213,7 @@
         ></p-message>
       </div>
     </div>
-    <div class="p-field p-col-12 p-lg-2">
+    <div class="field col-12 lg:col-2">
       <button
         type="submit"
         pButton
@@ -254,7 +225,7 @@
         "
       ></button>
     </div>
-    <div class="p-field p-col-12 p-lg-2">
+    <div class="field col-12 lg:col-2">
       <button
         type="reset"
         pButton
@@ -262,7 +233,7 @@
         class="p-button-danger"
       ></button>
     </div>
-    <div class="p-field p-col-12 p-lg-2">
+    <div class="field col-12 lg:col-3">
       <a
         routerLink="/cliente"
         pButton

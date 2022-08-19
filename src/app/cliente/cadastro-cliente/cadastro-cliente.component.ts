@@ -174,7 +174,10 @@ export class CadastroClienteComponent implements OnInit, AfterViewInit {
     this.formCliente = new FormGroup({
       id: new FormControl(null),
       codigoService: new FormControl(null),
-      codigoParticao: new FormControl(null, Validators.maxLength(4)),
+      codigoParticao: new FormControl(null, [
+        Validators.required,
+        Validators.maxLength(4),
+      ]),
       ativo: new FormControl(null, Validators.required),
       razaoSocial: new FormControl(null, [
         Validators.required,

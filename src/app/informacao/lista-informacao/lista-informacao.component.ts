@@ -82,7 +82,7 @@ export class ListaInformacaoComponent implements OnInit {
       .catch((error) => this.erroHandler.handler(error));
   }
 
-  fechou(event: boolean) {
+  fechou(event: Boolean) {
     this.display = !event;
     this.tabela.first = 0;
     this.pesquisar();

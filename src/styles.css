@@ -12,9 +12,12 @@ html {
 body,
 .p-component {
   font-family: 'Roboto', sans-serif;
-
   padding: 0;
   margin: 0;
+}
+
+body {
+  background: var(--surface-200);
 }
 
 a {

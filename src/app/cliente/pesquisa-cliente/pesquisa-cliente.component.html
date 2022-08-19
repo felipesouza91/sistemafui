@@ -51,7 +51,7 @@
     <p-table
       [value]="clientes"
       responsiveLayout="stack"
-      rowHover="false"
+      [rowHover]="false"
       [paginator]="true"
       [(rows)]="filtro.size"
       dataKey="id"
@@ -63,7 +63,7 @@
     >
       <ng-template pTemplate="header" let-columns>
         <tr>
-          <th style="width: 2.25em"></th>
+          <th class="w-2rem"></th>
           <th>Razão Social</th>
           <th>Nome Fantasia</th>
           <th>Dominio</th>
@@ -71,21 +71,22 @@
           <th class="w-10rem justify-content-between">Ações</th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="body"  let-cliente let-columns="columns">
+      <ng-template
+        pTemplate="body"
+        let-cliente
+        let-columns="columns"
+        let-expanded="expanded"
+      >
         <tr>
           <td>
-            <a
-              href="#"
+            <button
+              type="button"
+              pButton
+              pRipple
               [pRowToggler]="cliente"
-              pTooltip="Mais informações"
-              tooltipPosition="right"
-            >
-              <i
-                [ngClass]="
-                  expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'
-                "
-              ></i>
-            </a>
+              class="p-button-text p-button-rounded p-button-plain"
+              [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
+            ></button>
           </td>
           <td>
             <span class="p-column-title">Razão Social: </span>

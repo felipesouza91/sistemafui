@@ -21,6 +21,7 @@ export class PesquisaClienteComponent implements OnInit, AfterViewInit {
   @ViewChild('tab', { static: true }) tabela;
   filtro = new FiltroCliente();
   formPesquisa: FormGroup;
+  expanded = false;
   totalElementos = 0;
   status = [
     { value: true, label: 'Ativo' },

@@ -23,6 +23,8 @@ import { OrdemServicoModule } from '../ordem-servico/ordem-servico.module';
 import { DvrModule } from '../dvr/dvr.module';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ClienteRoutingModule } from './cliente-routing.module';
+import { AppSharedModule } from './../shared/app-shared.module';
+import { CardModule } from 'primeng/card';
 
 @NgModule({
   imports: [
@@ -38,11 +40,13 @@ import { ClienteRoutingModule } from './cliente-routing.module';
     AutoCompleteModule,
     KeyFilterModule,
     InputTextModule,
+    CardModule,
     ButtonModule,
     TooltipModule,
     TableModule,
     DropdownModule,
     MessageModule,
+    AppSharedModule,
     TableModule,
     InputMaskModule,
     SelectButtonModule,

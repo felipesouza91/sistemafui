@@ -1,48 +1,51 @@
-<p-tabView *ngIf="isDataLoad" styleClass="custom">
-  <p-tabPanel header="Cadastro" leftIcon="pi pi-user">
-    <app-cadastro-cliente [cliente]="c"></app-cadastro-cliente>
-  </p-tabPanel>
-  <p-tabPanel [disabled]="c ? false : true">
-    <ng-template pTemplate="header"
-      ><i class="fas fa-info-circle p-tabview-left-icon"></i
-      ><span>Informações</span>
-    </ng-template>
-    <ng-template pTemplate="content" leftIcon="fas fa-info-circle">
-      <app-lista-informacao [cliente]="c"></app-lista-informacao>
-    </ng-template>
-  </p-tabPanel>
-  <p-tabPanel [disabled]="c ? false : true">
-    <ng-template pTemplate="header">
-      <i class="fas fa-server p-tabview-left-icon"></i><span>DVR</span>
-    </ng-template>
-    <ng-template pTemplate="content">
-      <app-tabela-dvr [idCliente]="c.id"></app-tabela-dvr>
-    </ng-template>
-  </p-tabPanel>
-  <p-tabPanel [disabled]="c ? false : true">
-    <ng-template pTemplate="header">
-      <i class="fas fa-wrench p-tabview-left-icon"></i
-      ><span>Ordem Serviço</span>
-    </ng-template>
-    <ng-template pTemplate="content">
-      <app-pesquisa-ordem-servico [cliente]="c"></app-pesquisa-ordem-servico>
-    </ng-template>
-  </p-tabPanel>
-  <p-tabPanel header="Verificação" [disabled]="c ? false : true">
-    <ng-template pTemplate="header">
-      <i class="fas fa-search p-tabview-left-icon"></i><span>Verificação</span>
-    </ng-template>
-    <ng-template pTemplate="content">
-      <app-pesquisa-verificacao [cliente]="c"></app-pesquisa-verificacao>
-    </ng-template>
-  </p-tabPanel>
-  <p-tabPanel [disabled]="c ? false : true">
-    <ng-template pTemplate="header">
-      <i class="fas fa-hands-helping p-tabview-left-icon"></i
-      ><span>Atendimento</span>
-    </ng-template>
-    <ng-template pTemplate="content">
-      <app-pesquisa-atendimento></app-pesquisa-atendimento>
-    </ng-template>
-  </p-tabPanel>
-</p-tabView>
+<p-card>
+  <p-tabView *ngIf="isDataLoad" [scrollable]="true">
+    <p-tabPanel header="Cadastro" leftIcon="pi pi-user">
+      <app-cadastro-cliente [cliente]="c"></app-cadastro-cliente>
+    </p-tabPanel>
+    <p-tabPanel [disabled]="c ? false : true">
+      <ng-template pTemplate="header"
+        ><i class="fas fa-info-circle p-tabview-left-icon"></i
+        ><span>Informações</span>
+      </ng-template>
+      <ng-template pTemplate="content" leftIcon="fas fa-info-circle">
+        <app-lista-informacao [cliente]="c"></app-lista-informacao>
+      </ng-template>
+    </p-tabPanel>
+    <p-tabPanel [disabled]="c ? false : true">
+      <ng-template pTemplate="header">
+        <i class="fas fa-server p-tabview-left-icon"></i><span>DVR</span>
+      </ng-template>
+      <ng-template pTemplate="content">
+        <app-tabela-dvr [idCliente]="c.id"></app-tabela-dvr>
+      </ng-template>
+    </p-tabPanel>
+    <p-tabPanel [disabled]="c ? false : true">
+      <ng-template pTemplate="header">
+        <i class="fas fa-wrench p-tabview-left-icon"></i
+        ><span>Ordem Serviço</span>
+      </ng-template>
+      <ng-template pTemplate="content">
+        <app-pesquisa-ordem-servico [cliente]="c"></app-pesquisa-ordem-servico>
+      </ng-template>
+    </p-tabPanel>
+    <p-tabPanel header="Verificação" [disabled]="c ? false : true">
+      <ng-template pTemplate="header">
+        <i class="fas fa-search p-tabview-left-icon"></i
+        ><span>Verificação</span>
+      </ng-template>
+      <ng-template pTemplate="content">
+        <app-pesquisa-verificacao [cliente]="c"></app-pesquisa-verificacao>
+      </ng-template>
+    </p-tabPanel>
+    <p-tabPanel [disabled]="c ? false : true">
+      <ng-template pTemplate="header">
+        <i class="fas fa-hands-helping p-tabview-left-icon"></i
+        ><span>Atendimento</span>
+      </ng-template>
+      <ng-template pTemplate="content">
+        <app-pesquisa-atendimento></app-pesquisa-atendimento>
+      </ng-template>
+    </p-tabPanel>
+  </p-tabView>
+</p-card>
