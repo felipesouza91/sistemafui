@@ -5,9 +5,7 @@
   (onHide)="fechado()"
   #panel
 >
-  <p-header>
-    Novo Atendimento
-  </p-header>
+  <p-header> Novo Atendimento </p-header>
   <div class="p-grid ui-fluid p-nogutter">
     <form (ngSubmit)="criar()" [formGroup]="formAt">
       <div class="p-grid">
@@ -16,7 +14,7 @@
           <p-calendar
             formControlName="dataInicio"
             dateFormat="dd/mm/yy"
-            showTime="true"
+            [showTime]="true"
           ></p-calendar>
         </div>
         <div class="p-col-12 p-md-4 p-sm-12">
@@ -24,7 +22,7 @@
           <p-calendar
             formControlName="dataTermino"
             dateFormat="dd/mm/yy"
-            showTime="true"
+            [showTime]="true"
           ></p-calendar>
         </div>
         <div class="p-col-12 p-md-4 p-sm-12" formGroupName="usuarioInicio">
@@ -60,7 +58,10 @@
           <input pInputText formControlName="solicitante" />
           <div
             class="error-customize"
-            *ngIf="formAt.get('solicitante').touched || formAt.get('solicitante').dirty"
+            *ngIf="
+              formAt.get('solicitante').touched ||
+              formAt.get('solicitante').dirty
+            "
           >
             <p-message
               *ngIf="formAt.get('solicitante').hasError('required')"
@@ -86,7 +87,12 @@
     </form>
   </div>
   <p-footer>
-    <button pButton label="Iniciar" (click)="inicio()" *ngIf="!formAt.value.id"></button>
+    <button
+      pButton
+      label="Iniciar"
+      (click)="inicio()"
+      *ngIf="!formAt.value.id"
+    ></button>
     <button
       pButton
       label="Pausar"

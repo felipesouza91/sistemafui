@@ -21,7 +21,7 @@
   <div class="p-col-12">
     <p-table
       [value]="fabricantes"
-      rowHover="true"
+      [rowHover]="true"
       [rows]="5"
       [responsive]="true"
       [paginator]="true"
@@ -91,7 +91,7 @@
 <p-dialog
   header="Cadastro Fabricante"
   [(visible)]="new"
-  responsive="true"
+  [responsive]="true"
   [style]="{ width: '700px' }"
 >
   <form (submit)="save()" [formGroup]="form" class="size-lg">

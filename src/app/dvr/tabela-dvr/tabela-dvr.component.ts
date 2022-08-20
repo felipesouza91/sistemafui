@@ -38,7 +38,7 @@ export class TabelaDvrComponent implements OnInit {
     this.display = !this.display;
   }
 
-  finalizou(tipo: boolean) {
+  finalizou(tipo: Boolean) {
     this.display = !tipo;
     this.pesquisar();
   }

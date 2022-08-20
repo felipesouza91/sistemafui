@@ -1,28 +1,28 @@
-import { VerificacaoGravacao } from "./../../core/mode";
+import { VerificacaoGravacao } from './../../core/mode';
 import {
   LazyLoadEvent,
   ConfirmationService,
   MessageService,
-} from "primeng/api";
-import { ErrorHandlerService } from "../../core/error-handler.service";
-import { Cliente } from "../../core/mode";
+} from 'primeng/api';
+import { ErrorHandlerService } from '../../core/error-handler.service';
+import { Cliente } from '../../core/mode';
 import {
   VerificacaoService,
   VerificaGravacaoFilter,
-} from "../verificacao.service";
-import { Component, OnInit, Input, ViewChild } from "@angular/core";
+} from '../verificacao.service';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 
-import { AuthService } from "src/app/seguranca/auth.service";
+import { AuthService } from 'src/app/seguranca/auth.service';
 
 @Component({
-  selector: "app-pesquisa-verificacao",
-  templateUrl: "./pesquisa-verificacao.component.html",
-  styleUrls: ["./pesquisa-verificacao.component.css"],
+  selector: 'app-pesquisa-verificacao',
+  templateUrl: './pesquisa-verificacao.component.html',
+  styleUrls: ['./pesquisa-verificacao.component.css'],
 })
 export class PesquisaVerificacaoComponent implements OnInit {
   @Input() resumo = true;
   @Input() cliente: Cliente;
-  @ViewChild("tab", { static: true }) tabela;
+  @ViewChild('tab', { static: true }) tabela;
   idVerificacao: number;
   filtro = new VerificaGravacaoFilter();
   totalElementos = 0;
@@ -60,7 +60,7 @@ export class PesquisaVerificacaoComponent implements OnInit {
 
   confirmarExclusao(id: number) {
     this.confirmationService.confirm({
-      message: "Deseja excluir a verificação selecionado?",
+      message: 'Deseja excluir a verificação selecionado?',
       accept: () => {
         this.excluir(id);
       },
@@ -72,9 +72,9 @@ export class PesquisaVerificacaoComponent implements OnInit {
       .excluir(id)
       .then(() => {
         this.messageService.add({
-          severity: "success",
-          summary: "Sucesso",
-          detail: "Verificação excluida com  sucesso!",
+          severity: 'success',
+          summary: 'Sucesso',
+          detail: 'Verificação excluida com  sucesso!',
         });
         this.pesquisar();
       })
@@ -86,7 +86,7 @@ export class PesquisaVerificacaoComponent implements OnInit {
     this.pesquisar(pagina);
   }
 
-  finalizou(tipo: boolean) {
+  finalizou(tipo: Boolean) {
     this.display = !tipo;
     this.tabela.first = 0;
     this.pesquisar();
