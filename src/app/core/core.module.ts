@@ -38,6 +38,8 @@ import { SistemFHttp } from '../seguranca/sistemaf-http';
 import { BadgeModule } from 'primeng/badge';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { ProfileService } from '../profile/profile.service';
+import { MenuModule } from 'primeng/menu';
+import { AvatarModule } from 'primeng/avatar';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -47,7 +49,8 @@ export function tokenGetter() {
   imports: [
     CommonModule,
     HttpClientModule,
-    PanelMenuModule,
+    MenuModule,
+    AvatarModule,
     ConfirmDialogModule,
     ToastModule,
     OverlayPanelModule,

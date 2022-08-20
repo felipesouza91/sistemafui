@@ -1,18 +1,18 @@
-<div class="p-grid">
-  <div class="p-col">
+<div class="grid">
+  <div class="col">
     <h1>Pesquisa de Verificação</h1>
   </div>
 </div>
-<div class="p-grid">
-  <div class="p-col-12 p-fluid p-lg-3">
+<div class="grid">
+  <div class="col-12 p-fluid lg:col-3">
     <a (click)="showDialog()" pButton label="Nova Verificação"></a>
   </div>
 </div>
-<div class="p-grid">
-  <div class="p-col">
+<div class="grid">
+  <div class="col">
     <p-table
-      styleClass="p-datatable-gridlines p-datatable-responsive-demo"
       [value]="listVerificao"
+      responsiveLayout="stack"
       [rowHover]="false"
       [paginator]="true"
       [rows]="filtro.size"
@@ -30,7 +30,7 @@
           <th>Data do Teste</th>
           <th>Equipamento</th>
           <th>Usuário</th>
-          <th class="col-acoes">Ações</th>
+          <th class="w-8rem">Ações</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-verificacao>
@@ -59,10 +59,11 @@
             <span class="p-column-title">Usuário: </span>
             {{ verificacao.nomeUsuario }}
           </td>
-          <td class="btn-ajust col-acoes__os">
+          <td class="w-8rem">
             <span class="p-column-title">Ações: </span>
             <a
               pButton
+              class="mr-2"
               (click)="showDialog(verificacao.id)"
               icon="fas fa-pencil-alt"
               pTooltip="Editar"

@@ -3,13 +3,13 @@
   [modal]="true"
   [responsive]="true"
   (onHide)="fechado()"
+  [styleClass]="'w-12 lg:w-4'"
   #panelV
-  [style]="{ width: '450px' }"
 >
   <p-header> Cadastro verificação </p-header>
   <form (ngSubmit)="criar()" [formGroup]="form">
-    <div class="p-fluid p-formgrid p-grid">
-      <div class="p-col-12 p-field">
+    <div class="p-fluid formgrid grid">
+      <div class="col-12 field">
         <label>Data Teste</label>
         <p-calendar
           formControlName="dataTeste"
@@ -18,7 +18,7 @@
         ></p-calendar>
       </div>
 
-      <div class="p-col-12 p-field">
+      <div class="col-12 field">
         <label>Status</label>
         <p-dropdown
           [options]="status"
@@ -27,7 +27,7 @@
         ></p-dropdown>
       </div>
 
-      <div class="p-col-12 p-field">
+      <div class="col-12 field">
         <label>Dvr</label>
         <p-dropdown
           [options]="dvrs"
@@ -35,11 +35,11 @@
           formControlName="dvr"
         ></p-dropdown>
       </div>
-      <div class="p-col-12 p-field p-lg-6">
+      <div class="col-12 field lg:col-6">
         <label>Tempo Gravação</label>
         <p-inputMask formControlName="qtdGravacao" mask="9?9999"></p-inputMask>
       </div>
-      <div class="p-col-12 p-field p-lg-6">
+      <div class="col-12 field lg:col-6">
         <label>Tamanho Hd</label>
         <div class="ui-inputgroup">
           <p-inputMask
@@ -50,7 +50,7 @@
           ></p-inputMask>
         </div>
       </div>
-      <div class="p-col-12 p-field" formGroupName="usuario">
+      <div class="col-12 field" formGroupName="usuario">
         <label>Usuario</label>
         <input pInputText formControlName="nome" />
       </div>

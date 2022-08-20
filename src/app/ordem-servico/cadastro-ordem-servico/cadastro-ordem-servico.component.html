@@ -9,8 +9,8 @@
 >
   <p-header> Cadastro Ordem Servico </p-header>
   <form (ngSubmit)="criar()" [formGroup]="formOs">
-    <div class="p-fluid p-formgrid p-grid mydialog">
-      <div class="p-lg-8 p-col-12 p-field form-invalid">
+    <div class="p-fluid formgrid grid mydialog">
+      <div class="lg:col-8 col-12 field form-invalid">
         <label>Nome Cliente</label>
         <p-autoComplete
           formControlName="cliente"
@@ -24,24 +24,21 @@
           class="error-customize"
           *ngIf="formOs.get('cliente').touched || formOs.get('cliente').dirty"
         >
-          <p-message
+          <app-erro-message
             *ngIf="formOs.get('cliente').hasError('required')"
-            severity="error"
-            text="Informe o nome do solicitante"
-          ></p-message>
-          <p-message
+            message="'Informe o nome do solicitante'"
+          ></app-erro-message>
+          <app-erro-message
             *ngIf="formOs.get('cliente').hasError('minlength')"
-            severity="error"
-            text="Informe no minimo 2 caracteres"
-          ></p-message>
-          <p-message
+            message="Informe no minimo 2 caracteres"
+          ></app-erro-message>
+          <app-erro-message
             *ngIf="formOs.get('cliente').hasError('maxlength')"
-            severity="error"
-            text="Informe no maximo 255 caracteres"
-          ></p-message>
+            message="Informe no maximo 255 caracteres"
+          ></app-erro-message>
         </div>
       </div>
-      <div class="p-lg-4 p-col-12 p-field">
+      <div class="lg:col-4 col-12 field">
         <label>Codigo Service</label>
         <input
           pInputText
@@ -49,15 +46,15 @@
           [disabled]="true"
         />
       </div>
-      <div class="p-lg-4 p-col-12 p-field">
+      <div class="lg:col-4 col-12 field">
         <label>N° O.s. Service</label>
         <input pKeyFilter="pint" pInputText formControlName="codigoService" />
       </div>
-      <div class="p-lg-4 p-col-12 p-field">
+      <div class="lg:col-4 col-12 field">
         <label>N° O.s. Sigma</label>
         <input pKeyFilter="pint" pInputText formControlName="codigoSigma" />
       </div>
-      <div class="p-lg-4 p-col-12 p-field">
+      <div class="lg:col-4 col-12 field">
         <label>Data Abertura</label>
         <p-calendar
           formControlName="dataAbertura"
@@ -66,28 +63,28 @@
         ></p-calendar>
       </div>
 
-      <div class="p-lg-8 p-col-12 p-field">
+      <div class="lg:col-8 col-12 field">
         <label>Solicitante</label>
         <input type="text" pInputText formControlName="solicitante" />
         <div class="error-customize" *ngIf="formOs.get('solicitante').touched">
-          <p-message
+          <app-erro-message
             *ngIf="formOs.get('solicitante').hasError('required')"
-            severity="error"
-            text="Informe o nome do solicitante"
-          ></p-message>
-          <p-message
+            message="Informe o nome do solicitante"
+          >
+          </app-erro-message>
+          <app-erro-message
             *ngIf="formOs.get('solicitante').hasError('minlength')"
-            severity="error"
-            text="Informe no minimo 2 caracteres"
-          ></p-message>
-          <p-message
+            message="Informe no minimo 2 caracteres"
+          >
+          </app-erro-message>
+          <app-erro-message
             *ngIf="formOs.get('solicitante').hasError('maxlength')"
-            severity="error"
-            text="Informe no maximo 255 caracteres"
-          ></p-message>
+            message="Informe no maximo 255 caracteres"
+          >
+          </app-erro-message>
         </div>
       </div>
-      <div class="p-lg-4 p-col-12 p-field">
+      <div class="lg:col-4 col-12 field">
         <label>Prioridade</label>
         <p-dropdown
           formControlName="prioridadeOs"
@@ -95,14 +92,13 @@
           placeholder="Selecione"
         ></p-dropdown>
         <div class="error-customize" *ngIf="formOs.get('prioridadeOs').touched">
-          <p-message
+          <app-erro-message
             *ngIf="formOs.get('prioridadeOs').hasError('required')"
-            severity="error"
-            text="Selecione a prioridade"
-          ></p-message>
+            messsage="Selecione a prioridade"
+          ></app-erro-message>
         </div>
       </div>
-      <div class="p-col-12 p-field">
+      <div class="col-12 field">
         <label>Motivo Ordem Serviço</label>
         <p-autoComplete
           formControlName="motivoOs"
@@ -114,30 +110,27 @@
         >
         </p-autoComplete>
         <div class="error-customize" *ngIf="formOs.get('motivoOs').touched">
-          <p-message
+          <app-erro-message
             *ngIf="formOs.get('motivoOs').hasError('required')"
-            severity="error"
-            text="Selecione o motivo da ordem"
-          ></p-message>
+            message="Selecione o motivo da ordem"
+          ></app-erro-message>
         </div>
       </div>
 
-      <div class="p-col-12 p-field form-invalid">
+      <div class="col-12 field form-invalid">
         <label>Observação</label>
-        <div style="height: 100px">
-          <textarea
-            pInputTextarea
-            [rows]="5"
-            [autoResize]="false"
-            formControlName="descricao"
-          ></textarea>
-        </div>
+        <textarea
+          pInputTextarea
+          [rows]="5"
+          [cols]="30"
+          [autoResize]="false"
+          formControlName="descricao"
+        ></textarea>
         <div class="error-customize" *ngIf="formOs.get('descricao').touched">
-          <p-message
+          <app-erro-message
             *ngIf="formOs.get('descricao').hasError('required')"
-            severity="error"
-            text="Informe uma descrição para a ordem"
-          ></p-message>
+            message="Informe uma descrição para a ordem"
+          ></app-erro-message>
         </div>
       </div>
     </div>

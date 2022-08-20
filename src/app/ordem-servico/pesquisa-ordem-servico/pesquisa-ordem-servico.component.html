@@ -1,11 +1,11 @@
-<div class="p-grid">
-  <div class="p-col-12">
+<div class="grid">
+  <div class="col-12">
     <h1>Pesquisa de Ordem de Serviço</h1>
   </div>
 </div>
 <form (ngSubmit)="pesquisar()" [formGroup]="form">
-  <div class="p-fluid p-formgrid p-grid">
-    <div class="p-field p-md-2 p-col-12">
+  <div class="p-fluid formgrid grid">
+    <div class="field md:col-2 col-12">
       <label>Filtro</label>
       <p-dropdown
         #abc
@@ -15,7 +15,7 @@
       ></p-dropdown>
     </div>
     <div
-      class="p-field p-md-10 p-col-12"
+      class="field md:col-10 col-12"
       *ngIf="abc.value >= 1 && abc.value <= 4"
     >
       <label>Descrição</label>
@@ -26,9 +26,9 @@
         formControlName="descricao"
       />
     </div>
-    <div class="p-field p-md-10 p-col-12" *ngIf="abc.value === 6">
+    <div class="field md:col-10 col-12" *ngIf="abc.value === 6">
       <label>Descrição</label>
-      <div class="p-fluid p-formgrid p-grid p-ai-center">
+      <div class="p-fluid formgrid grid p-ai-center">
         <div class="p-col-12 p-md-2">
           <p-calendar
             formControlName="dataDe"
@@ -36,10 +36,10 @@
             [locale]="calendarPtBr"
           ></p-calendar>
         </div>
-        <div class="p-col-12 p-md-1 p-text-center" style="padding: 10px">
+        <div class="col-12 md:col-1 p-text-center" style="padding: 10px">
           <span>ate</span>
         </div>
-        <div class="p-col-12 p-md-2">
+        <div class="col-12 md:col-2">
           <p-calendar
             formControlName="dataAte"
             dateFormat="dd/mm/yy"
@@ -48,26 +48,26 @@
         </div>
       </div>
     </div>
-    <div class="p-field p-md-4 p-col-12" *ngIf="abc.value === 5">
+    <div class="field md:col-4 col-12" *ngIf="abc.value === 5">
       <label>Nivel</label>
       <p-dropdown
         [options]="prioridade"
         formControlName="descricao"
       ></p-dropdown>
     </div>
-    <div class="p-grid"></div>
+    <div class="grid"></div>
   </div>
-  <div class="p-grid p-fluid">
-    <div class="p-field p-md-2 p-col-12">
+  <div class="grid p-fluid">
+    <div class="field md:col-2 col-12">
       <button type="submit" pButton label="Pesquisar"></button>
     </div>
   </div>
 </form>
-<div class="p-grid">
-  <div class="p-col">
+<div class="grid">
+  <div class="col">
     <p-table
-      styleClass="p-datatable-gridlines p-datatable-responsive-demo"
       [value]="ors"
+      responsiveLayout="stack"
       [rowHover]="false"
       [paginator]="true"
       [rows]="filtro.size"
@@ -81,31 +81,28 @@
     >
       <ng-template pTemplate="header">
         <tr>
-          <th style="width: 2.25em"></th>
+          <th class="w-1rem"></th>
+
           <th>Codigo Service</th>
           <th>Codigo Sigma</th>
           <th>Nome Cliente</th>
           <th>Prioridade</th>
           <th>Motivo da Ordem de Serviço</th>
           <th>Data Abertura</th>
-          <th class="col-acoes__os">Ações</th>
+          <th class="w-12rem">Ações</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-os let-expanded="expanded">
         <tr>
           <td>
-            <a
-              href="#"
+            <button
+              type="button"
+              pButton
+              pRipple
               [pRowToggler]="os"
-              pTooltip="Mais informações"
-              tooltipPosition="left"
-            >
-              <i
-                [ngClass]="
-                  expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'
-                "
-              ></i>
-            </a>
+              class="p-button-text p-button-rounded p-button-plain"
+              [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
+            ></button>
           </td>
           <td>
             <span class="p-column-title">Codigo Service: </span>
@@ -131,9 +128,10 @@
             <span class="p-column-title">Data Abertura: </span>
             {{ os.dataAbertura | date: 'dd/MM/yyyy HH:mm' }}
           </td>
-          <td class="btn-ajust col-acoes__os">
+          <td class="w-4rem">
             <span class="p-column-title">Ações: </span>
             <button
+              class="mr-2"
               pButton
               (click)="showDialog(os.id)"
               icon="fas fa-pencil-alt"
@@ -143,7 +141,7 @@
             ></button>
             <button
               pButton
-              class="p-button-danger"
+              class="p-button-danger mr-2"
               icon="fas fa-trash-alt"
               [disabled]="!auth.temPermissao('20')"
               pTooltip="Excluir"
@@ -151,7 +149,6 @@
               (click)="confirmarExclusao(os)"
             ></button>
             <a
-              style="margin-left: 4px"
               pButton
               pTooltip="Fechamento de O.s."
               icon="fas fa-envelope"
@@ -164,11 +161,11 @@
       <ng-template pTemplate="rowexpansion" let-os>
         <tr>
           <td [attr.colspan]="8">
-            <div class="p-grid">
-              <div class="p-col-12 p-lg-3">
+            <div class="grid">
+              <div class="col-12 lg:col-3">
                 <b>Solicitante:</b> {{ os.solicitante }}
               </div>
-              <div class="p-col-12 p-lg-3">
+              <div class="col-12 lg:col-3">
                 <b>Descrição:</b> {{ os.descricao }}
               </div>
             </div>
@@ -186,8 +183,8 @@
     </p-table>
   </div>
 </div>
-<div class="p-grid p-fluid">
-  <div class="p-md-3 p-col-12">
+<div class="grid p-fluid">
+  <div class="md:col-3 col-12">
     <a
       (click)="showDialog()"
       pButton

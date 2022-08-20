@@ -18,8 +18,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { PesquisaOrdemServicoComponent } from './pesquisa-ordem-servico/pesquisa-ordem-servico.component';
 import { CadastroOrdemServicoComponent } from './cadastro-ordem-servico/cadastro-ordem-servico.component';
 
-
-
+import { AppSharedModule } from './../shared/app-shared.module';
 
 @NgModule({
   imports: [
@@ -29,21 +28,16 @@ import { CadastroOrdemServicoComponent } from './cadastro-ordem-servico/cadastro
     DialogModule,
     KeyFilterModule,
     InputTextModule,
-    MessageModule,
+
     AutoCompleteModule,
     TableModule,
+    AppSharedModule,
     TooltipModule,
     DropdownModule,
     CalendarModule,
-    InputTextareaModule
+    InputTextareaModule,
   ],
-  declarations: [
-    PesquisaOrdemServicoComponent,
-    CadastroOrdemServicoComponent,
-  ],
-  exports: [
-    PesquisaOrdemServicoComponent,
-    CadastroOrdemServicoComponent
-  ]
+  declarations: [PesquisaOrdemServicoComponent, CadastroOrdemServicoComponent],
+  exports: [PesquisaOrdemServicoComponent, CadastroOrdemServicoComponent],
 })
-export class OrdemServicoModule { }
+export class OrdemServicoModule {}

@@ -7,10 +7,10 @@
 >
   <p-header> Cadastro Dvr </p-header>
   <form (ngSubmit)="criar()" [formGroup]="formDvr" class="size-lg">
-    <div class="p-fluid p-formgrid">
-      <div class="p-grid">
+    <div class="p-fluid formgrid">
+      <div class="grid">
         <div
-          class="p-field p-col-12 p-lg-6"
+          class="field col-12 lg:col-6"
           [ngClass]="[a.value ? 'cliente-ativo' : 'cliente-cancelado']"
         >
           <label>Status</label>
@@ -31,8 +31,8 @@
           </div>
         </div>
       </div>
-      <div class="p-grid">
-        <div class="p-field p-col-12 p-lg-6">
+      <div class="grid">
+        <div class="field col-12 lg:col-6">
           <label>Porta Http</label>
           <input pKeyFilter="pint" pInputText formControlName="portaHttp" />
           <div class="error-customize" *ngIf="formDvr.get('portaHttp').touched">
@@ -43,7 +43,7 @@
             ></p-message>
           </div>
         </div>
-        <div class="p-field p-col-12 p-lg-6">
+        <div class="field col-12 lg:col-6">
           <label>Porta Servico</label>
           <input pKeyFilter="pint" pInputText formControlName="portaServico" />
           <div
@@ -58,8 +58,8 @@
           </div>
         </div>
       </div>
-      <div class="p-grid">
-        <div class="p-field p-col-12 p-lg-6">
+      <div class="grid">
+        <div class="field col-12 lg:col-6">
           <label>Fabricante</label>
           <p-dropdown
             #fab
@@ -79,7 +79,7 @@
             ></p-message>
           </div>
         </div>
-        <div class="p-field p-col-12 p-lg-6">
+        <div class="field col-12 lg:col-6">
           <label>Modelo</label>
           <input type="text" pInputText formControlName="modeloDvr" />
           <div class="error-customize" *ngIf="formDvr.get('modeloDvr').touched">
@@ -101,8 +101,8 @@
           </div>
         </div>
       </div>
-      <div class="p-grid" *ngIf="fab.value === 'INTELBRAS'">
-        <div class="p-field p-col-12 p-lg-6">
+      <div class="grid" *ngIf="fab.value === 'INTELBRAS'">
+        <div class="field col-12 lg:col-6">
           <label>Numero de Serie</label>
           <input type="text" pInputText formControlName="numeroSerie" />
           <div
@@ -126,7 +126,7 @@
             ></p-message>
           </div>
         </div>
-        <div class="p-field p-col-12 p-lg-6">
+        <div class="field col-12 lg:col-6">
           <label>Somente via Cloud</label>
           <p-toggleButton
             formControlName="somenteCloud"
@@ -137,8 +137,8 @@
           ></p-toggleButton>
         </div>
       </div>
-      <div class="p-grid">
-        <div class="p-field p-col-12 p-lg-6">
+      <div class="grid">
+        <div class="field col-12 lg:col-6">
           <label>IP</label>
           <p-inputMask
             mask="9?99.999.999.999"
@@ -155,7 +155,7 @@
             ></p-message>
           </div>
         </div>
-        <div class="p-field p-col-12 p-lg-6">
+        <div class="field col-12 lg:col-6">
           <label>Mascara Sub-rede</label>
           <p-inputMask
             mask="9?99.999.999.999"
@@ -175,8 +175,8 @@
           </div>
         </div>
       </div>
-      <div class="p-grid">
-        <div class="p-field p-col-12 p-lg-6">
+      <div class="grid">
+        <div class="field col-12 lg:col-6">
           <label>Gateway</label>
           <p-inputMask
             mask="9?99.999.999.999"
@@ -195,7 +195,7 @@
             ></p-message>
           </div>
         </div>
-        <div class="p-field p-col-12 p-lg-6">
+        <div class="field col-12 lg:col-6">
           <label>DNS Principal</label>
           <p-inputMask
             mask="9?99.999.999.999"
@@ -216,8 +216,8 @@
           </div>
         </div>
       </div>
-      <div class="p-grid">
-        <div class="p-field p-col-12 p-lg-6">
+      <div class="grid">
+        <div class="field col-12 lg:col-6">
           <label>DNS Alternativo</label>
           <p-inputMask
             mask="9?99.999.999.999"

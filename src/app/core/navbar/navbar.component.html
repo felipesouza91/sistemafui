@@ -1,33 +1,16 @@
-<nav class="navbar">
-  <div class="navbar-item p-col">
-    <div class="">
-      <a href="javascript:;" class="navbar-toggle" (click)="display = !display">
-        <i class="fa fa-bars"></i
-      ></a>
-    </div>
-
-    <div class="user-panel">
-      <a (click)="op.toggle($event)">
-        <i class="pi pi-bell p-text-secondary p-mr-2" style="font-size: 1.6rem">
-          <p-badge [value]="'0'"> </p-badge>
-        </i>
-      </a>
-      <img alt="" />
-      <div class="user-info">
-        <span>{{ auth.getUsername() }}</span>
-        <a [routerLink]="['/profile']">Editar</a>
-      </div>
-    </div>
+<nav>
+  <div class="flex flex-column">
+    <button
+      pButton
+      pRipple
+      type="button"
+      icon="pi pi-bars"
+      (click)="showMenu()"
+      class="p-button-rounded p-button-outlined mb-5"
+    ></button>
+    <p-avatar label="P"></p-avatar>
   </div>
-
-  <p-sidebar [(visible)]="display" position="left" [autoZIndex]="true" #sideBar>
-    <h1 style="font-weight: normal">Menu</h1>
-    <p-panelMenu
-      [model]="items"
-      styleClass="custom"
-      [multiple]="false"
-    ></p-panelMenu>
-  </p-sidebar>
+  <p-menu *ngIf="display" [model]="items"></p-menu>
 </nav>
 <p-overlayPanel #op [style]="{ width: '300px' }">
   <ng-template pTemplate>
