@@ -1,10 +1,10 @@
-<div class="p-grid">
-  <div class="p-col-12">
+<div class="grid">
+  <div class="col-12 test">
     <h1>Lista de Dvr´s</h1>
   </div>
 </div>
-<div class="p-grid">
-  <div class="p-col-12 p-fluid p-lg-3">
+<div class="grid">
+  <div class="p-fluid col-12 lg:col-3">
     <button
       (click)="showDialog()"
       pButton
@@ -13,134 +13,129 @@
     ></button>
   </div>
 </div>
-<div class="p-grid">
-  <div class="p-col">
-    <p-table
-      styleClass="p-datatable-gridlines p-datatable-responsive-demo"
-      [value]="dvrs"
-      [rowHover]="false"
-      [paginator]="true"
-      [responsive]="true"
-      dataKey="id"
-      [(rows)]="filtro.size"
-      [rowsPerPageOptions]="[3, 5, 10]"
-      [lazy]="true"
-      (onLazyLoad)="aoMudarPagina($event)"
-      [totalRecords]="totalElementos"
-      #dvrTable
-    >
-      <ng-template pTemplate="header">
-        <tr>
-          <th style="width: 2.25em"></th>
-          <th>Fabricante</th>
-          <th>Modelo</th>
-          <th>Porta Http</th>
-          <th>Porta Serviço</th>
-          <th>IP</th>
-          <th>Mascara Sub-Rede</th>
-          <th>Gateway</th>
-          <th>Somento Cloud</th>
-          <th>Numero Serie</th>
-          <th class="col-acoes">Ações</th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-dvr let-expanded="expanded">
-        <tr>
-          <td>
-            <a
-              href="#"
-              [pRowToggler]="dvr"
-              pTooltip="Mais informações"
-              tooltipPosition="top"
-            >
-              <i
-                [ngClass]="
-                  expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'
-                "
-                style="text-align: center"
-              ></i>
-            </a>
-          </td>
-          <td>
-            <span class="p-column-title">Fabricante: </span>
-            {{ dvr.fabricante }}
-          </td>
-          <td>
-            <span class="p-column-title">Modelo: </span>
-            {{ dvr.modeloDvr }}
-          </td>
-          <td>
-            <span class="p-column-title">Porta Http: </span>
-            {{ dvr.portaHttp }}
-          </td>
-          <td>
-            <span class="p-column-title">Porta Serviço </span>
-            {{ dvr.portaServico }}
-          </td>
-          <td>
-            <span class="p-column-title">IP: </span>
-            {{ dvr.ip }}
-          </td>
-          <td>
-            <span class="p-column-title">Masc. Sub-Rede: </span>
-            {{ dvr.mascara }}
-          </td>
-          <td>
-            <span class="p-column-title">Gateway: </span>
-            {{ dvr.gateway }}
-          </td>
-          <td>
-            <span class="p-column-title">SomenteCloud: </span>
-            <p>{{ dvr.somenteCloud === true ? 'Sim' : 'Não' }}</p>
-          </td>
-          <td>
-            <span class="p-column-title">Numero Serie: </span>
-            <p>{{ dvr.numeroSerie }}</p>
-          </td>
-          <td class="btn-ajust acol-acoes">
-            <span class="p-column-title">Ação: </span>
-            <a
-              pButton
-              (click)="showDialog(dvr)"
-              icon="fas fa-pencil-alt"
-              pTooltip="Editar"
-              disabled="!auth.temQualquerPermissao(['13','15'])"
-              tooltipPosition="top"
-            ></a>
-            <button
-              pButton
-              [disabled]="!auth.temPermissao('15')"
-              class="p-button-danger"
-              icon="fas fa-trash-alt"
-              pTooltip="Excluir"
-              tooltipPosition="top"
-              (click)="confirmarExclusao(dvr.id)"
-            ></button>
-          </td>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="rowexpansion" let-dvr>
-        <tr>
-          <td [attr.colspan]="11">
-            <div class="ui-g">
-              <div class="ui-g-3 ui-sm-12">
-                <b>Dns Principal:</b> {{ dvr.dnsPrincipal }}
-              </div>
-              <div class="ui-g-3 ui-sm-12">
-                <b>Dns Alternativo:</b> {{ dvr.dnsAlternativo }}
-              </div>
-            </div>
-          </td>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="emptymessage">
-        <tr>
-          <td colspan="11">Nenhum Cliente encontrado</td>
-        </tr>
-      </ng-template>
-    </p-table>
-  </div>
-</div>
+<p-table
+  styleClass="test"
+  [value]="dvrs"
+  [paginator]="true"
+  responsiveLayout="stack"
+  dataKey="id"
+  [rowsPerPageOptions]="[3, 5, 10]"
+  [lazy]="true"
+  (onLazyLoad)="aoMudarPagina($event)"
+  [totalRecords]="totalElementos"
+  #tabela
+>
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th class="w-1rem"></th>
+      <th>Fabricante</th>
+      <th>Modelo</th>
+      <th>Porta Http</th>
+      <th>Porta Serviço</th>
+      <th>IP</th>
+      <th>Mascara Sub-Rede</th>
+      <th>Gateway</th>
+      <th>Somento Cloud</th>
+      <th>Numero Serie</th>
+      <th class="w-8rem">Ações</th>
+    </tr>
+  </ng-template>
+  <ng-template
+    pTemplate="body"
+    let-dvr
+    let-expanded="expanded"
+    let-columns="columns"
+  >
+    <tr>
+      <td class="w-1rem">
+        <button
+          type="button"
+          pButton
+          pRipple
+          [pRowToggler]="dvr"
+          class="p-button-text p-button-rounded p-button-plain"
+          [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
+        ></button>
+      </td>
+      <td>
+        <span class="p-column-title">Fabricante: </span>
+        {{ dvr.fabricante }}
+      </td>
+      <td>
+        <span class="p-column-title">Modelo: </span>
+        {{ dvr.modeloDvr }}
+      </td>
+      <td>
+        <span class="p-column-title">Porta Http: </span>
+        {{ dvr.portaHttp }}
+      </td>
+      <td>
+        <span class="p-column-title">Porta Serviço </span>
+        {{ dvr.portaServico }}
+      </td>
+      <td>
+        <span class="p-column-title">IP: </span>
+        {{ dvr.ip }}
+      </td>
+      <td>
+        <span class="p-column-title">Masc. Sub-Rede: </span>
+        {{ dvr.mascara }}
+      </td>
+      <td>
+        <span class="p-column-title">Gateway: </span>
+        {{ dvr.gateway }}
+      </td>
+      <td>
+        <span class="p-column-title">SomenteCloud: </span>
+        <p>{{ dvr.somenteCloud === true ? 'Sim' : 'Não' }}</p>
+      </td>
+      <td>
+        <span class="p-column-title">Numero Serie: </span>
+        <p>{{ dvr.numeroSerie }}</p>
+      </td>
+      <td class="w-4rem">
+        <span class="p-column-title">Ação: </span>
+        <button
+          pButton
+          class="mr-2"
+          (click)="showDialog(dvr)"
+          icon="fas fa-pencil-alt"
+          pTooltip="Editar"
+          [disabled]="!auth.temQualquerPermissao(['13', '15'])"
+          tooltipPosition="top"
+        ></button>
+        <button
+          pButton
+          [disabled]="!auth.temPermissao('15')"
+          class="p-button-danger"
+          icon="fas fa-trash-alt"
+          pTooltip="Excluir"
+          tooltipPosition="top"
+          (click)="confirmarExclusao(dvr.id)"
+        ></button>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="rowexpansion" let-dvr>
+    <tr>
+      <td [attr.colspan]="11">
+        <div class="grid">
+          <div class="col-12 lg:col-3">
+            <b>Dns Principal:</b> {{ dvr.dnsPrincipal }}
+          </div>
+          <div class="col-12 lg:col-3">
+            <b>Dns Alternativo:</b> {{ dvr.dnsAlternativo }}
+          </div>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td colspan="11">Nenhum Cliente encontrado</td>
+    </tr>
+  </ng-template>
+</p-table>
 <div *ngIf="display">
   <app-cadastro-dvr
     [display]="display"

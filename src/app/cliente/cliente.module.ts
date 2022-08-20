@@ -43,7 +43,6 @@ import { CardModule } from 'primeng/card';
     CardModule,
     ButtonModule,
     TooltipModule,
-    TableModule,
     DropdownModule,
     MessageModule,
     AppSharedModule,

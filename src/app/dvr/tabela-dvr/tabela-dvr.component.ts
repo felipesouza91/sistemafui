@@ -1,9 +1,10 @@
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { AuthService } from './../../seguranca/auth.service';
 import { DvrService, FiltroDvr } from '../dvr.service';
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { ConfirmationService, LazyLoadEvent } from 'primeng/api';
 import { ErrorHandlerService } from '../../core/error-handler.service';
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-tabela-dvr',
@@ -12,7 +13,7 @@ import { ErrorHandlerService } from '../../core/error-handler.service';
 })
 export class TabelaDvrComponent implements OnInit {
   @Input() idCliente: number;
-  @ViewChild('dvrTable', { static: true }) tabela;
+  @ViewChild('tabela', { static: true }) tabela: Table;
   display = false;
   totalElementos = 0;
   filtro = new FiltroDvr();
@@ -27,11 +28,7 @@ export class TabelaDvrComponent implements OnInit {
     private dvrService: DvrService
   ) {}
 
-  ngOnInit() {
-    if (this.idCliente) {
-      this.filtro.codCliente = this.idCliente;
-    }
-  }
+  ngOnInit() {}
 
   showDialog(dvr: any = null) {
     this.dvr = dvr;
@@ -53,6 +50,8 @@ export class TabelaDvrComponent implements OnInit {
   }
 
   pesquisar(pagina = 0) {
+    this.filtro.codCliente = this.idCliente;
+
     this.filtro.page = pagina;
     this.filtro.size = this.tabela.rows;
     this.dvrService
