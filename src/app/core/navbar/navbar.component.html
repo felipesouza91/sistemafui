@@ -1,16 +1,34 @@
-<nav>
-  <div class="flex flex-column">
-    <button
-      pButton
-      pRipple
-      type="button"
-      icon="pi pi-bars"
-      (click)="showMenu()"
-      class="p-button-rounded p-button-outlined mb-5"
-    ></button>
-    <p-avatar label="P"></p-avatar>
+<nav class="flex flex-column justify-content-center align-items-center">
+  <div class="flex flex-row">
+    <p-avatar
+      size="xlarge"
+      shape="circle"
+      [class]="display ? 'mr-4' : ''"
+      [label]="nomeUsuario.charAt(0).toUpperCase()"
+    ></p-avatar>
+    <div
+      class="flex flex-column justify-content-between align-content-between"
+      *ngIf="display"
+    >
+      <h3>{{ nomeUsuario }}</h3>
+      <a href="">Editar senha</a>
+    </div>
   </div>
-  <p-menu *ngIf="display" [model]="items"></p-menu>
+  <div class="flex flex-column my-5">
+    <div>
+      <button
+        pButton
+        pRipple
+        type="button"
+        icon="pi pi-bars"
+        (click)="showMenu()"
+        class="p-button-text custom-menu"
+        [label]="display ? 'Menu' : ''"
+      ></button>
+    </div>
+  </div>
+
+  <p-panelMenu *ngIf="display" [model]="items"> </p-panelMenu>
 </nav>
 <p-overlayPanel #op [style]="{ width: '300px' }">
   <ng-template pTemplate>

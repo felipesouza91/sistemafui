@@ -51,6 +51,7 @@ export function tokenGetter() {
     HttpClientModule,
     MenuModule,
     AvatarModule,
+    PanelMenuModule,
     ConfirmDialogModule,
     ToastModule,
     OverlayPanelModule,
