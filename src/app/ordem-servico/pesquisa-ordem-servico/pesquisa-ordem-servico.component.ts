@@ -1,72 +1,72 @@
-import { FormGroup, FormControl } from "@angular/forms";
-import { Component, OnInit, Input, ViewChild } from "@angular/core";
+import { FormGroup, FormControl } from '@angular/forms';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 
-import * as moment from "moment";
+import * as moment from 'moment';
 
 import {
   LazyLoadEvent,
   ConfirmationService,
   MessageService,
-} from "primeng/api";
-import { Cliente } from "../../core/mode";
+} from 'primeng/api';
+import { Cliente } from '../../core/mode';
 import {
   FiltroOrdemServico,
   OrdemServicoService,
-} from "../ordem-servico.service";
-import { ErrorHandlerService } from "../../core/error-handler.service";
-import { AuthService } from "src/app/seguranca/auth.service";
+} from '../ordem-servico.service';
+import { ErrorHandlerService } from '../../core/error-handler.service';
+import { AuthService } from 'src/app/seguranca/auth.service';
 
 @Component({
-  selector: "app-pesquisa-ordem-servico",
-  templateUrl: "./pesquisa-ordem-servico.component.html",
-  styleUrls: ["./pesquisa-ordem-servico.component.css"],
+  selector: 'app-pesquisa-ordem-servico',
+  templateUrl: './pesquisa-ordem-servico.component.html',
+  styleUrls: ['./pesquisa-ordem-servico.component.css'],
 })
 export class PesquisaOrdemServicoComponent implements OnInit {
   @Input() cliente: Cliente;
-  @ViewChild("tab", { static: true }) tabela;
+  @ViewChild('tab', { static: true }) tabela;
   calendarPtBr = {
     firstDayOfWeek: 0,
     dayNames: [
-      "Domingo",
-      "Segunda",
-      "Terça",
-      "Quarta",
-      "Quinta",
-      "Sexta",
-      "Sábado",
+      'Domingo',
+      'Segunda',
+      'Terça',
+      'Quarta',
+      'Quinta',
+      'Sexta',
+      'Sábado',
     ],
-    dayNamesShort: ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"],
-    dayNamesMin: ["Do", "Se", "Te", "Qu", "Qu", "Se", "Sa"],
+    dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+    dayNamesMin: ['Do', 'Se', 'Te', 'Qu', 'Qu', 'Se', 'Sa'],
     monthNames: [
-      "Janeiro",
-      "Fevereiro",
-      "Março",
-      "Abril",
-      "Maio",
-      "Junho",
-      "Julho",
-      "Agosto",
-      "Setembro",
-      "Outubro",
-      "Novembro",
-      "Dezembro",
+      'Janeiro',
+      'Fevereiro',
+      'Março',
+      'Abril',
+      'Maio',
+      'Junho',
+      'Julho',
+      'Agosto',
+      'Setembro',
+      'Outubro',
+      'Novembro',
+      'Dezembro',
     ],
     monthNamesShort: [
-      "Jan",
-      "Fev",
-      "Mar",
-      "Abr",
-      "Mai",
-      "Jun",
-      "Jul",
-      "Ago",
-      "Set",
-      "Out",
-      "Nov",
-      "Dez",
+      'Jan',
+      'Fev',
+      'Mar',
+      'Abr',
+      'Mai',
+      'Jun',
+      'Jul',
+      'Ago',
+      'Set',
+      'Out',
+      'Nov',
+      'Dez',
     ],
-    today: "Hoje",
-    clear: "Limpar",
+    today: 'Hoje',
+    clear: 'Limpar',
   };
   display = false;
   form: FormGroup;
@@ -74,18 +74,18 @@ export class PesquisaOrdemServicoComponent implements OnInit {
   totalElementos = 0;
   filtro = new FiltroOrdemServico();
   prioridade = [
-    { label: "Normal", value: "Normal" },
-    { label: "Alta", value: "Alta" },
-    { label: "Prioridade", value: "Prioridade" },
+    { label: 'Normal', value: 'Normal' },
+    { label: 'Alta', value: 'Alta' },
+    { label: 'Prioridade', value: 'Prioridade' },
   ];
 
   filtors = [
-    { value: 1, label: "Codigo da Ordem Service" },
-    { value: 2, label: "Nome Fantazia" },
-    { value: 3, label: "Motivo da Ordem de Serviço" },
-    { value: 4, label: "Solicitante" },
-    { value: 5, label: "Prioridade" },
-    { value: 6, label: "Data de Aberutra" },
+    { value: 1, label: 'Codigo da Ordem Service' },
+    { value: 2, label: 'Nome Fantazia' },
+    { value: 3, label: 'Motivo da Ordem de Serviço' },
+    { value: 4, label: 'Solicitante' },
+    { value: 5, label: 'Prioridade' },
+    { value: 6, label: 'Data de Aberutra' },
   ];
 
   ors = [];
@@ -116,7 +116,7 @@ export class PesquisaOrdemServicoComponent implements OnInit {
 
   confirmarExclusao(os: any) {
     this.confirmationService.confirm({
-      message: "Deseja excluir a ordem selecionada ?",
+      message: 'Deseja excluir a ordem selecionada ?',
       accept: () => {
         this.excluir(os.id);
       },
@@ -128,9 +128,9 @@ export class PesquisaOrdemServicoComponent implements OnInit {
       .excluir(codigoOs)
       .then(() => {
         this.messageService.add({
-          severity: "success",
-          summary: "Sucesso",
-          detail: "Ordem excluida com sucesso!",
+          severity: 'success',
+          summary: 'Sucesso',
+          detail: 'Ordem excluida com sucesso!',
         });
         this.pesquisar();
       })
@@ -143,7 +143,7 @@ export class PesquisaOrdemServicoComponent implements OnInit {
     this.filtro.size = this.tabela.rows;
     this.filtro.descricao = this.form.value.descricao;
     this.filtro.dataAberturaDe = moment(this.form.value.dataDe).format(
-      "YYYY-MM-DD"
+      'YYYY-MM-DD'
     );
     this.filtro.dataAberturaAte = this.temData();
     this.ordemService
@@ -177,7 +177,11 @@ export class PesquisaOrdemServicoComponent implements OnInit {
 
   temData(): string {
     return this.form.value.dataAte != null
-      ? moment(this.form.value.dataAte).format("YYYY-MM-DD")
+      ? moment(this.form.value.dataAte).format('YYYY-MM-DD')
       : null;
+  }
+
+  onChangeFilterOption() {
+    this.form.reset();
   }
 }

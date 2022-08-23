@@ -1,11 +1,13 @@
-<div class="flex h-screen flex-row px-4 pt-4">
+<div class="flex h-screen flex-column sm:flex-row px-4 pt-4">
   <app-navbar
     *ngIf="exibindoNavBar()"
     (atendimento)="teste($event)"
   ></app-navbar>
   <div class="flex flex-1 justify-content-center">
-    <div class="w-full lg:ml-5">
-      <router-outlet></router-outlet>
+    <div class="w-full sm:ml-5">
+      <p-card>
+        <router-outlet></router-outlet>
+      </p-card>
     </div>
   </div>
 </div>

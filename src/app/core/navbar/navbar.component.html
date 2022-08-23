@@ -1,5 +1,20 @@
-<nav class="flex flex-column justify-content-center align-items-center">
-  <div class="flex flex-row">
+<nav
+  class="flex sm:flex-column justify-content-between sm:justify-content-center align-items-center mb-2 sm:mb-0"
+>
+  <div class="flex flex-column sm:hidden">
+    <div class="p-fluid">
+      <button
+        pButton
+        pRipple
+        type="button"
+        icon="pi pi-bars"
+        (click)="changeSideBarStatus()"
+        class="p-button-text p-button-secondary p-button-lg"
+        label="Menu"
+      ></button>
+    </div>
+  </div>
+  <div class="flex flex-row sm:mb-7">
     <p-avatar
       size="xlarge"
       shape="circle"
@@ -14,21 +29,14 @@
       <a href="">Editar senha</a>
     </div>
   </div>
-  <div class="flex flex-column my-5">
-    <div>
-      <button
-        pButton
-        pRipple
-        type="button"
-        icon="pi pi-bars"
-        (click)="showMenu()"
-        class="p-button-text custom-menu"
-        [label]="display ? 'Menu' : ''"
-      ></button>
-    </div>
-  </div>
 
-  <p-panelMenu *ngIf="display" [model]="items"> </p-panelMenu>
+  <div class="hidden sm:flex">
+    <p-panelMenu
+      [class]="[!display ? 'smart-menu' : 'show-menu']"
+      [model]="display ? items : smallItems"
+    >
+    </p-panelMenu>
+  </div>
 </nav>
 <p-overlayPanel #op [style]="{ width: '300px' }">
   <ng-template pTemplate>
@@ -41,3 +49,8 @@
     </ul>
   </ng-template>
 </p-overlayPanel>
+
+<p-sidebar [visible]="showSidebar" (onHide)="showSidebar = false">
+  <p-panelMenu *ngIf="!showSidebar" class="show-menu" [model]="items">
+  </p-panelMenu>
+</p-sidebar>

@@ -26,3 +26,29 @@ a {
 .test table {
   width: 100% !important;
 }
+
+.show-menu .p-panelmenu-content {
+  border: none !important;
+}
+
+.smart-menu .p-panelmenu-header-link {
+  background-color: transparent !important;
+  border: none !important;
+}
+
+.show-menu .p-panelmenu-header-link {
+  background-color: transparent !important;
+  border: none !important;
+}
+
+.smart-menu .p-panelmenu .p-panelmenu-header > a .p-menuitem-icon {
+  margin-right: 0 !important;
+  font-size: 1.5rem !important;
+}
+
+.show-menu .p-panelmenu .p-panelmenu-header > a .p-menuitem-icon {
+  font-size: 1.5rem !important;
+}
+.show-menu .p-panelmenu .p-panelmenu-header > a .p-menuitem-text {
+  font-size: 1.2rem !important;
+}

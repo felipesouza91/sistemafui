@@ -25,6 +25,7 @@ import { SegurancaModule } from './seguranca/seguranca.module';
 import { AppSharedModule } from './shared/app-shared.module';
 import { AppRoutingModule } from './app-routing.module';
 import { ProfileModule } from './profile/profile.module';
+import { CardModule } from 'primeng/card';
 
 @NgModule({
   declarations: [AppComponent],
@@ -34,7 +35,7 @@ import { ProfileModule } from './profile/profile.module';
     CalendarModule,
 
     BrowserAnimationsModule,
-
+    CardModule,
     ButtonModule,
 
     SplitButtonModule,
