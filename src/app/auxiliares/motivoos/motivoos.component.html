@@ -1,5 +1,5 @@
-<div class="p-grid">
-  <div class="p-col">
+<div class="grid">
+  <div class="col">
     <h1>
       {{
         !opt
@@ -12,8 +12,8 @@
   </div>
 </div>
 <form (ngSubmit)="opt ? criar() : pesquisar()" [formGroup]="form">
-  <div class="p-fluid p-formgrid p-grid">
-    <div class="p-col-12 p-field">
+  <div class="p-fluid formgrid grid">
+    <div class="col-12 field">
       <label>Nome</label>
       <input type="text" pInputText formControlName="descricao" />
       <div class="error-customize p-fluid" *ngIf="form.get('descricao').dirty">
@@ -34,10 +34,10 @@
         ></p-message>
       </div>
     </div>
-    <div class="p-lg-2 p-col-12 p-field" *ngIf="!opt">
+    <div class="md:col-2 col-12 field" *ngIf="!opt">
       <button type="submit" pButton label="Pesquisar"></button>
     </div>
-    <div class="p-lg-2 p-col-12 p-field" *ngIf="opt">
+    <div class="md:col-2 col-12 field" *ngIf="opt">
       <button
         type="submit"
         pButton
@@ -45,7 +45,7 @@
         [disabled]="form.invalid || !auth.temPermissao('16')"
       ></button>
     </div>
-    <div class="p-lg-2 p-col-12 p-field">
+    <div class="md:col-2 col-12 field">
       <button
         type="reset"
         pButton
@@ -59,8 +59,8 @@
 <p-blockUI [blocked]="opt" [target]="tab">
   <i class="pi pi-lock" style="font-size: 3rem"></i>
 </p-blockUI>
-<div class="p-grid">
-  <div class="p-col-12">
+<div class="grid">
+  <div class="col-12">
     <p-table
       [value]="motivosOs"
       [rowHover]="true"
@@ -70,13 +70,13 @@
       [lazy]="true"
       (onLazyLoad)="aoMudarPagina($event)"
       [totalRecords]="totalElementos"
-      styleClass="p-datatable-gridlines p-datatable-responsive-demo"
+      responsiveLayout="stack"
       #tab
     >
       <ng-template pTemplate="header">
         <tr>
           <th>Nome</th>
-          <th class="col-acoes">Ações</th>
+          <th class="w-8rem">Ações</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-motivoos>
@@ -85,10 +85,9 @@
             <span class="p-column-title">Nome: </span>
             {{ motivoos.descricao }}
           </td>
-          <td class="btn-ajust col-acoes">
+          <td class="flex justify-content-between">
             <span class="p-column-title">Ações</span>
             <a
-              class="margin-right: 10px"
               pButton
               disable="!auth.temPermissao('16')"
               icon="fas fa-pencil-alt"
@@ -112,8 +111,8 @@
     </p-table>
   </div>
 </div>
-<div class="p-grid p-fluid">
-  <div class="p-lg-2 p-col-12">
+<div class="grid fluid">
+  <div class="lg:col-2 col-12">
     <button
       pButton
       [label]="!opt ? 'Novo Motivo O.s.' : 'Pesquisar'"
