@@ -1,35 +1,35 @@
-<div class="p-gri">
-  <div class="p-col">
+<div class="grid">
+  <div class="col">
     <h1>Pesquisa de Fabricante</h1>
   </div>
 </div>
 
 <form (ngSubmit)="pesquisar()" [formGroup]="formPes">
-  <div class="p-fluid p-formgrid p-grid">
-    <div class="p-col-12 p-field">
+  <div class="p-fluid formgrid grid">
+    <div class="col-12 field">
       <label>Descrição</label>
       <input pInputText formControlName="descricao" />
     </div>
 
-    <div class="p-lg-2 p-col-12 p-field">
+    <div class="md:col-2 col-12 field">
       <button pButton label="Pesquisar"></button>
     </div>
   </div>
 </form>
 
-<div class="p-grid">
-  <div class="p-col-12">
+<div class="grid">
+  <div class="col-12">
     <p-table
       [value]="fabricantes"
       [rowHover]="true"
       [rows]="5"
       [responsive]="true"
       [paginator]="true"
+      responsiveLayout="stack"
       [lazy]="true"
       [rowsPerPageOptions]="[5, 10, 15]"
       [totalRecords]="totalRegistros"
       (onLazyLoad)="aoMudarPagina($event)"
-      styleClass="p-datatable-gridlines p-datatable-responsive-demo"
       #tab
     >
       <ng-template pTemplate="header">
@@ -77,8 +77,8 @@
   </div>
 </div>
 
-<div class="p-grid p-fluid">
-  <div class="p-lg-2 p-col-12">
+<div class="grid fluid">
+  <div class="md:col-2 col-12">
     <button
       pButton
       label="Cadastro"
@@ -95,8 +95,8 @@
   [style]="{ width: '700px' }"
 >
   <form (submit)="save()" [formGroup]="form" class="size-lg">
-    <div class="p-fluid p-formgrid p-grid">
-      <div class="p-col-12 p-field">
+    <div class="p-fluid formgrid grid">
+      <div class="col-12 field">
         <label>Nome:</label>
         <input pInputText formControlName="descricao" />
         <div class="error-customize" *ngIf="form.get('descricao').dirty">
@@ -109,8 +109,8 @@
       </div>
     </div>
     <p-footer>
-      <div class="p-grid">
-        <div class="p-col p-d-flex p-jc-end">
+      <div class="grid">
+        <div class="col d-flex jc-end">
           <button pButton label="Cadastrar" [disabled]="form.invalid"></button>
         </div>
       </div>
