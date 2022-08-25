@@ -4,8 +4,8 @@
   </div>
   <div class="col-12">
     <div class="p-fluid formgrid grid">
-      <form (ngSubmit)="criar()" [formGroup]="form">
-        <div class="col-12 field md:col-3 p-field">
+      <form (ngSubmit)="criar()" [formGroup]="form" class="w-full">
+        <div class="col-12 field md:col-3 field">
           <label>Status</label>
           <p-toggleButton
             formControlName="ativo"
@@ -14,7 +14,7 @@
           ></p-toggleButton>
         </div>
 
-        <div class="col-12 p-field">
+        <div class="col-12 md:col-6 field">
           <label>Descrição</label>
           <input type="text" pInputText formControlName="descricao" />
           <div
@@ -33,7 +33,7 @@
             ></p-message>
           </div>
         </div>
-        <div class="p-col-12 p-field">
+        <div class="col-12 md:col-6 field">
           <p-tree
             scrollHeight="400px"
             [value]="filesTree"
@@ -42,15 +42,15 @@
           ></p-tree>
         </div>
 
-        <div class="p-d-flex p-flex-wrap">
-          <div class="p-col-12 p-lg-2 p-field">
+        <div class="grid">
+          <div class="col-12 md:col-2 field">
             <button
               pButton
               label="Salvar"
               [disabled]="!isValid() || !authService.temPermissao('31')"
             ></button>
           </div>
-          <div class="p-col-12 p-lg-2 p-field">
+          <div class="col-12 md:col-2 field">
             <button
               type="reset"
               pButton
@@ -58,12 +58,12 @@
               class="p-button-danger"
             ></button>
           </div>
-          <div class="p-col-12 p-lg-3 p-field">
+          <div class="col-12 md:col-2 field">
             <a
               routerLink="/grupoacesso"
               pButton
               (click)="clearForm()"
-              class="p-button-link"
+              class="p-button-secondary p-button-outlined"
               label="Voltar para Listagem"
             ></a>
           </div>

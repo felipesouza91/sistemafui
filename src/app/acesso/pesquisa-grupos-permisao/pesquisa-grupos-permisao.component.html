@@ -1,25 +1,25 @@
-<div class="p-grid">
-  <div class="p-col">
+<div class="grid">
+  <div class="col">
     <h1>Pesquisa de Grupo de Permissão</h1>
   </div>
 </div>
 <form (ngSubmit)="pesquisar()" [formGroup]="form">
-  <div class="p-fluid p-formgrid p-grid">
-    <div class="p-col-12 p-lg-6 p-field">
+  <div class="p-fluid formgrid grid">
+    <div class="col-12 lg:col-6 field">
       <label>Nome</label>
       <input type="text" pInputText />
     </div>
   </div>
-  <div class="p-grid p-fluid">
-    <div class="p-col-12 p-lg-2">
+  <div class="grid fluid">
+    <div class="col-12 lg:col-2">
       <button pButton label="Pesquisar"></button>
     </div>
   </div>
 </form>
-<div class="p-grid">
-  <div class="p-col">
+<div class="grid">
+  <div class="col">
     <p-table
-      styleClass="p-datatable-gridlines p-datatable-responsive-demo"
+      responsiveLayout="stack"
       [value]="listGrupos"
       [rowHover]="true"
       [paginator]="true"
@@ -30,7 +30,7 @@
         <tr>
           <th class="ativo">Status</th>
           <th>Nome</th>
-          <th class="col-acoes">Ações</th>
+          <th class="w-8rem">Ações</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-grupoAcesso>
@@ -43,7 +43,7 @@
             <span class="p-column-title">Nome:</span>
             {{ grupoAcesso.descricao }}
           </td>
-          <td class="btn-ajust col-acoes">
+          <td class="flex justify-content-between">
             <span class="p-column-title">Ações</span>
             <a
               [routerLink]="['/grupoacesso', grupoAcesso.id]"
@@ -68,8 +68,8 @@
     </p-table>
   </div>
 </div>
-<div class="p-grid p-fluid">
-  <div class="p-col-12 p-lg-2">
+<div class="grid">
+  <div class="col-12 lg:col-2">
     <a
       routerLink="/grupoacesso/novo"
       pButton
