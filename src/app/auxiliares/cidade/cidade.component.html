@@ -1,5 +1,5 @@
-<div class="p-grid">
-  <div class="p-col">
+<div class="grid">
+  <div class="col">
     <h1>
       {{
         !opt
@@ -11,9 +11,13 @@
     </h1>
   </div>
 </div>
-<form (ngSubmit)="opt ? criar() : pesquisar()" [formGroup]="form">
-  <div class="p-fluid p-formgrid p-grid">
-    <div class="p-col-12 p-field">
+<form
+  (ngSubmit)="opt ? criar() : pesquisar()"
+  [formGroup]="form"
+  class="w-full"
+>
+  <div class="p-fluid formgrid grid">
+    <div class="col-12 field">
       <label>Nome</label>
       <input type="text" pInputText name="nome" formControlName="nome" />
       <div class="error-customize" *ngIf="form.get('nome').touched">
@@ -34,17 +38,17 @@
         ></p-message>
       </div>
     </div>
-    <div class="p-col-12 p-field p-lg-1" *ngIf="!opt">
+    <div class="col-12 field lg:col-1" *ngIf="!opt">
       <button pButton label="Pesquisar" [disabled]="form.invalid"></button>
     </div>
-    <div class="p-col-12 p-field p-lg-1" *ngIf="opt">
+    <div class="col-12 field lg:col-1" *ngIf="opt">
       <button
         pButton
         label="Salvar"
         [disabled]="form.invalid || !auth.temPermissao('7')"
       ></button>
     </div>
-    <div class="p-col-12 p-field p-lg-1">
+    <div class="col-12 field lg:col-1">
       <button
         type="reset"
         pButton
@@ -58,14 +62,13 @@
 <p-blockUI [blocked]="opt" [target]="tab">
   <i class="pi pi-lock" style="font-size: 3rem"></i>
 </p-blockUI>
-<div class="p-grid">
-  <div class="p-col">
+<div class="grid">
+  <div class="col">
     <p-table
-      styleClass="p-datatable-gridlines p-datatable-responsive-demo"
       [value]="cidades"
       [rowHover]="true"
       [rows]="filtro.size"
-      [responsive]="true"
+      responsiveLayout="stack"
       [paginator]="true"
       [lazy]="true"
       [totalRecords]="totalRegistros"
@@ -75,7 +78,7 @@
       <ng-template pTemplate="header">
         <tr>
           <th>Nome</th>
-          <th class="col-acoes">Ações</th>
+          <th class="w-7rem">Ações</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-cidade>
@@ -84,7 +87,7 @@
             <span class="p-column-title">Cidade</span>
             {{ cidade.nome }}
           </td>
-          <td class="btn-ajust col-acoes">
+          <td class="md:justify-content-between justify-content-start flex">
             <span class="p-column-title">Ações</span>
             <a
               class="margin-right: 10px"
@@ -111,8 +114,8 @@
     </p-table>
   </div>
 </div>
-<div class="p-grid p-fluid">
-  <div class="p-lg-2 p-col-12">
+<div class="grid p-fluid">
+  <div class="md:col-2 col-12">
     <button
       pButton
       [label]="!opt ? 'Nova Cidade' : 'Pesquisar'"

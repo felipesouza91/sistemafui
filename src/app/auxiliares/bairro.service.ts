@@ -70,7 +70,7 @@ export class BairroService {
 
   createFilter(filtro: FiltroBairro): HttpParams {
     let params = new HttpParams();
-    if (filtro.nome) {
+    if (filtro.nome !== null) {
       params = params.set('nome', filtro.nome);
     }
     if (filtro.cidade !== null) {

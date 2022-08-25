@@ -35,6 +35,7 @@ export class BairroComponent implements OnInit {
   ngOnInit() {
     this.initCidade();
     this.configFormulario(this.opt);
+    this.pesquisar(0);
   }
 
   criar() {
@@ -105,6 +106,7 @@ export class BairroComponent implements OnInit {
     this.filtro.nome = this.form.value.nome;
     this.filtro.cidade = this.form.value.cidade;
     this.filtro.page = pagina;
+
     this.bairroService
       .pesquisar(this.filtro)
       .then((result) => {
@@ -140,6 +142,22 @@ export class BairroComponent implements OnInit {
         this.cidades = result.map((c) => ({
           label: c.nome,
           value: { id: c.id, nome: c.nome },
+        }));
+      })
+      .catch((error) => this.erroHandler.handler(error));
+  }
+
+  handleOnComplet(event) {
+    this.cidadeService
+      .pesquisar({
+        nome: event.query,
+        page: 0,
+        size: 10,
+      })
+      .then((result) => {
+        this.cidades = result.conteudo.map((c) => ({
+          id: c.id,
+          nome: c.nome,
         }));
       })
       .catch((error) => this.erroHandler.handler(error));

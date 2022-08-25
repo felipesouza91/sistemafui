@@ -1,5 +1,5 @@
-<div class="p-grid">
-  <div class="p-col">
+<div class="grid">
+  <div class="col">
     <h1>
       {{
         !opt
@@ -11,9 +11,13 @@
     </h1>
   </div>
 </div>
-<form (ngSubmit)="opt ? criar() : pesquisar()" [formGroup]="form">
-  <div class="p-fluid p-formgrid p-grid">
-    <div class="p-col-12 p-field">
+<form
+  (ngSubmit)="opt ? criar() : pesquisar()"
+  [formGroup]="form"
+  class="w-full"
+>
+  <div class="p-fluid p-formgrid grid">
+    <div class="col-12 field">
       <label>Nome</label>
       <input type="text" pInputText formControlName="nome" />
       <div class="error-customize" *ngIf="form.get('nome').dirty">
@@ -34,10 +38,10 @@
         ></p-message>
       </div>
     </div>
-    <div class="p-lg-1 p-col-12 p-field" *ngIf="!opt">
+    <div class="lg:col-2 col-12 field" *ngIf="!opt">
       <button pButton label="Pesquisar" [disabled]="form.invalid"></button>
     </div>
-    <div class="p-lg-1 p-col-12 p-field" *ngIf="opt">
+    <div class="lg:col-2 col-12 field" *ngIf="opt">
       <button
         type="submit"
         pButton
@@ -45,7 +49,7 @@
         [disabled]="form.invalid || !auth.temPermissao('4')"
       ></button>
     </div>
-    <div class="p-lg-1 p-col-12 p-field">
+    <div class="lg:col-2 col-12 field">
       <button
         type="reset"
         pButton
@@ -59,24 +63,23 @@
 <p-blockUI [blocked]="opt" [target]="tab">
   <i class="pi pi-lock" style="font-size: 3rem"></i>
 </p-blockUI>
-<div class="p-grid">
-  <div class="p-col-12">
+<div class="grid">
+  <div class="col-12">
     <p-table
       [value]="grupos"
       [rowHover]="true"
-      [responsive]="true"
       [paginator]="true"
+      responsiveLayout="stack"
       [rows]="filtro.size"
       [lazy]="true"
       [totalRecords]="totalRegistros"
       (onLazyLoad)="aoMudarPagina($event)"
-      styleClass="p-datatable-gridlines p-datatable-responsive-demo"
       #tab
     >
       <ng-template pTemplate="header">
         <tr>
           <th>Nome</th>
-          <th class="col-acoes">Ações</th>
+          <th class="w-8rem">Ações</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-grupo>
@@ -85,7 +88,7 @@
             <span class="p-column-title">Nome: </span>
             {{ grupo.nome }}
           </td>
-          <td class="btn-ajust col-acoes">
+          <td class="md:justify-content-between justify-content-start flex">
             <span class="p-column-title">Ações</span>
             <a
               class="margin-right: 10px"
@@ -116,8 +119,8 @@
     </p-table>
   </div>
 </div>
-<div class="p-grid p-fluid">
-  <div class="p-col-12 p-lg-2">
+<div class="grid p-fluid">
+  <div class="col-12 lg:col-2">
     <button
       pButton
       [label]="!opt ? 'Novo Grupo' : 'Pesquisar'"

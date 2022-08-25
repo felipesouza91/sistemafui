@@ -1,5 +1,5 @@
-<div class="p-grid">
-  <div class="p-col">
+<div class="grid">
+  <div class="col">
     <h1>
       {{
         !opt
@@ -11,9 +11,13 @@
     </h1>
   </div>
 </div>
-<form (ngSubmit)="opt ? criar() : pesquisar()" [formGroup]="form">
-  <div class="p-fluid p-formgrid p-grid">
-    <div class="p-lg-8 p-col-12 p-field">
+<form
+  (ngSubmit)="opt ? criar() : pesquisar()"
+  [formGroup]="form"
+  class="w-full"
+>
+  <div class="p-fluid p-formgrid grid">
+    <div class="md:col-8 col-12 field">
       <label>Nome</label>
       <input type="text" pInputText name="nome" formControlName="nome" />
       <div class="error-customize" *ngIf="form.get('nome').touched">
@@ -34,13 +38,16 @@
         ></p-message>
       </div>
     </div>
-    <div class="p-lg-4 p-col-12 p-field">
+    <div class="md:col-4 col-12 field">
       <label>Cidade</label>
-      <p-dropdown
-        [options]="cidades"
+      <p-autoComplete
+        [suggestions]="cidades"
+        field="nome"
         placeholder="Selecionar Cidade"
         formControlName="cidade"
-      ></p-dropdown>
+        (completeMethod)="handleOnComplet($event)"
+        [dropdown]="true"
+      ></p-autoComplete>
       <div class="error-customize" *ngIf="form.get('cidade').touched">
         <p-message
           *ngIf="form.get('cidade').hasError('required')"
@@ -50,7 +57,7 @@
       </div>
     </div>
 
-    <div class="p-lg-1 p-col-12 p-field" *ngIf="!opt">
+    <div class="md:col-2 col-12 field" *ngIf="!opt">
       <button
         type="submit"
         pButton
@@ -58,7 +65,7 @@
         [disabled]="form.invalid"
       ></button>
     </div>
-    <div class="p-lg-1 p-col-12 p-field" *ngIf="opt">
+    <div class="md:col-2 col-12 field" *ngIf="opt">
       <button
         type="submit"
         pButton
@@ -66,7 +73,7 @@
         [disabled]="form.invalid || !auth.temPermissao('10')"
       ></button>
     </div>
-    <div class="p-lg-1 p-col-12 p-field">
+    <div class="md:col-2 col-12 field">
       <button
         type="reset"
         pButton
@@ -81,15 +88,15 @@
 <p-blockUI [blocked]="opt" [target]="tbl">
   <i class="pi pi-lock" style="font-size: 3rem"></i>
 </p-blockUI>
-<div class="p-grid">
-  <div class="p-col">
+<div class="grid">
+  <div class="col">
     <p-table
-      styleClass="p-datatable-gridlines p-datatable-responsive-demo"
       [value]="bairros"
       [rowHover]="true"
       [responsive]="true"
       [totalRecords]="totalElementos"
       [paginator]="true"
+      responsiveLayout="stack"
       [rows]="filtro.size"
       [lazy]="true"
       (onLazyLoad)="aoMudarPagina($event)"
@@ -99,7 +106,7 @@
         <tr>
           <th>Bairro</th>
           <th class="col-cidade">Cidade</th>
-          <th class="col-acoes">Ações</th>
+          <th class="w-8rem">Ações</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-bairro>
@@ -112,7 +119,7 @@
             <span class="p-column-title">Cidade</span>
             {{ bairro.cidade.nome }}
           </td>
-          <td class="btn-ajust col-acoes">
+          <td class="md:justify-content-between justify-content-start flex">
             <span class="p-column-title">Ações</span>
             <a
               class="margin-right: 10px"
@@ -139,8 +146,8 @@
     </p-table>
   </div>
 </div>
-<div class="p-grid p-fluid">
-  <div class="p-lg-2 p-col-12">
+<div class="grid p-fluid">
+  <div class="lg:col-2 col-12">
     <button
       pButton
       [label]="!opt ? 'Novo Bairro' : 'Pesquisar'"
