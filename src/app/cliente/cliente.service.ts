@@ -156,7 +156,7 @@ export class ClienteService {
           break;
         }
         case 2: {
-          params = params.set('sigma', filtro.descricao);
+          params = params.set('codigoParticao', filtro.descricao);
           break;
         }
         case 3: {

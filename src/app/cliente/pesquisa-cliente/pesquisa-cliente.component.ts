@@ -33,7 +33,7 @@ export class PesquisaClienteComponent implements OnInit, AfterViewInit {
     { value: 1, label: 'Codigo Service' },
     { value: 2, label: 'Codigo Sigma' },
     { value: 3, label: 'Razão Social' },
-    { value: 4, label: 'Nome Fantazia' },
+    { value: 4, label: 'Nome Fantasia' },
     { value: 5, label: 'Dominio' },
     { value: 6, label: 'Endereço' },
   ];
