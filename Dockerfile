@@ -22,5 +22,6 @@ COPY --from=builder /usr/src/app/dist/sistemafui /usr/share/nginx/html
 
 CMD ["/bin/sh", "-c", \
 "echo API_URL=[$API_URL], && \
-sed -i s#APP_API_URL#$API_URL#g /usr/share/nginx/html/main.*.js && \
+sed -i s#API_SERVER_URL#$API_URL#g /usr/share/nginx/html/main.*.js && \
+sed -i s#API_SERVER_IP#$API_IP#g /usr/share/nginx/html/main.*.js && \
 nginx -g 'daemon off;'"]
