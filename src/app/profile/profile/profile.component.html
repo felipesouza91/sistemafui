@@ -1,19 +1,19 @@
-<div class="ajust">
-  <div class="p-col-12 p-lg-6">
+<div class="grid">
+  <div class="col-12 md:col-6">
     <form [formGroup]="form" (ngSubmit)="update()">
-      <div class="p-fluid p-formgrid p-grid">
-        <div class="p-col-12 p-field profile-image">
+      <div class="p-fluid formgrid grid">
+        <div class="col-12 field profile-image">
           <img />
         </div>
-        <div class="p-col-12 p-field">
+        <div class="col-12 field">
           <label>Nome</label>
           <input pInputText [value]="nome" />
         </div>
-        <div class="p-col-12 p-field">
+        <div class="col-12 field">
           <label>Email</label>
           <input pInputText />
         </div>
-        <div class="p-col-12 p-field">
+        <div class="col-12 field">
           <label>Senha antiga</label>
           <input
             type="password"
@@ -22,7 +22,7 @@
             [feedback]="false"
           />
         </div>
-        <div class="p-col-12 p-field">
+        <div class="col-12 field">
           <label>Nova Senha</label>
           <input
             type="password"
@@ -43,7 +43,7 @@
             ></p-message>
           </div>
         </div>
-        <div class="p-col-12 p-field">
+        <div class="col-12 field">
           <label>Confirmar Nova senha</label>
           <input
             type="password"
@@ -64,11 +64,16 @@
             ></p-message>
           </div>
         </div>
-        <div class="p-col-12 p-lg-6 p-field">
+        <div class="col-12 lg-6 field">
           <button pButton label="Atualizar" [disabled]="form.invalid"></button>
         </div>
-        <div class="p-col-12 p-lg-6 p-field">
-          <a routerLink="/" pButton label="Voltar" class="p-button-link"></a>
+        <div class="col-12 lg-6 field">
+          <a
+            routerLink="/"
+            pButton
+            label="Voltar"
+            class="p-button-outlined p-button-secondary"
+          ></a>
         </div>
       </div>
     </form>
