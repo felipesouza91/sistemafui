@@ -1,11 +1,11 @@
-<div class="p-grid">
-  <div class="p-col-12">
+<div class="grid">
+  <div class="col-12">
     <h1>Pesquisa de Produtos</h1>
   </div>
 </div>
 <form (ngSubmit)="pesquisar()" [formGroup]="form">
-  <div class="p-fluid p-formgrid p-grid">
-    <div class="p-col-12 p-lg-4 p-field">
+  <div class="p-fluid formgrid grid">
+    <div class="col-12 md:col-4 field">
       <label>Filtro</label>
       <p-dropdown
         #drop
@@ -14,31 +14,31 @@
         placeholder="Todos"
       ></p-dropdown>
     </div>
-    <div class="p-col-12 p-lg-8 p-field" *ngIf="drop.value">
+    <div class="col-12 md:col-8 field" *ngIf="drop.value">
       <label>Descrição</label>
       <input pInputText formControlName="descricao" />
     </div>
   </div>
-  <div class="p-grid p-fluid">
-    <div class="p-lg-2 p-col-12">
+  <div class="grid p-fluid">
+    <div class="md:col-2 col-12">
       <button pButton label="Pesquisar"></button>
     </div>
   </div>
 </form>
 
-<div class="p-grid">
-  <div class="p-col-12">
+<div class="grid">
+  <div class="col-12">
     <p-table
       [value]="produtos"
       [rowHover]="true"
       [rows]="5"
       [responsive]="true"
       [paginator]="true"
+      responsiveLayout="stack"
       [lazy]="true"
       [rowsPerPageOptions]="[5, 10, 15]"
       [totalRecords]="totalRegistros"
       (onLazyLoad)="aoMudarPagina($event)"
-      styleClass="p-datatable-gridlines p-datatable-responsive-demo"
       #tab
     >
       <ng-template pTemplate="header">
@@ -48,7 +48,7 @@
           <th>Descrição</th>
           <th style="width: 15%">Fabricante</th>
           <th style="width: 122px">Valor Unitário</th>
-          <th class="col-acoes">Ações</th>
+          <th class="w-8rem">Ações</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-fab>
@@ -73,7 +73,7 @@
             <span class="p-column-title">Valor Unitário</span>
             {{ fab.valorUnitario | currency: 'BRL' }}
           </td>
-          <td class="btn-ajust col-acoes">
+          <td class="md:justify-content-between justify-content-start flex">
             <span class="p-column-title">Ações</span>
             <a
               class="margin-right: 10px"
@@ -100,8 +100,8 @@
     </p-table>
   </div>
 </div>
-<div class="p-grid p-fluid">
-  <div class="p-col-12 p-lg-2">
+<div class="grid p-fluid">
+  <div class="col-12 md:col-2">
     <button pButton label="Novo Produto" (click)="new = true"></button>
   </div>
 </div>
@@ -114,12 +114,12 @@
   (onHide)="formCad.reset()"
 >
   <form (submit)="save()" [formGroup]="formCad" class="large-lg">
-    <div class="p-fluid p-formgrid p-grid">
-      <div class="p-col-12 p-field">
+    <div class="p-fluid formgrid grid">
+      <div class="col-12 field">
         <label>Modelo:</label>
         <input pInputText formControlName="modelo" />
       </div>
-      <div class="p-col-12 p-field">
+      <div class="col-12 field">
         <label>Descrição:</label>
         <textarea
           pInputTextarea
@@ -127,7 +127,7 @@
           formControlName="descricao"
         ></textarea>
       </div>
-      <div class="p-col-7 p-field">
+      <div class="col-7 field">
         <label>Fabricante:</label>
         <p-autoComplete
           formControlName="fabricante"
@@ -140,7 +140,7 @@
           styleClass="up-dropdown"
         ></p-autoComplete>
       </div>
-      <div class="p-col-5 p-field">
+      <div class="col-5 field">
         <label>Valor Unitário:</label>
         <p-inputNumber
           name="valor"
@@ -152,8 +152,8 @@
       </div>
     </div>
     <p-footer>
-      <div class="p-grid">
-        <div class="p-col p-d-flex p-jc-end p-field">
+      <div class="grid">
+        <div class="col field">
           <button pButton label="Salvar"></button>
         </div>
       </div>
