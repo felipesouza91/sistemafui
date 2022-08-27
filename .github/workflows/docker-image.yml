@@ -20,7 +20,7 @@ jobs:
         apiUrl: 'http://APP_API_URL',
         tokenWhitelistedDomains: [new RegExp('APP_API_URL')],
         tokenBlacklistedRoutes: [new RegExp('/oauth/token')],
-        };" > ./src/environments/environment.prod.t
+        };" > ./src/environments/environment.prod.ts
     - name: get-npm-version
       id: package-version
       uses: martinbeentjes/npm-get-version-action@main
