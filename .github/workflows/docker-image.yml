@@ -33,4 +33,7 @@ jobs:
        
     - name: docker build
       run: docker build -f "Dockerfile" -t ${{secrets.DOCKERHUB_USERNAME}}/sistemafui:${{steps.package-version.outputs.current-version}} "."
+      
+    - name: docker push image
+      run: docker push ${{secrets.DOCKERHUB_USERNAME}}/sistemafui:${{steps.package-version.outputs.current-version}}
     
