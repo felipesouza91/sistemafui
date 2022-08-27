@@ -15,13 +15,12 @@ jobs:
     
     - name: create envfile
       run: |
-        cd ./src/environments && |
-        echo  echo "export const environment = { |
-        production: true, |
-        apiUrl: 'http://APP_API_URL',|
-        tokenWhitelistedDomains: [new RegExp('APP_API_URL')],|
-        tokenBlacklistedRoutes: [new RegExp('/oauth/token')],|
-        };" >> environment.prod.ts
+       echo "export const environment = {
+        production: true,
+        apiUrl: 'http://APP_API_URL',
+        tokenWhitelistedDomains: [new RegExp('APP_API_URL')],
+        tokenBlacklistedRoutes: [new RegExp('/oauth/token')],
+        };" > ./src/environments/environment.prod.ts
     
     - name: get-npm-version
       id: package-version
