@@ -23,4 +23,4 @@ jobs:
         };" > ./src/environments/environment.prod.ts
         
     - name: show env
-      run: cat -la ./src/environments/environment.prod.ts
+      run: cat ./src/environments/environment.prod.ts
