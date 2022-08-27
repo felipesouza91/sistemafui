@@ -29,6 +29,9 @@ jobs:
     needs: setup
     runs-on: ubuntu-latest
     steps:
+    - name: env show
+      run: echo $steps.package-version.outputs.current-version && echo $PATH
+      
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v2
       
