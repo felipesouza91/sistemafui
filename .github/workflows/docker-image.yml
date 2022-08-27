@@ -22,16 +22,6 @@ jobs:
         tokenBlacklistedRoutes: [new RegExp('/oauth/token')],
         };" > ./src/environments/environment.prod.t
     
-    
-  build:
-    needs: setup
-    runs-on: ubuntu-latest
-    steps:
-    - name: test
-      run: ls -la
-    - name: env show
-      run: printenv
-      
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v2
       
