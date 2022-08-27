@@ -21,16 +21,17 @@ jobs:
         tokenWhitelistedDomains: [new RegExp('APP_API_URL')],
         tokenBlacklistedRoutes: [new RegExp('/oauth/token')],
         };" > ./src/environments/environment.prod.t
-    - name: get-npm-version
-      id: package-version
-      uses: martinbeentjes/npm-get-version-action@main    
+    
     
   build:
     needs: setup
     runs-on: ubuntu-latest
     steps:
+    - name: get-npm-version
+      id: package-version
+      uses: martinbeentjes/npm-get-version-action@main    
     - name: env show
-      run: echo $steps.package-version.outputs.current-version && echo $PATH
+      run: printenv
       
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v2
