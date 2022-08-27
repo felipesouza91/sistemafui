@@ -21,6 +21,9 @@ jobs:
         tokenWhitelistedDomains: [new RegExp('APP_API_URL')],
         tokenBlacklistedRoutes: [new RegExp('/oauth/token')],
         };" > ./src/environments/environment.prod.ts
+        
+    - name: show env
+      run: ls -la
     
     - name: get-npm-version
       id: package-version
