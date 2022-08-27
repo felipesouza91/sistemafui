@@ -32,5 +32,5 @@ jobs:
        password: ${{ secrets.DOCKERHUB_TOKEN }}
        
     - name: docker build
-      run: docker build . -f Dockerfile -tag ${{secrets.DOCKERHUB_USERNAME}}/sistemafui:${{steps.package-version.outputs.current-version}}
+      run: docker build -f "Dockerfile" -t ${{secrets.DOCKERHUB_USERNAME}}/sistemafui:${{steps.package-version.outputs.current-version}} "."
     
