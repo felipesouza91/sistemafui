@@ -17,8 +17,8 @@ jobs:
       run: |
        echo "export const environment = {
         production: true,
-        apiUrl: 'http://APP_API_URL',
-        tokenWhitelistedDomains: [new RegExp('APP_API_URL')],
+        apiUrl: 'http://API_SERVER_URL',
+        tokenWhitelistedDomains: [new RegExp('API_SERVER_IP')],
         tokenBlacklistedRoutes: [new RegExp('/oauth/token')],
         };" > ./src/environments/environment.prod.ts
     - name: get-npm-version
