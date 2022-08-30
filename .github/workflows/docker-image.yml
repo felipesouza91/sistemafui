@@ -17,7 +17,7 @@ jobs:
       run: |
        echo "export const environment = {
         production: true,
-        apiUrl: 'http://API_SERVER_URL',
+        apiUrl: 'API_SERVER_URL',
         tokenWhitelistedDomains: [new RegExp('API_SERVER_IP')],
         tokenBlacklistedRoutes: [new RegExp('/oauth/token')],
         };" > ./src/environments/environment.prod.ts
