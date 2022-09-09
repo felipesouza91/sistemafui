@@ -42,7 +42,7 @@ export class PesquisaUsuarioComponent implements OnInit {
     this.usuarioService
       .buscarResumo()
       .then((resp) => {
-        this.listUsuario = resp;
+        this.listUsuario = resp!;
       })
       .catch((erro) => this.erroService.handler(erro));
   }
