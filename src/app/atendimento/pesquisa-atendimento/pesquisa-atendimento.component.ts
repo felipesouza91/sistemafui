@@ -1,8 +1,11 @@
-import {ResumoAtendimento} from './../../core/model-resumo';
-import {ErrorHandlerService} from './../../core/error-handler.service';
-import {AtendimentoService, AtendimentoFilter} from './../atendimento.service';
-import {Component, OnInit} from '@angular/core';
-import {Atendimento} from 'src/app/core/mode';
+import { ResumoAtendimento } from './../../core/model-resumo';
+import { ErrorHandlerService } from './../../core/error-handler.service';
+import {
+  AtendimentoService,
+  AtendimentoFilter,
+} from './../atendimento.service';
+import { Component, OnInit } from '@angular/core';
+import { Atendimento } from 'src/app/core/mode';
 
 @Component({
   selector: 'app-pesquisa-atendimento',
@@ -11,9 +14,9 @@ import {Atendimento} from 'src/app/core/mode';
 })
 export class PesquisaAtendimentoComponent implements OnInit {
   filter = new AtendimentoFilter();
-  atendimentos = [{fantazia: 'Felipe'}];
+  atendimentos = [{ fantazia: 'Felipe' }];
   displayAtendimento = false;
-  idAtendimento;
+  idAtendimento!: number;
   constructor(
     private erroService: ErrorHandlerService,
     private atendimentoService: AtendimentoService
@@ -29,9 +32,9 @@ export class PesquisaAtendimentoComponent implements OnInit {
   preencher() {
     this.atendimentoService
       .pesquisarResumo(this.filter)
-      .then(resp => {
+      .then((resp) => {
         this.atendimentos = resp.conteudo;
       })
-      .catch(erro => this.erroService.handler(erro));
+      .catch((erro) => this.erroService.handler(erro));
   }
 }
