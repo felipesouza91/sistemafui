@@ -16,7 +16,7 @@ import { tipoAcesso } from 'src/app/core/navbar/constants';
   styleUrls: ['./cadastro-grupos-permisao.component.css'],
 })
 export class CadastroGruposPermisaoComponent implements OnInit {
-  form: FormGroup;
+  form!: FormGroup;
   listPermisao = new Array();
   teste = [];
   grupoAcesso: any;
@@ -33,7 +33,7 @@ export class CadastroGruposPermisaoComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.listPermisao = null;
+    this.listPermisao = [];
     this.criarForm();
     this.startListPermisao();
     const id = this.route.snapshot.params['codigo'];
@@ -139,7 +139,7 @@ export class CadastroGruposPermisaoComponent implements OnInit {
     });
   }
 
-  converterPermissoesToTreeNode(list: any): TreeNode[] {
+  converterPermissoesToTreeNode(list: Permissao[]): TreeNode[] {
     const treeNod = new Array<TreeNode>();
     tipoAcesso.map((tipo) => {
       list.map((permisao) => {
@@ -151,10 +151,10 @@ export class CadastroGruposPermisaoComponent implements OnInit {
                 permisao.descricao.indexOf(' ') - 1
               ) + 'r',
             data: permisao.id,
-            key: permisao.id,
+            key: permisao.id.toString(),
             leaf: true,
             parent: this.filesTree.find((tree) => {
-              if (tree.label.includes(tipo)) {
+              if (tree.label!.includes(tipo)) {
                 tree.partialSelected = true;
                 tree.expanded = true;
                 return true;

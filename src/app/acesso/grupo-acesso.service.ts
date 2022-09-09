@@ -147,7 +147,7 @@ export class GrupoAcessoService {
     permisoes.map((p) => {
       this.tipo.map((t) => {
         if (p.descricao.search(t) >= 0) {
-          let titulo: string = null;
+          let titulo!: string;
           switch (p.descricao.substr(3, 3)) {
             case 'CAD':
               titulo = `Cadastrar ${t}`;
