@@ -12,8 +12,8 @@ import { UsuarioService } from '../usuario.service';
   styleUrls: ['./pesquisa-usuario.component.css'],
 })
 export class PesquisaUsuarioComponent implements OnInit {
-  form: FormGroup;
-  listUsuario = [];
+  form!: FormGroup;
+  listUsuario: Usuario[] = [];
 
   filtros = [
     { label: 'Todos', value: 0 },
