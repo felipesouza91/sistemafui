@@ -4,8 +4,9 @@ import { Injectable } from '@angular/core';
 
 import { environment } from '../../environments/environment';
 import { IAccessGroupInput } from '../core/models-input';
+import { ResumoGrupoAcesso } from '../core/model-resumo';
 
-export class Item {
+export interface Item {
   descricao: string;
   id: number;
   tipo: string;
@@ -66,9 +67,9 @@ export class GrupoAcessoService {
       .then(() => null);
   }
 
-  listaGrupoAcessoResumo(): Promise<any> {
+  listaGrupoAcessoResumo(): Promise<ResumoGrupoAcesso[] | undefined> {
     return this.http
-      .get(`${this.grupoAcessoUrl}/?resumo`)
+      .get<ResumoGrupoAcesso[]>(`${this.grupoAcessoUrl}/?resumo`)
       .toPromise()
       .then((resp) => resp);
   }
@@ -122,7 +123,7 @@ export class GrupoAcessoService {
       this.tipo.map((t) => {
         resp.map((l) => {
           if (l.descricao.search(t) >= 0) {
-            let titulo: string = null;
+            let titulo!: string;
             switch (l.descricao.substr(3, 3)) {
               case 'CAD':
                 titulo = `Cadastrar `;
