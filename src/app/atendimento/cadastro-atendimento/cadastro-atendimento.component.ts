@@ -15,6 +15,12 @@ import * as moment from 'moment';
 import { ErrorHandlerService } from '../../core/error-handler.service';
 import { ClienteService } from './../../cliente/cliente.service';
 import { MessageService } from 'primeng/api';
+import { Dialog } from 'primeng/dialog';
+import { Cliente } from './../../core/mode';
+
+interface SearchEvent {
+  query: string;
+}
 
 @Component({
   selector: 'app-cadastro-atendimento',
@@ -22,11 +28,11 @@ import { MessageService } from 'primeng/api';
   styleUrls: ['./cadastro-atendimento.component.css'],
 })
 export class CadastroAtendimentoComponent implements OnInit {
-  listCliente = [];
-  formAt: FormGroup;
+  listCliente: Cliente[] = [];
+  formAt!: FormGroup;
   solucao = false;
-  @ViewChild('panel', { static: true }) panel;
-  @Input() atendimentoId: number;
+  @ViewChild('panel', { static: true }) panel!: Dialog;
+  @Input() atendimentoId!: number;
   @Input() display = false;
   @Output() closed = new EventEmitter<boolean>();
 
@@ -64,7 +70,7 @@ export class CadastroAtendimentoComponent implements OnInit {
           detail: `Atendimento iniciado com sucesso !`,
         });
         this.formAt.patchValue(resp);
-        this.formAt.get('cliente').setValue(resp.cliente);
+        this.formAt.get('cliente')!.setValue(resp.cliente);
       })
       .catch((error) => this.erroService.handler(error));
   }
@@ -96,7 +102,7 @@ export class CadastroAtendimentoComponent implements OnInit {
       .catch((error) => this.erroService.handler(error));
   }
 
-  filtroCliente(event) {
+  filtroCliente(event: SearchEvent) {
     this.clienteService
       .pesquisarPorFantazia(event.query)
       .then((resp) => {
