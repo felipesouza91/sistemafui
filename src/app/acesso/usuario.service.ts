@@ -6,12 +6,12 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { IUserInput } from '../core/models-input';
 
-export class UsuarioFiltro {
+export interface UsuarioFiltro {
   funcionario: string;
   apelido: string;
   grupoAcesso: string;
   page: number;
-  size = 5;
+  size: number;
 }
 
 @Injectable()
@@ -79,15 +79,18 @@ export class UsuarioService {
       .then((resp) => resp as Usuario);
   }
 
-  buscarResumo(): Promise<Usuario[]> {
+  buscarResumo(): Promise<Usuario[] | undefined> {
     return this.http
-      .get(`${this.usuarioUrl}?resumo`)
+      .get<Usuario[]>(`${this.usuarioUrl}?resumo`)
       .toPromise()
       .then((resp) => {
-        return resp as Usuario[];
+        return resp;
       });
   }
   private createUrlParams(filter: UsuarioFiltro) {
+    if (filter.size == null) {
+      filter.size = 0;
+    }
     let params = new HttpParams();
     if (filter.page) {
       params = params.append('page', filter.page.toString());
