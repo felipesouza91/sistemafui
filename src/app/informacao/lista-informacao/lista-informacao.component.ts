@@ -8,6 +8,7 @@ import { InformacaoService, InformacaoFilter } from './../informacao.service';
 
 import { LazyLoadEvent } from 'primeng/api';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-lista-informacao',
@@ -15,12 +16,12 @@ import { ConfirmationService, MessageService } from 'primeng/api';
   styleUrls: ['./lista-informacao.component.css'],
 })
 export class ListaInformacaoComponent implements OnInit {
-  @Input() cliente: Cliente;
-  idInfo: number;
+  @Input() cliente!: Cliente;
+  idInfo!: number;
   display = false;
-  @ViewChild('tab', { static: true }) tabela;
-  list: Informacao[];
-  filtro = new InformacaoFilter();
+  @ViewChild('tab', { static: true }) tabela!: Table;
+  list!: Informacao[];
+  filtro: InformacaoFilter = {} as InformacaoFilter;
   totalElementos = 0;
   constructor(
     public auth: AuthService,
@@ -33,12 +34,12 @@ export class ListaInformacaoComponent implements OnInit {
   ngOnInit() {}
 
   aoMudarPagina(event: LazyLoadEvent) {
-    const pagina = event.first / event.rows;
+    const pagina = event.first! / event.rows!;
     this.pesquisar(pagina);
   }
 
   showDialog(idInfor?: number) {
-    this.idInfo = idInfor;
+    this.idInfo = idInfor!;
     this.display = !this.display;
   }
 
