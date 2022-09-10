@@ -5,7 +5,7 @@ import { Component, Input, OnInit } from '@angular/core';
   template: `<small class="p-error">{{ message }}</small> `,
 })
 export class ErroMessageComponent implements OnInit {
-  @Input() message: string;
+  @Input() message!: string;
   constructor() {}
   ngOnInit(): void {}
 }
