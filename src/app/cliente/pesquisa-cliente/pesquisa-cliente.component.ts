@@ -11,6 +11,8 @@ import { FiltroCliente, ClienteService } from '../cliente.service';
 import { LazyLoadEvent, ConfirmationService } from 'primeng/api';
 import { ErrorHandlerService } from '../../core/error-handler.service';
 import { MessageService } from 'primeng/api';
+import { Table } from 'primeng/table';
+import { Cliente } from './../../core/mode';
 
 @Component({
   selector: 'app-pesquisa-cliente',
@@ -18,9 +20,9 @@ import { MessageService } from 'primeng/api';
   styleUrls: ['./pesquisa-cliente.component.css'],
 })
 export class PesquisaClienteComponent implements OnInit, AfterViewInit {
-  @ViewChild('tab', { static: true }) tabela;
-  filtro = new FiltroCliente();
-  formPesquisa: FormGroup;
+  @ViewChild('tab', { static: true }) tabela!: Table;
+  filtro: FiltroCliente = {} as FiltroCliente;
+  formPesquisa!: FormGroup;
   expanded = false;
   totalElementos = 0;
   status = [
@@ -38,7 +40,7 @@ export class PesquisaClienteComponent implements OnInit, AfterViewInit {
     { value: 6, label: 'Endereço' },
   ];
 
-  clientes = [];
+  clientes: Cliente[] = [];
 
   constructor(
     public auth: AuthService,
@@ -97,7 +99,7 @@ export class PesquisaClienteComponent implements OnInit, AfterViewInit {
   }
 
   aoMudarPagina(event: LazyLoadEvent) {
-    const pagina = event.first / event.rows;
+    const pagina = event.first! / event.rows!;
     this.pesquisar(pagina);
   }
 
