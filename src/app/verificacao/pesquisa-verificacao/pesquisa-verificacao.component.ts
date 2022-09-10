@@ -13,6 +13,7 @@ import {
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 
 import { AuthService } from 'src/app/seguranca/auth.service';
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-pesquisa-verificacao',
@@ -21,12 +22,12 @@ import { AuthService } from 'src/app/seguranca/auth.service';
 })
 export class PesquisaVerificacaoComponent implements OnInit {
   @Input() resumo = true;
-  @Input() cliente: Cliente;
-  @ViewChild('tab', { static: true }) tabela;
-  idVerificacao: number;
-  filtro = new VerificaGravacaoFilter();
+  @Input() cliente!: Cliente;
+  @ViewChild('tab', { static: true }) tabela!: Table;
+  idVerificacao!: number;
+  filtro: VerificaGravacaoFilter = {} as VerificaGravacaoFilter;
   totalElementos = 0;
-  listVerificao = [];
+  listVerificao: VerificacaoGravacao[] = [];
 
   display = false;
 
@@ -82,7 +83,7 @@ export class PesquisaVerificacaoComponent implements OnInit {
   }
 
   aoMudarPagina(event: LazyLoadEvent) {
-    const pagina = event.first / event.rows;
+    const pagina = event.first! / event.rows!;
     this.pesquisar(pagina);
   }
 
@@ -93,7 +94,7 @@ export class PesquisaVerificacaoComponent implements OnInit {
   }
 
   showDialog(id?: number) {
-    this.idVerificacao = id;
+    this.idVerificacao = id!;
     this.display = !this.display;
   }
 }

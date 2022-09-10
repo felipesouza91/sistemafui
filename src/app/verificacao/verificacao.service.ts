@@ -8,14 +8,14 @@ import { Injectable } from '@angular/core';
 import { SistemFHttp } from '../seguranca/sistemaf-http';
 import { IRecordingCheckInput } from '../core/models-input';
 
-export class VerificaGravacaoFilter {
+export interface VerificaGravacaoFilter {
   codigoDvr: number;
   codigoCliente: number;
   nomeCliente: string;
   dataVerificacaoDe: Date;
   dataVerificacaoAte: Date;
-  page = 0;
-  size = 5;
+  page: number;
+  size: number;
 }
 
 @Injectable()
@@ -110,6 +110,12 @@ export class VerificacaoService {
 
   private createUrlParams(filtro: VerificaGravacaoFilter): HttpParams {
     let params = new HttpParams();
+    if (filtro.page === undefined) {
+      filtro.page = 0;
+    }
+    if (filtro.size === undefined) {
+      filtro.size = 5;
+    }
     if (filtro.page) {
       params = params.set('page', filtro.page.toString());
     }
