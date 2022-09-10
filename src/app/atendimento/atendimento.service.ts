@@ -6,7 +6,7 @@ import { environment } from './../../environments/environment';
 
 import { ResumoAtendimento } from './../core/model-resumo';
 import { Atendimento, Resultado } from './../core/mode';
-import * as moment from 'moment';
+import { format , parseISO} from 'date-fns'
 
 export interface AtendimentoFilter {
   idCliente: number;
@@ -101,9 +101,9 @@ export class AtendimentoService {
 
   private converterStringsParaDatas(atendimentos: Atendimento[]) {
     for (const at of atendimentos) {
-      at.dataInicio = moment(at.dataInicio, 'YYYY-MM-DD hh:mm').toDate();
+      at.dataInicio = parseISO(format(at.dataInicio, 'YYYY-MM-DD hh:mm'));
       if (at.dataTermino) {
-        at.dataTermino = moment(at.dataTermino, 'YYYY-MM-DD hh:mm').toDate();
+        at.dataTermino =parseISO( format(at.dataTermino, 'YYYY-MM-DD hh:mm'));
       }
     }
   }

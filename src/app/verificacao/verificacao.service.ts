@@ -1,8 +1,7 @@
 import { HttpParams } from '@angular/common/http';
 import { VerificacaoGravacao, Resultado } from './../core/mode';
 
-import * as moment from 'moment';
-
+import {  format, parseISO} from 'date-fns'
 import { environment } from '../../environments/environment';
 import { Injectable } from '@angular/core';
 import { SistemFHttp } from '../seguranca/sistemaf-http';
@@ -101,10 +100,10 @@ export class VerificacaoService {
 
   private converterStringsParaDatas(verificacoes: VerificacaoGravacao[]) {
     for (const verificacao of verificacoes) {
-      verificacao.dataTeste = moment(
+      verificacao.dataTeste = parseISO(format(
         verificacao.dataTeste,
         'YYYY-MM-DD hh:mm'
-      ).toDate();
+      ));
     }
   }
 
