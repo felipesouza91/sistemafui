@@ -8,14 +8,14 @@ import { environment } from '../../environments/environment';
 import { HttpParams } from '@angular/common/http';
 import { IServiceOrderInput } from '../core/models-input';
 
-export class FiltroOrdemServico {
+export interface FiltroOrdemServico {
   codigoCliente: number;
   tipoFiltro: number;
   descricao: string;
   dataAberturaAte: string;
-  dataAberturaDe: string = null;
-  page = 0;
-  size = 5;
+  dataAberturaDe: string;
+  page: number;
+  size: number;
 }
 
 @Injectable()
@@ -112,6 +112,12 @@ export class OrdemServicoService {
 
   private createUrlParams(filtro: FiltroOrdemServico): HttpParams {
     let params = new HttpParams();
+    if (filtro.page === undefined) {
+      filtro.page = 0;
+    }
+    if (filtro.size === undefined) {
+      filtro.size = 5;
+    }
     if (filtro.page) {
       params = params.set('page', filtro.page.toString());
     }

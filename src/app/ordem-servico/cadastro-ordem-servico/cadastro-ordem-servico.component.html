@@ -22,18 +22,18 @@
         ></p-autoComplete>
         <div
           class="error-customize"
-          *ngIf="formOs.get('cliente').touched || formOs.get('cliente').dirty"
+          *ngIf="formOs.get('cliente')!.touched || formOs.get('cliente')!.dirty"
         >
           <app-erro-message
-            *ngIf="formOs.get('cliente').hasError('required')"
+            *ngIf="formOs.get('cliente')!.hasError('required')"
             message="'Informe o nome do solicitante'"
           ></app-erro-message>
           <app-erro-message
-            *ngIf="formOs.get('cliente').hasError('minlength')"
+            *ngIf="formOs.get('cliente')!.hasError('minlength')"
             message="Informe no minimo 2 caracteres"
           ></app-erro-message>
           <app-erro-message
-            *ngIf="formOs.get('cliente').hasError('maxlength')"
+            *ngIf="formOs.get('cliente')!.hasError('maxlength')"
             message="Informe no maximo 255 caracteres"
           ></app-erro-message>
         </div>
@@ -66,19 +66,19 @@
       <div class="lg:col-8 col-12 field">
         <label>Solicitante</label>
         <input type="text" pInputText formControlName="solicitante" />
-        <div class="error-customize" *ngIf="formOs.get('solicitante').touched">
+        <div class="error-customize" *ngIf="formOs.get('solicitante')!.touched">
           <app-erro-message
-            *ngIf="formOs.get('solicitante').hasError('required')"
+            *ngIf="formOs.get('solicitante')!.hasError('required')"
             message="Informe o nome do solicitante"
           >
           </app-erro-message>
           <app-erro-message
-            *ngIf="formOs.get('solicitante').hasError('minlength')"
+            *ngIf="formOs.get('solicitante')!.hasError('minlength')"
             message="Informe no minimo 2 caracteres"
           >
           </app-erro-message>
           <app-erro-message
-            *ngIf="formOs.get('solicitante').hasError('maxlength')"
+            *ngIf="formOs.get('solicitante')!.hasError('maxlength')"
             message="Informe no maximo 255 caracteres"
           >
           </app-erro-message>
@@ -91,9 +91,12 @@
           [options]="prioridades"
           placeholder="Selecione"
         ></p-dropdown>
-        <div class="error-customize" *ngIf="formOs.get('prioridadeOs').touched">
+        <div
+          class="error-customize"
+          *ngIf="formOs.get('prioridadeOs')!.touched"
+        >
           <app-erro-message
-            *ngIf="formOs.get('prioridadeOs').hasError('required')"
+            *ngIf="formOs.get('prioridadeOs')!.hasError('required')"
             messsage="Selecione a prioridade"
           ></app-erro-message>
         </div>
@@ -109,9 +112,9 @@
           [dropdown]="true"
         >
         </p-autoComplete>
-        <div class="error-customize" *ngIf="formOs.get('motivoOs').touched">
+        <div class="error-customize" *ngIf="formOs.get('motivoOs')!.touched">
           <app-erro-message
-            *ngIf="formOs.get('motivoOs').hasError('required')"
+            *ngIf="formOs.get('motivoOs')!.hasError('required')"
             message="Selecione o motivo da ordem"
           ></app-erro-message>
         </div>
@@ -126,9 +129,9 @@
           [autoResize]="false"
           formControlName="descricao"
         ></textarea>
-        <div class="error-customize" *ngIf="formOs.get('descricao').touched">
+        <div class="error-customize" *ngIf="formOs.get('descricao')!.touched">
           <app-erro-message
-            *ngIf="formOs.get('descricao').hasError('required')"
+            *ngIf="formOs.get('descricao')!.hasError('required')"
             message="Informe uma descrição para a ordem"
           ></app-erro-message>
         </div>
