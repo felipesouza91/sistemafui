@@ -10,7 +10,7 @@ import { ClienteService } from '../cliente.service';
   styleUrls: ['./painel-cliente.component.css'],
 })
 export class PainelClienteComponent implements OnInit {
-  c: Cliente;
+  c!: Cliente;
   isDataLoad = false;
 
   constructor(
