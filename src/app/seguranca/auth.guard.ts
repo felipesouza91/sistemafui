@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   CanActivate,
   ActivatedRouteSnapshot,
@@ -6,8 +6,8 @@ import {
   Router,
 } from '@angular/router';
 
-import {AuthService} from './auth.service';
-import {Observable} from 'rxjs';
+import { AuthService } from './auth.service';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -25,7 +25,10 @@ export class AuthGuard implements CanActivate {
         }
         return true;
       });
-    } else if (next.data.roles && !this.auth.temQualquerPermissao(next.data.roles)) {
+    } else if (
+      next.data['roles'] &&
+      !this.auth.temQualquerPermissao(next.data['roles'])
+    ) {
       this.router.navigate(['/nao-autorizado']);
       return false;
     }

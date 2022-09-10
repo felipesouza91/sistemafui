@@ -11,8 +11,8 @@ import { ProfileService } from '../profile.service';
   styleUrls: ['./profile.component.css'],
 })
 export class ProfileComponent implements OnInit {
-  form: FormGroup;
-  nome: string;
+  form!: FormGroup;
+  nome!: string;
   constructor(
     private authService: AuthService,
     private messageService: MessageService,
@@ -50,14 +50,14 @@ export class ProfileComponent implements OnInit {
   }
 
   createPasswordUpdateValidators() {
-    this.form.get('oldPassword').valueChanges.subscribe((value) => {
+    this.form.get('oldPassword')!.valueChanges.subscribe((value) => {
       if (value) {
-        this.form.get('newPassword').setValidators([Validators.required]);
+        this.form.get('newPassword')!.setValidators([Validators.required]);
         this.form
-          .get('confirmationNewPassword')
+          .get('confirmationNewPassword')!
           .setValidators([Validators.required]);
-        this.form.get('newPassword').updateValueAndValidity();
-        this.form.get('confirmationNewPassword').updateValueAndValidity();
+        this.form.get('newPassword')!.updateValueAndValidity();
+        this.form.get('confirmationNewPassword')!.updateValueAndValidity();
       }
     });
   }

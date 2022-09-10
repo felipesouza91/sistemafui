@@ -33,11 +33,11 @@
           <div
             class="error-customize"
             *ngIf="
-              form.get('oldPassword').dirty && form.get('newPassword').dirty
+              form.get('oldPassword')!.dirty && form.get('newPassword')!.dirty
             "
           >
             <p-message
-              *ngIf="form.get('newPassword').hasError('required')"
+              *ngIf="form.get('newPassword')!.hasError('required')"
               severity="error"
               text="Campo obrigatorio"
             ></p-message>
@@ -53,12 +53,12 @@
           <div
             class="error-customize"
             *ngIf="
-              form.get('oldPassword').dirty &&
-              form.get('confirmationNewPassword').dirty
+              form.get('oldPassword')!.dirty &&
+              form.get('confirmationNewPassword')!.dirty
             "
           >
             <p-message
-              *ngIf="form.get('confirmationNewPassword').hasError('required')"
+              *ngIf="form.get('confirmationNewPassword')!.hasError('required')"
               severity="error"
               text="Campo obrigatorio"
             ></p-message>

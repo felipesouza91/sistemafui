@@ -63,11 +63,11 @@ export class AuthService {
       .toPromise()
       .then((resp: any) => {
         this.armazenarToken(resp.access_token);
-        return Promise.resolve(null);
+        return Promise.resolve();
       })
       .catch((erro) => {
         console.log('Erro ao renovar token.', erro);
-        return Promise.resolve(null);
+        return Promise.resolve();
       });
   }
 
@@ -84,7 +84,7 @@ export class AuthService {
     return this.jwtPayload && this.jwtPayload.nome;
   }
 
-  temQualquerPermissao(roles) {
+  temQualquerPermissao(roles: string[]) {
     for (const role of roles) {
       if (this.temPermissao(role)) {
         return true;
