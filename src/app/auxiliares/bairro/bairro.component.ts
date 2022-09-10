@@ -8,6 +8,17 @@ import { ErrorHandlerService } from '../../core/error-handler.service';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { Component, OnInit, ViewChildren, ViewChild } from '@angular/core';
 import { INeighborhoodInput } from 'src/app/core/models-input';
+import { Table } from 'primeng/table';
+import { Bairro, Cidade } from 'src/app/core/mode';
+
+interface ICityDropdown {
+  label: string;
+  value: { id: number; nome: string };
+}
+
+interface QueryEvent {
+  query: string;
+}
 
 @Component({
   selector: 'app-bairro',
@@ -15,13 +26,13 @@ import { INeighborhoodInput } from 'src/app/core/models-input';
   styleUrls: ['./bairro.component.css'],
 })
 export class BairroComponent implements OnInit {
-  @ViewChild('tbl', { static: true }) tabela;
+  @ViewChild('tbl', { static: true }) tabela!: Table;
   opt = false;
   filtro = new FiltroBairro();
-  form: FormGroup;
+  form!: FormGroup;
   totalElementos = 0;
-  cidades = [];
-  bairros = [];
+  cidades: ICityDropdown[] = [];
+  bairros: Bairro[] = [];
 
   constructor(
     public auth: AuthService,
@@ -126,7 +137,7 @@ export class BairroComponent implements OnInit {
   }
 
   aoMudarPagina(event: LazyLoadEvent) {
-    const pagina = event.first / event.rows;
+    const pagina = event.first! / event.rows!;
     this.pesquisar(pagina);
   }
 
@@ -147,7 +158,7 @@ export class BairroComponent implements OnInit {
       .catch((error) => this.erroHandler.handler(error));
   }
 
-  handleOnComplet(event) {
+  handleOnComplet(event: QueryEvent) {
     this.cidadeService
       .pesquisar({
         nome: event.query,
@@ -156,8 +167,11 @@ export class BairroComponent implements OnInit {
       })
       .then((result) => {
         this.cidades = result.conteudo.map((c) => ({
-          id: c.id,
-          nome: c.nome,
+          label: c.nome,
+          value: {
+            id: c.id,
+            nome: c.nome,
+          },
         }));
       })
       .catch((error) => this.erroHandler.handler(error));
