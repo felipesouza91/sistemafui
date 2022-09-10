@@ -99,9 +99,9 @@
       <div class="col-12 field">
         <label>Nome:</label>
         <input pInputText formControlName="descricao" />
-        <div class="error-customize" *ngIf="form.get('descricao').dirty">
+        <div class="error-customize" *ngIf="form.get('descricao')!.dirty">
           <p-message
-            *ngIf="form.get('descricao').hasError('required')"
+            *ngIf="form.get('descricao')!.hasError('required')"
             severity="error"
             text="Campo obrigatorio"
           ></p-message>

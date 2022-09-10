@@ -1,11 +1,12 @@
 import { AuthService } from './../../seguranca/auth.service';
-import { ConfirmationService } from 'primeng/api';
+import { ConfirmationService, LazyLoadEvent } from 'primeng/api';
 import { Fabricante } from './../../core/mode';
 import { MessageService } from 'primeng/api';
 import { FabricanteService, FabricanteFilter } from './../fabricante.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ErrorHandlerService } from 'src/app/core/error-handler.service';
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-fabricante',
@@ -14,14 +15,14 @@ import { ErrorHandlerService } from 'src/app/core/error-handler.service';
 })
 export class FabricanteComponent implements OnInit {
   fabricantes: any = [];
-  totalRegistros: number;
-  size: number;
-  @ViewChild('tab', { static: true }) tabela;
-  fabricanteSelect: Fabricante;
+  totalRegistros!: number;
+  size!: number;
+  @ViewChild('tab', { static: true }) tabela!: Table;
+  fabricanteSelect!: Fabricante | undefined;
   filter = new FabricanteFilter();
   new = false;
-  form: FormGroup;
-  formPes: FormGroup;
+  form!: FormGroup;
+  formPes!: FormGroup;
   constructor(
     public auth: AuthService,
     private confirmatioService: ConfirmationService,
@@ -61,7 +62,7 @@ export class FabricanteComponent implements OnInit {
 
   update() {
     this.fabricanteService
-      .update(this.fabricanteSelect.id, this.form.value)
+      .update(this.fabricanteSelect!.id, this.form.value)
       .then((restp) => {
         this.messageService.add({
           severity: 'success',
@@ -70,7 +71,7 @@ export class FabricanteComponent implements OnInit {
         });
         this.new = false;
         this.pesquisar();
-        this.fabricanteSelect = null;
+        this.fabricanteSelect = undefined;
       })
       .catch((error) => this.erroHandler.handler(error));
   }
@@ -104,8 +105,8 @@ export class FabricanteComponent implements OnInit {
     this.new = true;
   }
 
-  aoMudarPagina(event) {
-    const pagina = event.first / event.rows;
+  aoMudarPagina(event: LazyLoadEvent) {
+    const pagina = event.first! / event.rows!;
     this.pesquisar(pagina);
   }
 
