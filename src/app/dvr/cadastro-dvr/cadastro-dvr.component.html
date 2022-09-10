@@ -21,10 +21,10 @@
           ></p-selectButton>
           <div
             class="error-customize"
-            *ngIf="formDvr.get('habilitaVerificao').dirty"
+            *ngIf="formDvr.get('habilitaVerificao')!.dirty"
           >
             <p-message
-              *ngIf="formDvr.get('habilitaVerificao').hasError('required')"
+              *ngIf="formDvr.get('habilitaVerificao')!.hasError('required')"
               severity="error"
               text="Campo requerido"
             ></p-message>
@@ -35,9 +35,9 @@
         <div class="field col-12 lg:col-6">
           <label>Porta Http</label>
           <input pKeyFilter="pint" pInputText formControlName="portaHttp" />
-          <div class="error-customize" *ngIf="formDvr.get('portaHttp').touched">
+          <div class="error-customize" *ngIf="formDvr.get('portaHttp')!.touched">
             <p-message
-              *ngIf="formDvr.get('portaHttp').hasError('required')"
+              *ngIf="formDvr.get('portaHttp')!.hasError('required')"
               severity="error"
               text="Campo com preenchimento obrigatorio"
             ></p-message>
@@ -48,10 +48,10 @@
           <input pKeyFilter="pint" pInputText formControlName="portaServico" />
           <div
             class="error-customize"
-            *ngIf="formDvr.get('portaServico').touched"
+            *ngIf="formDvr.get('portaServico')!.touched"
           >
             <p-message
-              *ngIf="formDvr.get('portaHttp').hasError('required')"
+              *ngIf="formDvr.get('portaHttp')!.hasError('required')"
               severity="error"
               text="Campo com preenchimento obrigatorio"
             ></p-message>
@@ -70,10 +70,10 @@
           ></p-dropdown>
           <div
             class="error-customize"
-            *ngIf="formDvr.get('fabricante').touched"
+            *ngIf="formDvr.get('fabricante')!.touched"
           >
             <p-message
-              *ngIf="formDvr.get('fabricante').hasError('required')"
+              *ngIf="formDvr.get('fabricante')!.hasError('required')"
               severity="error"
               text="Selecione uma fabricante"
             ></p-message>
@@ -82,19 +82,19 @@
         <div class="field col-12 lg:col-6">
           <label>Modelo</label>
           <input type="text" pInputText formControlName="modeloDvr" />
-          <div class="error-customize" *ngIf="formDvr.get('modeloDvr').touched">
+          <div class="error-customize" *ngIf="formDvr.get('modeloDvr')!.touched">
             <p-message
-              *ngIf="formDvr.get('modeloDvr').hasError('required')"
+              *ngIf="formDvr.get('modeloDvr')!.hasError('required')"
               severity="error"
               text="Campo com preenchimento obrigatorio"
             ></p-message>
             <p-message
-              *ngIf="formDvr.get('modeloDvr').hasError('minlength')"
+              *ngIf="formDvr.get('modeloDvr')!.hasError('minlength')"
               severity="error"
               text="Minimo de 4 caracteres"
             ></p-message>
             <p-message
-              *ngIf="formDvr.get('modeloDvr').hasError('maxlength')"
+              *ngIf="formDvr.get('modeloDvr')!.hasError('maxlength')"
               severity="error"
               text="Maximo de 50 caracteres"
             ></p-message>
@@ -107,20 +107,20 @@
           <input type="text" pInputText formControlName="numeroSerie" />
           <div
             class="error-customize"
-            *ngIf="formDvr.get('numeroSerie').touched"
+            *ngIf="formDvr.get('numeroSerie')!.touched"
           >
             <p-message
-              *ngIf="formDvr.get('numeroSerie').hasError('required')"
+              *ngIf="formDvr.get('numeroSerie')!.hasError('required')"
               severity="error"
               text="Campo com preenchimento obrigatorio"
             ></p-message>
             <p-message
-              *ngIf="formDvr.get('numeroSerie').hasError('minlength')"
+              *ngIf="formDvr.get('numeroSerie')!.hasError('minlength')"
               severity="error"
               text="Minimo de 7 caracteres"
             ></p-message>
             <p-message
-              *ngIf="formDvr.get('numeroSerie').hasError('maxlength')"
+              *ngIf="formDvr.get('numeroSerie')!.hasError('maxlength')"
               severity="error"
               text="Maximo de 50 caracteres"
             ></p-message>
@@ -146,10 +146,10 @@
           ></p-inputMask>
           <div
             class="error-customize"
-            *ngIf="formDvr.get('ip').touched || formDvr.get('ip').dirty"
+            *ngIf="formDvr.get('ip')!.touched || formDvr.get('ip')!.dirty"
           >
             <p-message
-              *ngIf="formDvr.get('ip').hasError('required')"
+              *ngIf="formDvr.get('ip')!.hasError('required')"
               severity="error"
               text="Campo com preenchimento obrigatorio"
             ></p-message>
@@ -164,11 +164,11 @@
           <div
             class="error-customize"
             *ngIf="
-              formDvr.get('mascara').touched || formDvr.get('mascara').dirty
+              formDvr.get('mascara')!.touched || formDvr.get('mascara')!.dirty
             "
           >
             <p-message
-              *ngIf="formDvr.get('mascara').hasError('required')"
+              *ngIf="formDvr.get('mascara')!.hasError('required')"
               severity="error"
               text="Campo com preenchimento obrigatorio"
             ></p-message>
@@ -185,11 +185,11 @@
           <div
             class="error-customize"
             *ngIf="
-              formDvr.get('gateway').touched || formDvr.get('gateway').dirty
+              formDvr.get('gateway')!.touched || formDvr.get('gateway')!.dirty
             "
           >
             <p-message
-              *ngIf="formDvr.get('gateway').hasError('required')"
+              *ngIf="formDvr.get('gateway')!.hasError('required')"
               severity="error"
               text="Campo com preenchimento obrigatorio"
             ></p-message>
@@ -204,12 +204,12 @@
           <div
             class="error-customize"
             *ngIf="
-              formDvr.get('dnsPrincipal').touched ||
-              formDvr.get('dnsPrincipal').dirty
+              formDvr.get('dnsPrincipal')!.touched ||
+              formDvr.get('dnsPrincipal')!.dirty
             "
           >
             <p-message
-              *ngIf="formDvr.get('dnsPrincipal').hasError('required')"
+              *ngIf="formDvr.get('dnsPrincipal')!.hasError('required')"
               severity="error"
               text="Campo com preenchimento obrigatorio"
             ></p-message>

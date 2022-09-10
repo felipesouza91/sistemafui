@@ -5,6 +5,7 @@ import { MessageService } from 'primeng/api';
 import { ConfirmationService, LazyLoadEvent } from 'primeng/api';
 import { ErrorHandlerService } from '../../core/error-handler.service';
 import { Table } from 'primeng/table';
+import { Dvr } from 'src/app/core/mode';
 
 @Component({
   selector: 'app-tabela-dvr',
@@ -12,12 +13,12 @@ import { Table } from 'primeng/table';
   styleUrls: ['./tabela-dvr.component.css'],
 })
 export class TabelaDvrComponent implements OnInit {
-  @Input() idCliente: number;
-  @ViewChild('tabela', { static: true }) tabela: Table;
+  @Input() idCliente!: number;
+  @ViewChild('tabela', { static: true }) tabela!: Table;
   display = false;
   totalElementos = 0;
-  filtro = new FiltroDvr();
-  dvrs = [];
+  filtro: FiltroDvr = {} as FiltroDvr;
+  dvrs: Dvr[] = [];
   dvr: any;
 
   constructor(
@@ -81,7 +82,7 @@ export class TabelaDvrComponent implements OnInit {
   }
 
   aoMudarPagina(event: LazyLoadEvent) {
-    const pagina = event.first / event.rows;
+    const pagina = event.first! / event.rows!;
     this.pesquisar(pagina);
   }
 }

@@ -6,14 +6,14 @@ import { Injectable } from '@angular/core';
 
 import { Dvr } from '../core/mode';
 
-export class FiltroDvr {
+export interface FiltroDvr {
   codCliente: number;
   nomeCliente: string;
   numeroSerie: string;
   fabricante: string;
   modelo: string;
-  page = 0;
-  size = 5;
+  page: number;
+  size: number;
 }
 
 @Injectable()
@@ -71,6 +71,12 @@ export class DvrService {
 
   private createUrlParams(filtro: FiltroDvr): HttpParams {
     let params = new HttpParams();
+    if (filtro.page === undefined) {
+      filtro.page = 0;
+    }
+    if (filtro.size === undefined) {
+      filtro.page = 5;
+    }
     if (filtro.page) {
       params = params.append('page', filtro.page.toString());
     }
