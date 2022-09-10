@@ -3,10 +3,10 @@
     <h1>
       {{
         !opt
-          ? 'Pesquisar Motivo O.s.'
+          ? "Pesquisar Motivo O.s."
           : !form.value.id
-          ? 'Novo Motivo Os'
-          : 'Editando Motivo Os'
+          ? "Novo Motivo Os"
+          : "Editando Motivo Os"
       }}
     </h1>
   </div>
@@ -16,19 +16,19 @@
     <div class="col-12 field">
       <label>Nome</label>
       <input type="text" pInputText formControlName="descricao" />
-      <div class="error-customize p-fluid" *ngIf="form.get('descricao').dirty">
+      <div class="error-customize p-fluid" *ngIf="form.get('descricao')!.dirty">
         <p-message
-          *ngIf="form.get('descricao').hasError('required')"
+          *ngIf="form.get('descricao')!.hasError('required')"
           severity="error"
           text="Nome requerido"
         ></p-message>
         <p-message
-          *ngIf="form.get('descricao').hasError('minlength')"
+          *ngIf="form.get('descricao')!.hasError('minlength')"
           severity="error"
           text="Nome deve conter no minimo 10 caracteres"
         ></p-message>
         <p-message
-          *ngIf="form.get('descricao').hasError('maxlength')"
+          *ngIf="form.get('descricao')!.hasError('maxlength')"
           severity="error"
           text="Nome deve conter no maximo 70 caracteres"
         ></p-message>

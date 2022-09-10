@@ -6,6 +6,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ErrorHandlerService } from '../../core/error-handler.service';
 import { MessageService, LazyLoadEvent } from 'primeng/api';
 import { ConfirmationService } from 'primeng/api';
+import { Table } from 'primeng/table';
+import { MotivoOs } from 'src/app/core/mode';
 
 @Component({
   selector: 'app-motivoos',
@@ -13,12 +15,12 @@ import { ConfirmationService } from 'primeng/api';
   styleUrls: ['./motivoos.component.css'],
 })
 export class MotivoosComponent implements OnInit {
-  @ViewChild('tab', { static: true }) tabela;
+  @ViewChild('tab', { static: true }) tabela!: Table;
   opt = false;
   filtro = new FiltroMotivoOs();
-  form: FormGroup;
+  form!: FormGroup;
   totalElementos = 0;
-  motivosOs = [];
+  motivosOs: MotivoOs[] = [];
 
   constructor(
     private confirmationService: ConfirmationService,
@@ -125,7 +127,7 @@ export class MotivoosComponent implements OnInit {
   }
 
   aoMudarPagina(event: LazyLoadEvent) {
-    const pagina = event.first / event.rows;
+    const pagina = event.first! / event.rows!;
     this.pesquisar(pagina);
   }
 
