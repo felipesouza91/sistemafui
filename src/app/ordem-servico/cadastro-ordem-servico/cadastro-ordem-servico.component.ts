@@ -10,8 +10,7 @@ import {
 } from '@angular/core';
 
 import { MessageService } from 'primeng/api';
-import * as moment from 'moment';
-
+import { format } from 'date-fns';
 import {
   MotivoOsService,
   FiltroMotivoOs,
@@ -101,7 +100,8 @@ export class CadastroOrdemServicoComponent implements OnInit {
 
   novo() {
     const ordemServico = this.formOs.getRawValue();
-    ordemServico.dataAbertura = moment(ordemServico.dataAbertura).format(
+    ordemServico.dataAbertura = format(
+      ordemServico.dataAbertura,
       'YYYY-MM-DD HH:mm:ss'
     );
     this.ordemService
@@ -120,7 +120,8 @@ export class CadastroOrdemServicoComponent implements OnInit {
 
   atualizar() {
     const ordemServico = this.formOs.getRawValue();
-    ordemServico.dataAbertura = moment(ordemServico.dataAbertura).format(
+    ordemServico.dataAbertura = format(
+      ordemServico.dataAbertura,
       'YYYY-MM-DD HH:mm:ss'
     );
     this.ordemService

@@ -11,7 +11,8 @@ import {
   EventEmitter,
   ViewChild,
 } from '@angular/core';
-import * as moment from 'moment';
+
+import { format } from 'date-fns';
 import { ErrorHandlerService } from '../../core/error-handler.service';
 import { ClienteService } from './../../cliente/cliente.service';
 import { MessageService } from 'primeng/api';
@@ -58,7 +59,9 @@ export class CadastroAtendimentoComponent implements OnInit {
   inicio() {
     this.solucao = true;
     const atendimento = this.formAt.getRawValue();
-    atendimento.dataInicio = moment(atendimento.dataInicio).format(
+
+    atendimento.dataInicio = format(
+      atendimento.dataInicio,
       'YYYY-MM-DD HH:mm:ss'
     );
     this.atendimentoService
@@ -84,10 +87,11 @@ export class CadastroAtendimentoComponent implements OnInit {
       })
     );
     const atendimento = this.formAt.getRawValue();
-    atendimento.dataInicio = moment(atendimento.dataInicio).format(
+    atendimento.dataInicio = format(
+      atendimento.dataInicio,
       'YYYY-MM-DD HH:mm:ss'
     );
-    atendimento.dataTermino = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
+    atendimento.dataTermino = format(new Date(), 'YYYY-MM-DD HH:mm:ss');
     this.atendimentoService
       .atualizar(atendimento)
       .then((resp) => {

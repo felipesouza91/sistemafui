@@ -3,7 +3,7 @@ import { Informacao, ClienteInformacao, Resultado } from './../core/mode';
 import { HttpParams } from '@angular/common/http';
 import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
-import * as moment from 'moment';
+import { format, parseISO } from 'date-fns';
 
 export interface InformacaoFilter {
   idCliente: number;
@@ -80,14 +80,12 @@ export class InformacaoService {
 
   private converterStringsParaDatas(infos: Informacao[]) {
     for (const info of infos) {
-      info.creationDate = moment(
-        info.creationDate,
-        'YYYY-MM-DD hh:mm'
-      ).toDate();
-      info.lastModifiedDate = moment(
-        info.lastModifiedDate,
-        'YYYY-MM-DD hh:mm'
-      ).toDate();
+      info.creationDate = parseISO(
+        format(info.creationDate, 'YYYY-MM-DD hh:mm')
+      );
+      info.lastModifiedDate = parseISO(
+        format(info.lastModifiedDate, 'YYYY-MM-DD hh:mm')
+      );
     }
   }
 
