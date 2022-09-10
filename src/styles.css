@@ -1,4 +1,4 @@
-@import "font-awesome/css/font-awesome.min.css";
+@import "@fortawesome/fontawesome-free/css/all.min.css";
 @import "primeicons/primeicons.css";
 @import "primeng/resources/themes/saga-blue/theme.css";
 @import "primeng/resources/primeng.min.css";
