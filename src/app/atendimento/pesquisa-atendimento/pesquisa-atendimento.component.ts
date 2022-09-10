@@ -13,7 +13,7 @@ import { Atendimento } from 'src/app/core/mode';
   styleUrls: ['./pesquisa-atendimento.component.css'],
 })
 export class PesquisaAtendimentoComponent implements OnInit {
-  filter = new AtendimentoFilter();
+  filter: AtendimentoFilter = {} as AtendimentoFilter;
   atendimentos = [{ fantazia: 'Felipe' }];
   displayAtendimento = false;
   idAtendimento!: number;

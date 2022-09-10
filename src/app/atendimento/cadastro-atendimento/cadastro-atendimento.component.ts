@@ -46,9 +46,9 @@ export class CadastroAtendimentoComponent implements OnInit {
 
   ngOnInit() {
     if (this.atendimentoId) {
-      this.atendimentoService
-        .getById(this.atendimentoId)
-        .then((response: Atendimento) => console.log(response));
+      this.atendimentoService.getById(this.atendimentoId).then((response) => {
+        console.log(response);
+      });
     }
     this.criarForm();
   }

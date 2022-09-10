@@ -1,16 +1,16 @@
-import {HttpParams} from '@angular/common/http';
-import {SistemFHttp} from './../seguranca/sistemaf-http';
-import {Injectable} from '@angular/core';
+import { HttpParams } from '@angular/common/http';
+import { SistemFHttp } from './../seguranca/sistemaf-http';
+import { Injectable } from '@angular/core';
 
-import {environment} from './../../environments/environment';
+import { environment } from './../../environments/environment';
 
-import {ResumoAtendimento} from './../core/model-resumo';
-import {Atendimento, Resultado} from './../core/mode';
+import { ResumoAtendimento } from './../core/model-resumo';
+import { Atendimento, Resultado } from './../core/mode';
 import * as moment from 'moment';
 
-export class AtendimentoFilter {
+export interface AtendimentoFilter {
   idCliente: number;
-  size = 5;
+  size: number;
   page: number;
 }
 
@@ -25,7 +25,7 @@ export class AtendimentoService {
     return this.http
       .post(this.atendimentoUrl, atendimento)
       .toPromise()
-      .then(resp => {
+      .then((resp) => {
         const atendimentoSalvo = resp as Atendimento;
         this.converterStringsParaDatas([atendimentoSalvo]);
         return atendimentoSalvo;
@@ -36,7 +36,7 @@ export class AtendimentoService {
     return this.http
       .put(`${this.atendimentoUrl}/${atendimento.id}`, atendimento)
       .toPromise()
-      .then(resp => {
+      .then((resp) => {
         const atendimentoSalvo = resp as Atendimento;
         this.converterStringsParaDatas([atendimentoSalvo]);
         return atendimentoSalvo;
@@ -45,7 +45,7 @@ export class AtendimentoService {
 
   pesquisar(filter: AtendimentoFilter): Promise<Resultado<Atendimento>> {
     return this.http
-      .get(this.atendimentoUrl, {params: this.criarFiltro(filter)})
+      .get(this.atendimentoUrl, { params: this.criarFiltro(filter) })
       .toPromise()
       .then((resp: any) => {
         return new Resultado<Atendimento>(
@@ -56,13 +56,19 @@ export class AtendimentoService {
       });
   }
 
-  getById(id: number): Promise<Atendimento> {
-    return this.http.get<Atendimento>(`${this.atendimentoUrl}/${id}`).toPromise();
+  getById(id: number): Promise<Atendimento | undefined> {
+    return this.http
+      .get<Atendimento>(`${this.atendimentoUrl}/${id}`)
+      .toPromise();
   }
 
-  pesquisarResumo(filter: AtendimentoFilter): Promise<Resultado<ResumoAtendimento>> {
+  pesquisarResumo(
+    filter: AtendimentoFilter
+  ): Promise<Resultado<ResumoAtendimento>> {
     return this.http
-      .get(`${this.atendimentoUrl}?resumo`, {params: this.criarFiltro(filter)})
+      .get(`${this.atendimentoUrl}?resumo`, {
+        params: this.criarFiltro(filter),
+      })
       .toPromise()
       .then((resp: any) => {
         return new Resultado<ResumoAtendimento>(
@@ -74,6 +80,9 @@ export class AtendimentoService {
   }
 
   private criarFiltro(filter: AtendimentoFilter): HttpParams {
+    if (filter.size == null) {
+      filter.size = 0;
+    }
     let params = new HttpParams();
     if (filter.idCliente) {
       params = params.set('idCliente', filter.idCliente.toString());
