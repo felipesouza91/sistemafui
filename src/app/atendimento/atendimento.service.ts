@@ -80,8 +80,11 @@ export class AtendimentoService {
   }
 
   private criarFiltro(filter: AtendimentoFilter): HttpParams {
-    if (filter.size == null) {
-      filter.size = 0;
+    if (filter.size === null) {
+      filter.size = 5;
+    }
+    if (filter.page === null) {
+      filter.page = 0;
     }
     let params = new HttpParams();
     if (filter.idCliente) {
