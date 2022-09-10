@@ -38,7 +38,7 @@ export class ProdutoComponent implements OnInit {
   form!: FormGroup;
 
   formCad!: FormGroup;
-  filterFab = new FabricanteFilter();
+  filterFab: FabricanteFilter = {} as FabricanteFilter;
   new = false;
   produtoSelect!: Produto;
   constructor(

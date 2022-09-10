@@ -19,7 +19,7 @@ export class FabricanteComponent implements OnInit {
   size!: number;
   @ViewChild('tab', { static: true }) tabela!: Table;
   fabricanteSelect!: Fabricante | undefined;
-  filter = new FabricanteFilter();
+  filter: FabricanteFilter = {} as FabricanteFilter;
   new = false;
   form!: FormGroup;
   formPes!: FormGroup;

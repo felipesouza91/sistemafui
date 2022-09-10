@@ -6,10 +6,10 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { ICityInput } from '../core/models-input';
 
-export class FiltroCidade {
+export interface FiltroCidade {
   nome: string;
   page: number;
-  size = 5;
+  size: number;
 }
 
 @Injectable()
@@ -68,6 +68,9 @@ export class CidadeService {
 
   criarFiltros(filtro: FiltroCidade): HttpParams {
     let params = new HttpParams();
+    if (filtro.size === undefined) {
+      filtro.size = 5;
+    }
     if (filtro.nome) {
       params = params.set('nome', filtro.nome);
     }

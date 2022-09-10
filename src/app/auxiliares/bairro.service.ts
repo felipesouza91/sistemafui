@@ -5,15 +5,16 @@ import { Injectable } from '@angular/core';
 
 import { Bairro, Resultado } from '../core/mode';
 import { INeighborhoodInput } from '../core/models-input';
+import { filter } from 'rxjs';
 
-export class FiltroBairro {
+export interface FiltroBairro {
   nome: string;
   cidade: {
     id: number;
     nome: string;
   };
   page: number;
-  size = 5;
+  size: number;
 }
 
 @Injectable()
@@ -70,6 +71,12 @@ export class BairroService {
 
   createFilter(filtro: FiltroBairro): HttpParams {
     let params = new HttpParams();
+    if (filtro.page === undefined) {
+      filtro.page = 0;
+    }
+    if (filtro.size === undefined) {
+      filtro.size = 5;
+    }
     if (filtro.nome !== null) {
       params = params.set('nome', filtro.nome);
     }
