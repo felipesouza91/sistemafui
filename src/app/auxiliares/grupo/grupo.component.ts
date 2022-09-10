@@ -9,6 +9,8 @@ import {
   MessageService,
 } from 'primeng/api';
 import { ErrorHandlerService } from '../../core/error-handler.service';
+import { Table } from 'primeng/table';
+import { Grupo } from 'src/app/core/mode';
 
 @Component({
   selector: 'app-grupo',
@@ -16,12 +18,12 @@ import { ErrorHandlerService } from '../../core/error-handler.service';
   styleUrls: ['./grupo.component.css'],
 })
 export class GrupoComponent implements OnInit {
-  @ViewChild('tab', { static: true }) tabela;
+  @ViewChild('tab', { static: true }) tabela!: Table;
   totalRegistros = 0;
   filtro = new FiltroGrupo();
   opt = false;
-  form: FormGroup;
-  grupos = [];
+  form!: FormGroup;
+  grupos: Grupo[] = [];
 
   constructor(
     private errorHandler: ErrorHandlerService,
@@ -141,7 +143,7 @@ export class GrupoComponent implements OnInit {
   }
 
   aoMudarPagina(event: LazyLoadEvent) {
-    const pagina = event.first / event.rows;
+    const pagina = event.first! / event.rows!;
     this.pesquisar(pagina);
   }
 }
