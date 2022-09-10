@@ -1,6 +1,6 @@
-import {MenuItem} from 'primeng/api';
-import {Component} from '@angular/core';
-import {Router} from '../../node_modules/@angular/router';
+import { MenuItem } from 'primeng/api';
+import { Component } from '@angular/core';
+import { Router } from '../../node_modules/@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -8,7 +8,7 @@ import {Router} from '../../node_modules/@angular/router';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  displayOs: boolean;
+  displayOs: boolean = false;
   displayAtendimento = false;
 
   opcoes: MenuItem[] = [
@@ -38,7 +38,7 @@ export class AppComponent {
     return this.router.url !== '/login';
   }
 
-  teste(event) {
+  teste(event: boolean) {
     this.display = true;
   }
 }
