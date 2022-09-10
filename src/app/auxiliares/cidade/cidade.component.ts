@@ -6,6 +6,8 @@ import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { LazyLoadEvent } from 'primeng/api';
 import { MessageService } from 'primeng/api';
+import { Table } from 'primeng/table';
+import { Cidade } from 'src/app/core/mode';
 
 @Component({
   selector: 'app-cidade',
@@ -13,12 +15,12 @@ import { MessageService } from 'primeng/api';
   styleUrls: ['./cidade.component.css'],
 })
 export class CidadeComponent implements OnInit {
-  @ViewChild('tab', { static: true }) tabela;
+  @ViewChild('tab', { static: true }) tabela!: Table;
   filtro = new FiltroCidade();
   totalRegistros = 0;
   opt = false;
-  form: FormGroup;
-  cidades = [];
+  form!: FormGroup;
+  cidades: Cidade[] = [];
 
   constructor(
     private confirmatioService: ConfirmationService,
@@ -113,7 +115,7 @@ export class CidadeComponent implements OnInit {
   }
 
   aoMudarPagina(event: LazyLoadEvent) {
-    const pagina = event.first / event.rows;
+    const pagina = event.first! / event.rows!;
     this.pesquisar(pagina);
   }
 

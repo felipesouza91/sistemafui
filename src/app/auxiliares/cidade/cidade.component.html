@@ -20,19 +20,19 @@
     <div class="col-12 field">
       <label>Nome</label>
       <input type="text" pInputText name="nome" formControlName="nome" />
-      <div class="error-customize" *ngIf="form.get('nome').touched">
+      <div class="error-customize" *ngIf="form.get('nome')!.touched">
         <p-message
-          *ngIf="form.get('nome').hasError('required')"
+          *ngIf="form.get('nome')!.hasError('required')"
           severity="error"
           text="Digita um nome para cidade"
         ></p-message>
         <p-message
-          *ngIf="form.get('nome').hasError('minlength')"
+          *ngIf="form.get('nome')!.hasError('minlength')"
           severity="error"
           text="Digite no minimo 4 caracteres"
         ></p-message>
         <p-message
-          *ngIf="form.get('nome').hasError('maxlength')"
+          *ngIf="form.get('nome')!.hasError('maxlength')"
           severity="error"
           text="Digite no maximo 70 caracteres"
         ></p-message>
