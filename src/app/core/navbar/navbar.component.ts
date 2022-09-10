@@ -23,7 +23,7 @@ export class NavbarComponent implements OnInit {
   showSidebar = false;
   items!: MenuItem[];
   smallItems!: MenuItem[];
-  @Output() atendimento = new EventEmitter<Boolean>();
+  @Output() atendimento = new EventEmitter<boolean>();
   nomeUsuario!: String;
   constructor(
     private logoutService: LogoutService,

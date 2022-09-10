@@ -34,7 +34,7 @@ export class ProdutoComponent implements OnInit {
   fabricantes: Fabricante[] = [];
   @ViewChild('tab', { static: true }) tabela!: Table;
   totalRegistros!: number;
-  filtro = new ProdutoFilter();
+  filtro: ProdutoFilter = {} as ProdutoFilter;
   form!: FormGroup;
 
   formCad!: FormGroup;

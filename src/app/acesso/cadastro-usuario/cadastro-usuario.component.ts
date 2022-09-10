@@ -23,7 +23,7 @@ interface IDropdownValues {
 export class CadastroUsuarioComponent implements OnInit {
   formUsuario!: FormGroup;
   usuario!: Usuario;
-  grupos!: IDropdownValues[];
+  grupos: IDropdownValues[] = [];
 
   status = [
     { value: true, label: 'Ativo' },

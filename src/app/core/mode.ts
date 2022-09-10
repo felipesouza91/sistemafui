@@ -1,13 +1,13 @@
 export class Resultado<T> {
   /**
-   * Classe de retorno para consultas paginadas
+   * interfacee de retorno para consultas paginadas
    * @param total
    * @param conteudo - Array do conteudo do retorno
    * @param firstPage - Boolen to result is first page
    */
   total: number;
   firstPage: boolean;
-  conteudo = new Array<T>();
+  conteudo: Array<T>;
   constructor(total: number, firstPage: boolean, conteudo: Array<T>) {
     this.total = total;
     this.conteudo = conteudo;
@@ -15,27 +15,27 @@ export class Resultado<T> {
   }
 }
 
-export class MotivoOs {
+export interface MotivoOs {
   id: number;
   descricao: string;
 }
 
-export class Grupo {
+export interface Grupo {
   id: number;
   nome: string;
 }
 
-export class Cidade {
+export interface Cidade {
   id: number;
   nome: string;
 }
 
-export class Fabricante {
+export interface Fabricante {
   id: number;
   descricao: string;
 }
 
-export class Produto {
+export interface Produto {
   id: number;
   modelo: string;
   descricao: string;
@@ -43,21 +43,21 @@ export class Produto {
   fabricante: Fabricante;
 }
 
-export class Bairro {
+export interface Bairro {
   id: number;
   nome: string;
-  cidade = new Cidade();
+  cidade: Cidade;
 }
 
-export class Endereco {
+export interface Endereco {
   rua: string;
   numero: number;
   complemento: string;
   referencia: string;
-  bairro = new Bairro();
+  bairro: Bairro;
 }
 
-export class Cliente {
+export interface Cliente {
   id: number;
   codigoService: number;
   codigoParticao: number;
@@ -66,12 +66,12 @@ export class Cliente {
   telefone1: string;
   telefone2: string;
   dominio: string;
-  endereco = new Endereco();
-  grupo = new Grupo();
+  endereco: Endereco;
+  grupo: Grupo;
   ativo: boolean;
 }
 
-export class Dvr {
+export interface Dvr {
   id: number;
   habilitaVerificao: boolean;
   somenteCloud: boolean;
@@ -87,24 +87,24 @@ export class Dvr {
   numeroSerie: string;
   ultimoStatus: boolean;
 
-  cliente = new Cliente();
+  cliente: Cliente;
 }
 
-export class OrdemServico {
+export interface OrdemServico {
   id: number;
   codigoService: number;
   codigoSigma: number;
-  motivoOs = new MotivoOs();
+  motivoOs: MotivoOs;
   descricao: string;
   prioridadeOs: string;
   solicitante: string;
-  cliente = new Cliente();
-  dvr = new Dvr();
+  cliente: Cliente;
+  dvr: Dvr;
   dataAbertura: Date;
-  fechamento = new FechamentoOs();
+  fechamento: FechamentoOs;
 }
 
-export class FechamentoOs {
+export interface FechamentoOs {
   id: number;
   motivoFechamento: string;
   dataFechamento: Date;
@@ -114,38 +114,38 @@ export class FechamentoOs {
   os: OrdemServico;
 }
 
-export class VerificacaoGravacao {
+export interface VerificacaoGravacao {
   id: number;
   status: string;
   hd: string;
   qtdGravacao: number;
   dataTeste: Date;
-  dvr = new Dvr();
+  dvr: Dvr;
   usuario: string;
 }
 
-export class Permissao {
+export interface Permissao {
   id: number;
   descricao: string;
 }
 
-export class GrupoAcesso {
+export interface GrupoAcesso {
   id: number;
   ativo: boolean;
   descricao: string;
-  permissoes = new Array<Permissao>();
+  permissoes: Array<Permissao>;
 }
 
-export class Usuario {
+export interface Usuario {
   id: number;
   ativo: boolean;
   nome: string;
   apelido: string;
   senha: string;
-  grupoAcesso = new GrupoAcesso();
+  grupoAcesso: GrupoAcesso;
 }
 
-export class Atendimento {
+export interface Atendimento {
   id: number;
   descricaoProblema: string;
   descricaoSolucao: string;
@@ -157,7 +157,7 @@ export class Atendimento {
   usuarioTermino: Usuario;
 }
 
-export class ResumoVerificacaoGravacao {
+export interface ResumoVerificacaoGravacao {
   id: number;
   status: string;
   hd: string;
@@ -171,7 +171,7 @@ export class ResumoVerificacaoGravacao {
   nomeFantazia: string;
 }
 
-export class Informacao {
+export interface Informacao {
   id: number;
   descricao: string;
   createdBy: Usuario;
@@ -180,6 +180,6 @@ export class Informacao {
   lastModifiedDate: Date;
 }
 
-export class ClienteInformacao extends Informacao {
+export interface ClienteInformacao extends Informacao {
   cliente: Cliente;
 }

@@ -20,7 +20,7 @@ import { Grupo } from 'src/app/core/mode';
 export class GrupoComponent implements OnInit {
   @ViewChild('tab', { static: true }) tabela!: Table;
   totalRegistros = 0;
-  filtro = new FiltroGrupo();
+  filtro: FiltroGrupo = {} as FiltroGrupo;
   opt = false;
   form!: FormGroup;
   grupos: Grupo[] = [];

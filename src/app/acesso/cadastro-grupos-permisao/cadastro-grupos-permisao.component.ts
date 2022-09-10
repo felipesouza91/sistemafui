@@ -81,13 +81,13 @@ export class CadastroGruposPermisaoComponent implements OnInit {
   }
 
   createGrupoAcesso(): GrupoAcesso {
-    const grupoPermisao: GrupoAcesso = new GrupoAcesso();
+    var grupoPermisao: GrupoAcesso = {} as GrupoAcesso;
     grupoPermisao.id = this.form.value.id;
     grupoPermisao.descricao = this.form.value.descricao;
     grupoPermisao.ativo = this.form.value.ativo;
     this.selectPermissoes.map((a) => {
       if (a.data) {
-        const s = new Permissao();
+        const s = {} as Permissao;
         s.id = a.data;
         grupoPermisao.permissoes.push(s);
       }

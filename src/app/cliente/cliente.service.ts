@@ -144,7 +144,7 @@ export class ClienteService {
       filtro.page = 0;
     }
     if (filtro.size === undefined) {
-      filtro.page = 5;
+      filtro.size = 5;
     }
     if (filtro.page) {
       params = params.set('page', filtro.page.toString());

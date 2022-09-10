@@ -138,7 +138,7 @@ export class CadastroOrdemServicoComponent implements OnInit {
   }
 
   filtroMotivoOs(event: { query: string }) {
-    const filtro = new FiltroMotivoOs();
+    const filtro: FiltroMotivoOs = {} as FiltroMotivoOs;
     filtro.descricao = event.query;
     filtro.size = 2000;
     this.motivoService

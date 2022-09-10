@@ -69,7 +69,7 @@ export class GrupoAcessoService {
 
   listaGrupoAcessoResumo(): Promise<ResumoGrupoAcesso[] | undefined> {
     return this.http
-      .get<ResumoGrupoAcesso[]>(`${this.grupoAcessoUrl}/?resumo`)
+      .get<ResumoGrupoAcesso[]>(`${this.grupoAcessoUrl}?resumo`)
       .toPromise()
       .then((resp) => resp);
   }

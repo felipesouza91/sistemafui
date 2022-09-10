@@ -17,7 +17,7 @@ import { MotivoOs } from 'src/app/core/mode';
 export class MotivoosComponent implements OnInit {
   @ViewChild('tab', { static: true }) tabela!: Table;
   opt = false;
-  filtro = new FiltroMotivoOs();
+  filtro: FiltroMotivoOs = {} as FiltroMotivoOs;
   form!: FormGroup;
   totalElementos = 0;
   motivosOs: MotivoOs[] = [];

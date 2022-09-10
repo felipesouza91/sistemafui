@@ -28,7 +28,7 @@ interface QueryEvent {
 export class BairroComponent implements OnInit {
   @ViewChild('tbl', { static: true }) tabela!: Table;
   opt = false;
-  filtro = new FiltroBairro();
+  filtro: FiltroBairro = {} as FiltroBairro;
   form!: FormGroup;
   totalElementos = 0;
   cidades: ICityDropdown[] = [];

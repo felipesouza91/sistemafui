@@ -16,7 +16,7 @@ import { Cidade } from 'src/app/core/mode';
 })
 export class CidadeComponent implements OnInit {
   @ViewChild('tab', { static: true }) tabela!: Table;
-  filtro = new FiltroCidade();
+  filtro: FiltroCidade = {} as FiltroCidade;
   totalRegistros = 0;
   opt = false;
   form!: FormGroup;
