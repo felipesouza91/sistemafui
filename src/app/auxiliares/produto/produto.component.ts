@@ -16,6 +16,8 @@ import {
   FormControlName,
 } from '@angular/forms';
 import { Produto } from 'src/app/core/mode';
+import { Table } from 'primeng/table';
+import { Fabricante } from './../../core/mode';
 
 @Component({
   selector: 'app-produto',
@@ -28,17 +30,17 @@ export class ProdutoComponent implements OnInit {
     { label: 'Fabricante', value: 1 },
     { label: 'Modelo', value: 2 },
   ];
-  produtos = [];
-  fabricantes = [];
-  @ViewChild('tab', { static: true }) tabela;
-  totalRegistros: number;
+  produtos: Produto[] = [];
+  fabricantes: Fabricante[] = [];
+  @ViewChild('tab', { static: true }) tabela!: Table;
+  totalRegistros!: number;
   filtro = new ProdutoFilter();
-  form: FormGroup;
+  form!: FormGroup;
 
-  formCad: FormGroup;
+  formCad!: FormGroup;
   filterFab = new FabricanteFilter();
   new = false;
-  produtoSelect: Produto;
+  produtoSelect!: Produto;
   constructor(
     public auth: AuthService,
     private produtoService: ProdutoService,
@@ -119,7 +121,7 @@ export class ProdutoComponent implements OnInit {
   }
 
   aoMudarPagina(event: LazyLoadEvent) {
-    const pagina = event.first / event.rows;
+    const pagina = event.first! / event.rows!;
     this.pesquisar(pagina);
   }
 
