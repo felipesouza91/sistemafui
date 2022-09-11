@@ -36,7 +36,7 @@
     <div class="field col-12 lg:col-8" *ngIf="abc.value >= 3 && abc.value <= 6">
       <label>Descrição</label>
       <input
-        pInputText  
+        pInputText
         formControlName="descricao"
         (keyup.enter)="pesquisar()"
       />
@@ -104,7 +104,7 @@
             <span class="p-column-title">Endereço</span>
             {{ cliente.endereco.rua }}, {{ cliente.endereco.numero }}
           </td>
-          <td class="md:justify-content-between justify-content-start flex">
+          <td>
             <span class="p-column-title">Ações: </span>
             <a
               disabled="!auth.temQualquerPermissao(['1','2'])"
@@ -113,7 +113,7 @@
               icon="fas fa-pencil-alt"
               pTooltip="Editar"
               tooltipPosition="top"
-              class="mr-5 md:mr-0"
+              class="mr-2"
             ></a>
             <button
               pButton

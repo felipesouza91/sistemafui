@@ -14,13 +14,13 @@ import { Dvr } from 'src/app/core/mode';
 })
 export class TabelaDvrComponent implements OnInit {
   @Input() idCliente!: number;
-  @ViewChild('tabela', { static: true }) tabela!: Table;
   display = false;
   totalElementos = 0;
   filtro: FiltroDvr = {} as FiltroDvr;
   dvrs: Dvr[] = [];
   dvr: any;
-
+  rows = 5;
+  first = 0;
   constructor(
     public auth: AuthService,
     private errorHandler: ErrorHandlerService,
@@ -38,7 +38,8 @@ export class TabelaDvrComponent implements OnInit {
 
   finalizou(tipo: Boolean) {
     this.display = !tipo;
-    this.pesquisar();
+    this.pesquisar(Math.floor(this.totalElementos / this.rows));
+    this.first = this.totalElementos;
   }
 
   confirmarExclusao(codigo: number) {
@@ -52,17 +53,13 @@ export class TabelaDvrComponent implements OnInit {
 
   pesquisar(pagina = 0) {
     this.filtro.codCliente = this.idCliente;
-
     this.filtro.page = pagina;
-    this.filtro.size = this.tabela.rows;
+    this.filtro.size = this.rows;
     this.dvrService
       .pesquisar(this.filtro)
       .then((resp) => {
         this.totalElementos = resp.total;
         this.dvrs = resp.conteudo;
-        if (resp.firstPage && this.tabela.first > 1) {
-          this.tabela.first = 0;
-        }
       })
       .catch((error) => this.errorHandler.handler(error));
   }
@@ -82,6 +79,7 @@ export class TabelaDvrComponent implements OnInit {
   }
 
   aoMudarPagina(event: LazyLoadEvent) {
+    this.rows = event.rows!;
     const pagina = event.first! / event.rows!;
     this.pesquisar(pagina);
   }

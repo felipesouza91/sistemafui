@@ -14,16 +14,17 @@
   </div>
 </div>
 <p-table
-  styleClass="test"
   [value]="dvrs"
+  styleClass="test"
   [paginator]="true"
   responsiveLayout="stack"
   dataKey="id"
+  [(rows)]="rows"
+  [first]="first"
   [rowsPerPageOptions]="[3, 5, 10]"
   [lazy]="true"
   (onLazyLoad)="aoMudarPagina($event)"
   [totalRecords]="totalElementos"
-  #tabela
 >
   <ng-template pTemplate="header" let-columns>
     <tr>
@@ -87,7 +88,7 @@
       </td>
       <td>
         <span class="p-column-title">SomenteCloud: </span>
-        <p>{{ dvr.somenteCloud === true ? 'Sim' : 'Não' }}</p>
+        <p>{{ dvr.somenteCloud === true ? "Sim" : "Não" }}</p>
       </td>
       <td>
         <span class="p-column-title">Numero Serie: </span>
