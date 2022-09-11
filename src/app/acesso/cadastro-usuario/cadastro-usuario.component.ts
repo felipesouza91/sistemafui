@@ -50,7 +50,6 @@ export class CadastroUsuarioComponent implements OnInit {
     } else {
       this.salvar();
     }
-    this.router.navigate(['usuario']);
   }
 
   atualizar() {}
@@ -65,6 +64,7 @@ export class CadastroUsuarioComponent implements OnInit {
           detail: 'Usuario cadastrado com sucesso',
         });
         this.formUsuario.reset();
+        this.router.navigate(['usuario']);
       })
       .catch((error) => this.erroService.handler(error));
   }

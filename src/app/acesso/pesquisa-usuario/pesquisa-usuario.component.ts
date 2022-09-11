@@ -14,7 +14,7 @@ import { UsuarioService } from '../usuario.service';
 export class PesquisaUsuarioComponent implements OnInit {
   form!: FormGroup;
   listUsuario: Usuario[] = [];
-
+  rows = 5;
   filtros = [
     { label: 'Todos', value: 0 },
     { label: 'Nome Funcionario', value: 1 },
@@ -30,8 +30,11 @@ export class PesquisaUsuarioComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.init();
     this.criarFormulario();
+  }
+
+  ngAfterViewInit() {
+    this.init();
   }
 
   pesquisar() {

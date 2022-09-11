@@ -9,7 +9,7 @@
       <label>Filtro:</label>
       <p-dropdown [options]="filtros" fromControlName="opcao" #opt></p-dropdown>
     </div>
-    <div class="field col-12 md:col-8" *ngIf="opt.value >= 0">
+    <div class="field col-12 md:col-8" *ngIf="opt.value >= 1">
       <label>Descricao</label>
       <input type="text" pInputText fromControlName="descricao" />
     </div>
@@ -26,7 +26,7 @@
       [value]="listUsuario"
       [rowHover]="true"
       [paginator]="true"
-      [rows]="10"
+      [(rows)]="rows"
     >
       <ng-template pTemplate="header">
         <tr>
@@ -41,7 +41,7 @@
         <tr>
           <td class="ativo">
             <span class="p-column-title">Status:</span>
-            {{ usuario.ativo ? 'Ativo' : 'Desativado' }}
+            {{ usuario.ativo ? "Ativo" : "Desativado" }}
           </td>
           <td>
             <span class="p-column-title">Nome:</span>
@@ -57,14 +57,14 @@
           </td>
           <td class="flex justify-content-between">
             <span class="p-column-title">Ações</span>
-            <a
-              disabled="!auth.temPermissao('31')"
+            <button
+              [disabled]="true"
               [routerLink]="['/usuario', usuario.id]"
               pButton
               icon="fas fa-pencil-alt"
               pTooltip="Editar"
               tooltipPosition="top"
-            ></a>
+            ></button>
             <button
               pButton
               [disabled]="!auth.temPermissao('29')"
