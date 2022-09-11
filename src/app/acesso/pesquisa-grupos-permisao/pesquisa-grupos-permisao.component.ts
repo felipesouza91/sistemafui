@@ -23,6 +23,9 @@ export class PesquisaGruposPermisaoComponent implements OnInit {
 
   ngOnInit() {
     this.configFormulsario();
+  }
+
+  ngAfterViewInit() {
     this.pesquisar();
   }
 

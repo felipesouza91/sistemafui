@@ -23,6 +23,7 @@ export interface IServiceOrderInput {
 }
 
 export interface IAccessGroupInput {
+  id?: number;
   ativo: boolean;
   descricao: string;
   permissoes: IdInput[];
@@ -79,6 +80,6 @@ export interface IRecordingCheckInput {
   status: string;
 }
 
-interface IdInput {
+export interface IdInput {
   id: number;
 }

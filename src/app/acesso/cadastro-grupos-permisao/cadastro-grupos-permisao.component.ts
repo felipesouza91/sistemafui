@@ -9,6 +9,7 @@ import { ErrorHandlerService } from '../../core/error-handler.service';
 
 import { MessageService, TreeNode } from 'primeng/api';
 import { tipoAcesso } from 'src/app/core/navbar/constants';
+import { IdInput, IAccessGroupInput } from './../../core/models-input';
 
 @Component({
   selector: 'app-cadastro-grupos-permisao',
@@ -21,7 +22,7 @@ export class CadastroGruposPermisaoComponent implements OnInit {
   teste = [];
   grupoAcesso: any;
   filesTree: TreeNode[] = new Array();
-  selectPermissoes: TreeNode[] = [];
+  selectPermissoes: TreeNode<number>[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -48,7 +49,6 @@ export class CadastroGruposPermisaoComponent implements OnInit {
     } else {
       this.salvar();
     }
-    this.router.navigate([`grupoacesso`]);
   }
 
   salvar() {
@@ -61,6 +61,7 @@ export class CadastroGruposPermisaoComponent implements OnInit {
           detail: 'Grupo de acesso cadastrado com sucesso!',
         });
         this.form.reset();
+        this.router.navigate([`grupoacesso`]);
       })
       .catch((error) => this.erroService.handler(error));
   }
@@ -68,7 +69,7 @@ export class CadastroGruposPermisaoComponent implements OnInit {
   atualizar() {
     const accessGroup = this.createGrupoAcesso();
     this.grupoAcessoService
-      .atualizar(accessGroup.id, accessGroup)
+      .atualizar(accessGroup.id!, accessGroup)
       .then((resp) => {
         this.messageService.add({
           severity: 'success',
@@ -76,23 +77,24 @@ export class CadastroGruposPermisaoComponent implements OnInit {
           detail: 'Grupo de acesso atualizado com sucesso!',
         });
         this.form.reset();
+        this.router.navigate([`grupoacesso`]);
       })
       .catch((error) => this.erroService.handler(error));
   }
 
-  createGrupoAcesso(): GrupoAcesso {
-    var grupoPermisao: GrupoAcesso = {} as GrupoAcesso;
-    grupoPermisao.id = this.form.value.id;
-    grupoPermisao.descricao = this.form.value.descricao;
-    grupoPermisao.ativo = this.form.value.ativo;
-    this.selectPermissoes.map((a) => {
-      if (a.data) {
-        const s = {} as Permissao;
-        s.id = a.data;
-        grupoPermisao.permissoes.push(s);
-      }
-    });
-    return grupoPermisao;
+  createGrupoAcesso(): IAccessGroupInput {
+    const permissoes: IdInput[] = this.selectPermissoes
+      .filter((a) => a.data!)
+      .map((e) => ({
+        id: e.data!,
+      }));
+    console.log(permissoes);
+    return {
+      id: this.form.value.id,
+      descricao: this.form.value.descricao,
+      ativo: this.form.value.ativo,
+      permissoes,
+    };
   }
 
   criarForm() {
