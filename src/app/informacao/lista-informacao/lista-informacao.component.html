@@ -6,16 +6,15 @@
 <div class="grid">
   <div class="col">
     <p-table
-      #tab
       [value]="list"
       responsiveLayout="stack"
       [paginator]="true"
       [totalRecords]="totalElementos"
-      [responsive]="true"
+      [(rows)]="rows"
+      [(first)]="first"
       [lazy]="true"
-      [(rows)]="filtro.size"
-      [rowsPerPageOptions]="[3, 5, 10]"
       (onLazyLoad)="aoMudarPagina($event)"
+      [rowsPerPageOptions]="[5, 10, 15]"
     >
       <ng-template pTemplate="header">
         <tr>
@@ -29,7 +28,7 @@
         <tr>
           <td>
             <span class="p-column-title">Data cadastro: </span>
-            {{ item.creationDate | date: 'dd/MM/yyyy HH:mm' }}
+            {{ item.creationDate | date: "dd/MM/yyyy HH:mm" }}
           </td>
           <td>
             <span class="p-column-title">Descrição: </span>
