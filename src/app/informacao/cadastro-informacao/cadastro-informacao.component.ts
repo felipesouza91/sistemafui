@@ -1,5 +1,3 @@
-import { Cliente } from './../../core/mode';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
 import {
   Component,
   OnInit,
@@ -8,6 +6,8 @@ import {
   EventEmitter,
   ViewChild,
 } from '@angular/core';
+import { Cliente } from './../../core/mode';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { MessageService } from 'primeng/api';
 
@@ -51,6 +51,7 @@ export class CadastroInformacaoComponent implements OnInit {
   }
 
   novo() {
+    console.log(this.form.value);
     this.informacaoService
       .save(this.cliente.id, this.form.value)
       .then((resp) => {

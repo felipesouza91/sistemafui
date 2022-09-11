@@ -36,18 +36,14 @@ export class ListaInformacaoComponent implements OnInit {
     private informacaoService: InformacaoService,
     private erroHandler: ErrorHandlerService,
     private confirmationService: ConfirmationService,
-    private messageService: MessageService,
-    private cd: ChangeDetectorRef
+    private messageService: MessageService
   ) {}
 
   ngOnInit() {}
-  ngAfterViewInit() {
-    this.cd.detectChanges();
-  }
 
   aoMudarPagina(event: LazyLoadEvent) {
     this.rows = event.rows!;
-    this.first = this.first + this.rows;
+
     const pagina = event.first! / event.rows!;
     this.pesquisar(pagina);
   }

@@ -80,12 +80,8 @@ export class InformacaoService {
 
   private converterStringsParaDatas(infos: Informacao[]) {
     for (const info of infos) {
-      info.creationDate = parseISO(
-        format(info.creationDate, 'YYYY-MM-DD hh:mm')
-      );
-      info.lastModifiedDate = parseISO(
-        format(info.lastModifiedDate, 'YYYY-MM-DD hh:mm')
-      );
+      info.creationDate = parseISO(info.creationDate.toString());
+      if (info.lastModifiedDate) parseISO(info.lastModifiedDate.toISOString());
     }
   }
 
