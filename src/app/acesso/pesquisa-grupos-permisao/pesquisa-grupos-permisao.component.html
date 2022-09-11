@@ -43,7 +43,7 @@
             <span class="p-column-title">Nome:</span>
             {{ grupoAcesso.descricao }}
           </td>
-          <td class="flex justify-content-between">
+          <td>
             <span class="p-column-title">Ações</span>
             <a
               [routerLink]="['/grupoacesso', grupoAcesso.id]"
@@ -51,6 +51,7 @@
               icon="fas fa-pencil-alt"
               pTooltip="Editar"
               tooltipPosition="top"
+              class="mr-3"
               disabled="!auth.temPermissao('31')"
             ></a>
             <button

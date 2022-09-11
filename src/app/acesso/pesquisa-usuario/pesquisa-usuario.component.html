@@ -55,12 +55,13 @@
             <span class="p-column-title">Grupo Acesso:</span>
             {{ usuario.nomeGrupoAcesso }}
           </td>
-          <td class="flex justify-content-between">
+          <td>
             <span class="p-column-title">Ações</span>
             <button
               [disabled]="true"
               [routerLink]="['/usuario', usuario.id]"
               pButton
+              class="mr-3"
               icon="fas fa-pencil-alt"
               pTooltip="Editar"
               tooltipPosition="top"
