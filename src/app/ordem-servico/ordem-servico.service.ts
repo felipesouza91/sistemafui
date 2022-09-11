@@ -1,8 +1,6 @@
 import { Resultado } from './../core/mode';
 import { SistemFHttp } from './../seguranca/sistemaf-http';
-import {
-  format,parseISO
-} from 'date-fns'
+import { format, parseISO } from 'date-fns';
 
 import { Injectable } from '@angular/core';
 import { OrdemServico } from '../core/mode';
@@ -168,7 +166,7 @@ export class OrdemServicoService {
 
   private converterStringsParaDatas(ordem: OrdemServico[]) {
     for (const os of ordem) {
-      os.dataAbertura = parseISO(format(os.dataAbertura, 'YYYY-MM-DD hh:mm'));
+      os.dataAbertura = parseISO(format(os.dataAbertura, 'yyyy-MM-dd hh:mm'));
     }
   }
 }

@@ -102,7 +102,7 @@ export class CadastroOrdemServicoComponent implements OnInit {
     const ordemServico = this.formOs.getRawValue();
     ordemServico.dataAbertura = format(
       ordemServico.dataAbertura,
-      'YYYY-MM-DD HH:mm:ss'
+      'yyyy-MM-dd HH:mm:ss'
     );
     this.ordemService
       .salvar(ordemServico)
@@ -122,7 +122,7 @@ export class CadastroOrdemServicoComponent implements OnInit {
     const ordemServico = this.formOs.getRawValue();
     ordemServico.dataAbertura = format(
       ordemServico.dataAbertura,
-      'YYYY-MM-DD HH:mm:ss'
+      'yyyy-MM-dd  HH:mm:ss'
     );
     this.ordemService
       .editar(this.os, ordemServico)

@@ -70,14 +70,14 @@
       responsiveLayout="stack"
       [rowHover]="false"
       [paginator]="true"
-      [rows]="filtro.size"
+      [(rows)]="rows"
+      [first]="first"
       dataKey="id"
       [responsive]="true"
       [rowsPerPageOptions]="[5, 10, 15]"
       [lazy]="true"
       [totalRecords]="totalElementos"
       (onLazyLoad)="aoMudarPagina($event)"
-      #tab
     >
       <ng-template pTemplate="header">
         <tr>
@@ -125,7 +125,7 @@
           </td>
           <td>
             <span class="p-column-title">Data Abertura: </span>
-            {{ os.dataAbertura | date: 'dd/MM/yyyy HH:mm' }}
+            {{ os.dataAbertura | date: "dd/MM/yyyy HH:mm" }}
           </td>
           <td class="w-4rem">
             <span class="p-column-title">Ações: </span>

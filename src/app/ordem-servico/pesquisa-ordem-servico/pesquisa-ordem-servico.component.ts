@@ -24,7 +24,8 @@ import { format, Locale } from 'date-fns';
 })
 export class PesquisaOrdemServicoComponent implements OnInit {
   @Input() cliente!: Cliente;
-  @ViewChild('tab', { static: true }) tabela!: Table;
+  rows = 5;
+  first = 0;
   calendarPtBr = {
     firstDayOfWeek: 0,
     dayNames: [
@@ -141,30 +142,28 @@ export class PesquisaOrdemServicoComponent implements OnInit {
   pesquisar(pagina = 0) {
     this.filtro.tipoFiltro = this.form.value.tipoFiltro;
     this.filtro.page = pagina;
-    this.filtro.size = this.tabela.rows;
+    this.filtro.size = this.rows;
     this.filtro.descricao = this.form.value.descricao;
-    this.filtro.dataAberturaDe = format(this.form.value.dataDe, 'YYYY-MM-DD');
-    this.filtro.dataAberturaAte = this.temData()!;
+    //this.filtro.dataAberturaDe = format(this.form.value.dataDe, 'yyyy-MM-dd');
+    //this.filtro.dataAberturaAte = this.temData()!;
     this.ordemService
       .pesquisar(this.filtro)
       .then((resp) => {
         this.totalElementos = resp.total;
         this.ors = resp.conteudo;
-        if (resp.firstPage && this.tabela.first > 1) {
-          this.tabela.first = 0;
-        }
       })
       .catch((error) => this.errorService.handler(error));
   }
 
   aoMudarPagina(event: LazyLoadEvent) {
+    this.rows = event.rows!;
     const pagina = event.first! / event.rows!;
     this.pesquisar(pagina);
   }
 
   finalizou(tipo: boolean) {
     this.display = !tipo;
-    this.tabela.first = 0;
+    this.first = 0;
     this.pesquisar();
   }
 
