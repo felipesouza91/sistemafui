@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
-import { format, parseISO } from 'date-fns'
+import { format, parseISO } from 'date-fns';
 import { AuthService } from './../../seguranca/auth.service';
 import { Cliente } from '../../core/mode';
 import { VerificacaoService } from './../verificacao.service';
@@ -71,8 +71,9 @@ export class CadastroVerificacaoComponent implements OnInit {
 
   novo() {
     const verificacao = this.form.getRawValue();
-    verificacao.dataTeste = format(verificacao.dataAbertura,
-      'YYYY-MM-DD HH:mm:ss'
+    verificacao.dataTeste = format(
+      verificacao.dataTeste,
+      'yyyy-MM-dd HH:mm:ss'
     );
     this.verificaService
       .salvar(verificacao)
@@ -90,8 +91,9 @@ export class CadastroVerificacaoComponent implements OnInit {
 
   editar() {
     const verificacao = this.form.getRawValue();
-    verificacao.dataTeste = format(verificacao.dataTeste,
-      'YYYY-MM-DD HH:mm:ss'
+    verificacao.dataTeste = format(
+      verificacao.dataTeste,
+      'yyyy-MM-dd HH:mm:ss'
     );
     this.verificaService
       .atualizar(this.verificacao, verificacao)

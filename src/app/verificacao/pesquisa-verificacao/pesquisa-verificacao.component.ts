@@ -23,12 +23,13 @@ import { Table } from 'primeng/table';
 export class PesquisaVerificacaoComponent implements OnInit {
   @Input() resumo = true;
   @Input() cliente!: Cliente;
-  @ViewChild('tab', { static: true }) tabela!: Table;
+
   idVerificacao!: number;
   filtro: VerificaGravacaoFilter = {} as VerificaGravacaoFilter;
   totalElementos = 0;
   listVerificao: VerificacaoGravacao[] = [];
-
+  rows = 0;
+  first = 0;
   display = false;
 
   constructor(
@@ -52,9 +53,6 @@ export class PesquisaVerificacaoComponent implements OnInit {
       .then((resp) => {
         this.totalElementos = resp.total;
         this.listVerificao = resp.conteudo;
-        if (resp.firstPage && this.tabela.first > 1) {
-          this.tabela.first = 0;
-        }
       })
       .catch((erro) => this.erroService.handler(erro));
   }
@@ -83,13 +81,14 @@ export class PesquisaVerificacaoComponent implements OnInit {
   }
 
   aoMudarPagina(event: LazyLoadEvent) {
+    this.rows = event.rows!;
     const pagina = event.first! / event.rows!;
     this.pesquisar(pagina);
   }
 
   finalizou(tipo: Boolean) {
     this.display = !tipo;
-    this.tabela.first = 0;
+    this.first = 0;
     this.pesquisar();
   }
 
