@@ -132,7 +132,13 @@ export class BairroComponent implements OnInit {
   }
 
   formParaEdicao(bairro: any, tipo: boolean) {
-    this.form.setValue(bairro);
+    this.form.setValue({
+      ...bairro,
+      cidade: {
+        label: bairro.cidade.nome,
+        value: bairro.cidade,
+      }
+    });
     this.opt = tipo;
   }
 
@@ -150,9 +156,9 @@ export class BairroComponent implements OnInit {
     this.cidadeService
       .listarTodos()
       .then((result) => {
-        this.cidades = result.map((c) => ({
-          label: c.nome,
-          value: { id: c.id, nome: c.nome },
+        this.cidades = result.map((city) => ({
+          label: city.nome,
+          value: city,
         }));
       })
       .catch((error) => this.erroHandler.handler(error));
