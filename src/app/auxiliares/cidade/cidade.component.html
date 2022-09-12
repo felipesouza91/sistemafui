@@ -38,7 +38,7 @@
         ></p-message>
       </div>
     </div>
-    <div class="col-12 field lg:col-1" *ngIf="!opt">
+    <div class="col-12 field lg:col-2" *ngIf="!opt">
       <button pButton label="Pesquisar" [disabled]="form.invalid"></button>
     </div>
     <div class="col-12 field lg:col-1" *ngIf="opt">
@@ -52,7 +52,7 @@
       <button
         type="reset"
         pButton
-        label="Limpar"
+        [label]="opt ? 'Cancelar' :'Limpar'"
         class="p-button-danger"
         (click)="configFormulario(false)"
       ></button>
@@ -67,7 +67,8 @@
     <p-table
       [value]="cidades"
       [rowHover]="true"
-      [rows]="filtro.size"
+      [rows]="rows"
+      [(first)]="first"
       responsiveLayout="stack"
       [paginator]="true"
       [lazy]="true"
