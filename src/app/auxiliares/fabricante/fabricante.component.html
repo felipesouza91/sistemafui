@@ -22,7 +22,7 @@
     <p-table
       [value]="fabricantes"
       [rowHover]="true"
-      [rows]="5"
+      [(rows)]="rows"
       [responsive]="true"
       [paginator]="true"
       responsiveLayout="stack"
@@ -30,7 +30,7 @@
       [rowsPerPageOptions]="[5, 10, 15]"
       [totalRecords]="totalRegistros"
       (onLazyLoad)="aoMudarPagina($event)"
-      #tab
+
     >
       <ng-template pTemplate="header">
         <tr>

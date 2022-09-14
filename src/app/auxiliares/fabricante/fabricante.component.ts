@@ -17,7 +17,7 @@ export class FabricanteComponent implements OnInit {
   fabricantes: any = [];
   totalRegistros!: number;
   size!: number;
-  @ViewChild('tab', { static: true }) tabela!: Table;
+  rows = 5;
   fabricanteSelect!: Fabricante | undefined;
   filter: FabricanteFilter = {} as FabricanteFilter;
   new = false;
@@ -106,6 +106,7 @@ export class FabricanteComponent implements OnInit {
   }
 
   aoMudarPagina(event: LazyLoadEvent) {
+    this.rows = event.rows!;
     const pagina = event.first! / event.rows!;
     this.pesquisar(pagina);
   }
@@ -113,15 +114,13 @@ export class FabricanteComponent implements OnInit {
   pesquisar(pagina = 0) {
     this.filter.descricao = this.formPes.value.descricao;
     this.filter.page = pagina;
-    this.filter.size = this.tabela.rows;
+    this.filter.size = this.rows;
     this.fabricanteService
       .findAll(this.filter)
       .then((result) => {
         this.fabricantes = result.conteudo;
         this.totalRegistros = result.total;
-        if (result.firstPage && this.tabela.first > 1) {
-          this.tabela.first = 0;
-        }
+
       })
       .catch((error) => this.erroHandler.handler(error));
   }
