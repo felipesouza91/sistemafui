@@ -18,13 +18,12 @@ import { Grupo } from 'src/app/core/mode';
   styleUrls: ['./grupo.component.css'],
 })
 export class GrupoComponent implements OnInit {
-  @ViewChild('tab', { static: true }) tabela!: Table;
   totalRegistros = 0;
   filtro: FiltroGrupo = {} as FiltroGrupo;
   opt = false;
   form!: FormGroup;
   grupos: Grupo[] = [];
-
+  rows = 5;
   constructor(
     private errorHandler: ErrorHandlerService,
     public auth: AuthService,
@@ -78,14 +77,13 @@ export class GrupoComponent implements OnInit {
   pesquisar(pagina = 0) {
     this.filtro.nome = this.form.value.nome;
     this.filtro.page = pagina;
+    this.filtro.size = this.rows;
     this.grupoService
       .pesquisar(this.filtro)
       .then((response) => {
         this.totalRegistros = response.total;
         this.grupos = response.conteudo;
-        if (response.firstPage && this.tabela.first > 1) {
-          this.tabela.first = 0;
-        }
+
       })
       .catch((error) => {
         console.log(error);
@@ -143,6 +141,7 @@ export class GrupoComponent implements OnInit {
   }
 
   aoMudarPagina(event: LazyLoadEvent) {
+    this.rows = event.rows!;
     const pagina = event.first! / event.rows!;
     this.pesquisar(pagina);
   }
