@@ -16,7 +16,6 @@ import {
   FormControlName,
 } from '@angular/forms';
 import { Produto } from 'src/app/core/mode';
-import { Table } from 'primeng/table';
 import { Fabricante } from './../../core/mode';
 
 @Component({
@@ -27,20 +26,21 @@ import { Fabricante } from './../../core/mode';
 })
 export class ProdutoComponent implements OnInit {
   filtros = [
+    {label: 'Todos'},
     { label: 'Fabricante', value: 1 },
     { label: 'Modelo', value: 2 },
   ];
   produtos: Produto[] = [];
   fabricantes: Fabricante[] = [];
-  @ViewChild('tab', { static: true }) tabela!: Table;
   totalRegistros!: number;
   filtro: ProdutoFilter = {} as ProdutoFilter;
   form!: FormGroup;
-
+  rows = 5;
   formCad!: FormGroup;
   filterFab: FabricanteFilter = {} as FabricanteFilter;
   new = false;
   produtoSelect!: Produto;
+  first = 0;
   constructor(
     public auth: AuthService,
     private produtoService: ProdutoService,
@@ -53,6 +53,7 @@ export class ProdutoComponent implements OnInit {
   ngOnInit() {
     this.initForm();
   }
+
 
   save() {
     if (this.produtoSelect) {
@@ -121,6 +122,7 @@ export class ProdutoComponent implements OnInit {
   }
 
   aoMudarPagina(event: LazyLoadEvent) {
+    this.rows = event.rows!;
     const pagina = event.first! / event.rows!;
     this.pesquisar(pagina);
   }
@@ -132,16 +134,14 @@ export class ProdutoComponent implements OnInit {
       this.filtro.modelo = this.form.value.descricao;
     }
     this.filtro.page = pagina;
-    this.filtro.size = this.tabela.rows;
+    this.filtro.size = this.rows;
     this.produtoService
       .findAll(this.filtro)
       .then((resp) => {
         this.produtos = resp.conteudo;
         this.totalRegistros = resp.total;
-        if (resp.firstPage && this.tabela.first > 1) {
-          this.tabela.first = 0;
-        }
-        this.form.reset();
+        this.first = 0;
+
       })
       .catch((error) => this.erroHandler.handler(error));
   }

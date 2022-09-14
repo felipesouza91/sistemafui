@@ -12,6 +12,7 @@
         [options]="filtros"
         formControlName="tipoFiltro"
         placeholder="Todos"
+
       ></p-dropdown>
     </div>
     <div class="col-12 md:col-8 field" *ngIf="drop.value">
@@ -31,7 +32,7 @@
     <p-table
       [value]="produtos"
       [rowHover]="true"
-      [rows]="5"
+      [(rows)]="rows"
       [responsive]="true"
       [paginator]="true"
       responsiveLayout="stack"
@@ -39,7 +40,7 @@
       [rowsPerPageOptions]="[5, 10, 15]"
       [totalRecords]="totalRegistros"
       (onLazyLoad)="aoMudarPagina($event)"
-      #tab
+      [first]="first"
     >
       <ng-template pTemplate="header">
         <tr>
