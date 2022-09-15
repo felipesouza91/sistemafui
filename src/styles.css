@@ -20,6 +20,10 @@ body,
   font-family: "Roboto", sans-serif;
 }
 
+.p-inputtext:focus {
+  box-shadow: none !important;
+}
+
 a {
   text-decoration: none;
 }
