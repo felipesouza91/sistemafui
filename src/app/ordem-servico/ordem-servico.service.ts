@@ -42,7 +42,6 @@ export class OrdemServicoService {
         codigoService,
         codigoSigma,
         descricao,
-
         motivoOs: { id: motivoOs.id },
         prioridadeOs,
         solicitante,
