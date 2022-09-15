@@ -12,7 +12,6 @@
         [options]="filtros"
         formControlName="tipoFiltro"
         placeholder="Todos"
-
       ></p-dropdown>
     </div>
     <div class="col-12 md:col-8 field" *ngIf="drop.value">
@@ -33,7 +32,6 @@
       [value]="produtos"
       [rowHover]="true"
       [(rows)]="rows"
-      [responsive]="true"
       [paginator]="true"
       responsiveLayout="stack"
       [lazy]="true"
@@ -72,7 +70,7 @@
           </td>
           <td>
             <span class="p-column-title">Valor Unitário</span>
-            {{ fab.valorUnitario | currency: 'BRL' }}
+            {{ fab.valorUnitario | currency: "BRL" }}
           </td>
           <td class="md:justify-content-between justify-content-start flex">
             <span class="p-column-title">Ações</span>
@@ -103,13 +101,13 @@
 </div>
 <div class="grid p-fluid">
   <div class="col-12 md:col-2">
-    <button pButton label="Novo Produto" (click)="new = true"></button>
+    <button pButton label="Novo Produto" (click)="showCreateDialog = true"></button>
   </div>
 </div>
 
 <p-dialog
   header="Cadastro Fabricante"
-  [(visible)]="new"
+  [(visible)]="showCreateDialog"
   [responsive]="true"
   styleClass="custon"
   (onHide)="formCad.reset()"

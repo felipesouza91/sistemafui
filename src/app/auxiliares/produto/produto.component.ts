@@ -26,7 +26,7 @@ import { Fabricante } from './../../core/mode';
 })
 export class ProdutoComponent implements OnInit {
   filtros = [
-    {label: 'Todos'},
+    { label: 'Todos' },
     { label: 'Fabricante', value: 1 },
     { label: 'Modelo', value: 2 },
   ];
@@ -38,7 +38,7 @@ export class ProdutoComponent implements OnInit {
   rows = 5;
   formCad!: FormGroup;
   filterFab: FabricanteFilter = {} as FabricanteFilter;
-  new = false;
+  showCreateDialog = false;
   produtoSelect!: Produto;
   first = 0;
   constructor(
@@ -54,7 +54,6 @@ export class ProdutoComponent implements OnInit {
     this.initForm();
   }
 
-
   save() {
     if (this.produtoSelect) {
       this.update();
@@ -66,7 +65,7 @@ export class ProdutoComponent implements OnInit {
   edit(produto: Produto) {
     this.produtoSelect = produto;
     this.formCad.patchValue(produto);
-    this.new = true;
+    this.showCreateDialog = true;
   }
 
   preDelete(id: number) {
@@ -123,6 +122,8 @@ export class ProdutoComponent implements OnInit {
 
   aoMudarPagina(event: LazyLoadEvent) {
     this.rows = event.rows!;
+    this.first = event.first!;
+    console.log(this.first);
     const pagina = event.first! / event.rows!;
     this.pesquisar(pagina);
   }
@@ -140,8 +141,6 @@ export class ProdutoComponent implements OnInit {
       .then((resp) => {
         this.produtos = resp.conteudo;
         this.totalRegistros = resp.total;
-        this.first = 0;
-
       })
       .catch((error) => this.erroHandler.handler(error));
   }
@@ -163,14 +162,14 @@ export class ProdutoComponent implements OnInit {
     });
   }
 
-  private postPersit(tipo: string) {
+  private postPersit(tipo: 'cadastrado' | 'atualizado') {
     this.messageService.add({
       severity: 'success',
       summary: 'Sucessao',
       detail: `Produto ${tipo} com sucesso`,
     });
-    this.new = false;
-    this.pesquisar();
+    this.showCreateDialog = false;
+    this.pesquisar(this.first / this.rows);
     this.formCad.reset();
   }
 }
