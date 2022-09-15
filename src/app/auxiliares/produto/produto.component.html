@@ -72,10 +72,10 @@
             <span class="p-column-title">Valor Unitário</span>
             {{ fab.valorUnitario | currency: "BRL" }}
           </td>
-          <td class="md:justify-content-between justify-content-start flex">
+          <td>
             <span class="p-column-title">Ações</span>
             <a
-              class="margin-right: 10px"
+              class="mr-2"
               pButton
               icon="fas fa-pencil-alt"
               (click)="edit(fab)"
@@ -101,7 +101,11 @@
 </div>
 <div class="grid p-fluid">
   <div class="col-12 md:col-2">
-    <button pButton label="Novo Produto" (click)="showCreateDialog = true"></button>
+    <button
+      pButton
+      label="Novo Produto"
+      (click)="showCreateDialog = true"
+    ></button>
   </div>
 </div>
 
