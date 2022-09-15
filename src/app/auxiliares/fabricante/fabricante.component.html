@@ -30,7 +30,7 @@
       [rowsPerPageOptions]="[5, 10, 15]"
       [totalRecords]="totalRegistros"
       (onLazyLoad)="aoMudarPagina($event)"
-
+      [first]="first"
     >
       <ng-template pTemplate="header">
         <tr>

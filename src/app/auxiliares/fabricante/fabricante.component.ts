@@ -18,6 +18,7 @@ export class FabricanteComponent implements OnInit {
   totalRegistros!: number;
   size!: number;
   rows = 5;
+  first = 0;
   fabricanteSelect!: Fabricante | undefined;
   filter: FabricanteFilter = {} as FabricanteFilter;
   new = false;
@@ -55,7 +56,7 @@ export class FabricanteComponent implements OnInit {
           detail: 'Fabricante cadastrado com sucesso',
         });
         this.new = false;
-        this.pesquisar();
+        this.pesquisar(this.first / this.rows);
       })
       .catch((error) => this.erroHandler.handler(error));
   }
@@ -70,7 +71,7 @@ export class FabricanteComponent implements OnInit {
           detail: 'Fabricante atualizado com sucesso',
         });
         this.new = false;
-        this.pesquisar();
+        this.pesquisar(this.first / this.rows);
         this.fabricanteSelect = undefined;
       })
       .catch((error) => this.erroHandler.handler(error));
@@ -94,7 +95,7 @@ export class FabricanteComponent implements OnInit {
           summary: 'Sucessao',
           detail: 'Fabricante excluido com sucesso',
         });
-        this.pesquisar();
+        this.pesquisar(this.first / this.rows);
       })
       .catch((error) => this.erroHandler.handler(error));
   }
@@ -107,6 +108,7 @@ export class FabricanteComponent implements OnInit {
 
   aoMudarPagina(event: LazyLoadEvent) {
     this.rows = event.rows!;
+    this.first = event.first!;
     const pagina = event.first! / event.rows!;
     this.pesquisar(pagina);
   }
@@ -120,7 +122,6 @@ export class FabricanteComponent implements OnInit {
       .then((result) => {
         this.fabricantes = result.conteudo;
         this.totalRegistros = result.total;
-
       })
       .catch((error) => this.erroHandler.handler(error));
   }
