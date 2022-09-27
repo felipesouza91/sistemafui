@@ -6,10 +6,10 @@ import { environment } from '../../environments/environment';
 import { Injectable } from '@angular/core';
 import { IServiceOrderReason } from '../core/models-input';
 
-export class FiltroMotivoOs {
+export interface FiltroMotivoOs {
   descricao: string;
-  page = 0;
-  size = 5;
+  page: number;
+  size: number;
 }
 
 @Injectable()
@@ -68,6 +68,12 @@ export class MotivoOsService {
 
   private getParams(filtro: FiltroMotivoOs): HttpParams {
     let params = new HttpParams();
+    if (filtro.page === undefined) {
+      filtro.page = 0;
+    }
+    if (filtro.size === undefined) {
+      filtro.size = 5;
+    }
     if (filtro.descricao) {
       params = params.set('descricao', filtro.descricao);
     }

@@ -6,6 +6,8 @@ import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { LazyLoadEvent } from 'primeng/api';
 import { MessageService } from 'primeng/api';
+import { Table } from 'primeng/table';
+import { Cidade } from 'src/app/core/mode';
 
 @Component({
   selector: 'app-cidade',
@@ -13,13 +15,13 @@ import { MessageService } from 'primeng/api';
   styleUrls: ['./cidade.component.css'],
 })
 export class CidadeComponent implements OnInit {
-  @ViewChild('tab', { static: true }) tabela;
-  filtro = new FiltroCidade();
+  filtro: FiltroCidade = {} as FiltroCidade;
   totalRegistros = 0;
   opt = false;
-  form: FormGroup;
-  cidades = [];
-
+  form!: FormGroup;
+  cidades: Cidade[] = [];
+  rows = 5;
+  first = 0;
   constructor(
     private confirmatioService: ConfirmationService,
     public auth: AuthService,
@@ -73,14 +75,12 @@ export class CidadeComponent implements OnInit {
   pesquisar(pagina = 0) {
     this.filtro.nome = this.form.value.nome;
     this.filtro.page = pagina;
+    this.filtro.size = this.rows;
     this.cidadeService
       .pesquisar(this.filtro)
       .then((response) => {
         this.totalRegistros = response.total;
         this.cidades = response.conteudo;
-        if (response.firstPage && this.tabela.first > 1) {
-          this.tabela.first = 0;
-        }
       })
       .catch((erro) => this.erroHandler.handler(erro));
   }
@@ -98,22 +98,21 @@ export class CidadeComponent implements OnInit {
     this.cidadeService
       .excluir(cidade.id)
       .then(() => {
-        if (this.tabela.first === 0) {
-          this.pesquisar();
-        } else {
-          this.tabela.first = 0;
-        }
         this.messageService.add({
           severity: 'success',
           summary: 'Sucessao',
           detail: 'Cidade excluida com sucesso',
         });
+        this.configFormulario(false)
+        this.pesquisar(Math.floor(this.totalRegistros / this.rows));
       })
       .catch((erro) => this.erroHandler.handler(erro));
   }
 
   aoMudarPagina(event: LazyLoadEvent) {
-    const pagina = event.first / event.rows;
+    this.rows = event.rows!;
+    const pagina = event.first! / event.rows!;
+
     this.pesquisar(pagina);
   }
 

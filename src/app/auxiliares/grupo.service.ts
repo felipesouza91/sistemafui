@@ -5,10 +5,10 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { IGroupInput } from '../core/models-input';
 
-export class FiltroGrupo {
+export interface FiltroGrupo {
   nome: string;
   page: number;
-  size = 5;
+  size: number;
 }
 
 @Injectable()
@@ -63,6 +63,12 @@ export class GrupoService {
 
   private getFilter(filtro: FiltroGrupo): HttpParams {
     let params = new HttpParams();
+    if (filtro.page === undefined) {
+      filtro.page = 0;
+    }
+    if (filtro.size === undefined) {
+      filtro.size = 5;
+    }
     if (filtro.nome) {
       params = params.set('nome', filtro.nome);
     }

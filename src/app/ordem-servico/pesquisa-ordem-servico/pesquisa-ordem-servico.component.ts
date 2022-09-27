@@ -1,8 +1,6 @@
 import { FormGroup, FormControl } from '@angular/forms';
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 
-import * as moment from 'moment';
-
 import {
   LazyLoadEvent,
   ConfirmationService,
@@ -15,6 +13,9 @@ import {
 } from '../ordem-servico.service';
 import { ErrorHandlerService } from '../../core/error-handler.service';
 import { AuthService } from 'src/app/seguranca/auth.service';
+import { Table } from 'primeng/table';
+import { OrdemServico } from './../../core/mode';
+import { format, Locale } from 'date-fns';
 
 @Component({
   selector: 'app-pesquisa-ordem-servico',
@@ -22,8 +23,9 @@ import { AuthService } from 'src/app/seguranca/auth.service';
   styleUrls: ['./pesquisa-ordem-servico.component.css'],
 })
 export class PesquisaOrdemServicoComponent implements OnInit {
-  @Input() cliente: Cliente;
-  @ViewChild('tab', { static: true }) tabela;
+  @Input() cliente!: Cliente;
+  rows = 5;
+  first = 0;
   calendarPtBr = {
     firstDayOfWeek: 0,
     dayNames: [
@@ -69,10 +71,10 @@ export class PesquisaOrdemServicoComponent implements OnInit {
     clear: 'Limpar',
   };
   display = false;
-  form: FormGroup;
+  form!: FormGroup;
   ordem: any;
   totalElementos = 0;
-  filtro = new FiltroOrdemServico();
+  filtro: FiltroOrdemServico = {} as FiltroOrdemServico;
   prioridade = [
     { label: 'Normal', value: 'Normal' },
     { label: 'Alta', value: 'Alta' },
@@ -88,7 +90,7 @@ export class PesquisaOrdemServicoComponent implements OnInit {
     { value: 6, label: 'Data de Aberutra' },
   ];
 
-  ors = [];
+  ors: OrdemServico[] = [];
 
   constructor(
     public auth: AuthService,
@@ -140,32 +142,28 @@ export class PesquisaOrdemServicoComponent implements OnInit {
   pesquisar(pagina = 0) {
     this.filtro.tipoFiltro = this.form.value.tipoFiltro;
     this.filtro.page = pagina;
-    this.filtro.size = this.tabela.rows;
+    this.filtro.size = this.rows;
     this.filtro.descricao = this.form.value.descricao;
-    this.filtro.dataAberturaDe = moment(this.form.value.dataDe).format(
-      'YYYY-MM-DD'
-    );
-    this.filtro.dataAberturaAte = this.temData();
+    //this.filtro.dataAberturaDe = format(this.form.value.dataDe, 'yyyy-MM-dd');
+    //this.filtro.dataAberturaAte = this.temData()!;
     this.ordemService
       .pesquisar(this.filtro)
       .then((resp) => {
         this.totalElementos = resp.total;
         this.ors = resp.conteudo;
-        if (resp.firstPage && this.tabela.first > 1) {
-          this.tabela.first = 0;
-        }
       })
       .catch((error) => this.errorService.handler(error));
   }
 
   aoMudarPagina(event: LazyLoadEvent) {
-    const pagina = event.first / event.rows;
+    this.rows = event.rows!;
+    const pagina = event.first! / event.rows!;
     this.pesquisar(pagina);
   }
 
   finalizou(tipo: boolean) {
     this.display = !tipo;
-    this.tabela.first = 0;
+    this.first = 0;
     this.pesquisar();
   }
 
@@ -175,9 +173,9 @@ export class PesquisaOrdemServicoComponent implements OnInit {
     this.form.reset();
   }
 
-  temData(): string {
+  temData(): string | null {
     return this.form.value.dataAte != null
-      ? moment(this.form.value.dataAte).format('YYYY-MM-DD')
+      ? format(this.form.value.dataAte, 'dd-MM-yyyy')
       : null;
   }
 

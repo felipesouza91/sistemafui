@@ -5,15 +5,16 @@ import { environment } from 'src/environments/environment';
 import { BasicService } from '../core/service.interface';
 import { IManufactureInput } from '../core/models-input';
 
-export class FabricanteFilter {
+export interface FabricanteFilter {
   descricao: string;
-  page = 0;
-  size = 5;
+  page: number;
+  size: number;
 }
 
 @Injectable()
 export class FabricanteService
-  implements BasicService<FabricanteFilter, Fabricante> {
+  implements BasicService<FabricanteFilter, Fabricante>
+{
   url: string;
   constructor(private http: HttpClient) {
     this.url = `${environment.apiUrl}/fabricantes`;
@@ -37,32 +38,38 @@ export class FabricanteService
     return this.http
       .get<Fabricante>(`${this.url}/${id}`)
       .toPromise()
-      .then((resp) => resp);
+      .then((resp) => resp as Fabricante);
   }
 
   save({ descricao }: IManufactureInput): Promise<Fabricante> {
     return this.http
       .post<Fabricante>(this.url, { descricao })
       .toPromise()
-      .then((resp) => resp);
+      .then((resp) => resp as Fabricante);
   }
 
   update(id: number, { descricao }: IManufactureInput): Promise<Fabricante> {
     return this.http
       .put<Fabricante>(`${this.url}/${id}`, { descricao })
       .toPromise()
-      .then((resp) => resp);
+      .then((resp) => resp as Fabricante);
   }
 
   delete(id: number): Promise<void> {
     return this.http
       .delete(`${this.url}/${id}`)
       .toPromise()
-      .then(() => Promise.resolve(null));
+      .then(() => Promise.resolve());
   }
 
   createParams(filtro: FabricanteFilter): HttpParams {
     let params = new HttpParams();
+    if (filtro.page === undefined) {
+      filtro.size = 0;
+    }
+    if (filtro.size === undefined) {
+      filtro.size = 5;
+    }
     if (filtro.descricao) {
       params = params.set('nome', filtro.descricao);
     }

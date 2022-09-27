@@ -9,6 +9,7 @@ import { ErrorHandlerService } from '../../core/error-handler.service';
 
 import { MessageService, TreeNode } from 'primeng/api';
 import { tipoAcesso } from 'src/app/core/navbar/constants';
+import { IdInput, IAccessGroupInput } from './../../core/models-input';
 
 @Component({
   selector: 'app-cadastro-grupos-permisao',
@@ -16,12 +17,12 @@ import { tipoAcesso } from 'src/app/core/navbar/constants';
   styleUrls: ['./cadastro-grupos-permisao.component.css'],
 })
 export class CadastroGruposPermisaoComponent implements OnInit {
-  form: FormGroup;
+  form!: FormGroup;
   listPermisao = new Array();
   teste = [];
   grupoAcesso: any;
   filesTree: TreeNode[] = new Array();
-  selectPermissoes: TreeNode[] = [];
+  selectPermissoes: TreeNode<number>[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -33,7 +34,7 @@ export class CadastroGruposPermisaoComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.listPermisao = null;
+    this.listPermisao = [];
     this.criarForm();
     this.startListPermisao();
     const id = this.route.snapshot.params['codigo'];
@@ -48,7 +49,6 @@ export class CadastroGruposPermisaoComponent implements OnInit {
     } else {
       this.salvar();
     }
-    this.router.navigate([`grupoacesso`]);
   }
 
   salvar() {
@@ -61,6 +61,7 @@ export class CadastroGruposPermisaoComponent implements OnInit {
           detail: 'Grupo de acesso cadastrado com sucesso!',
         });
         this.form.reset();
+        this.router.navigate([`grupoacesso`]);
       })
       .catch((error) => this.erroService.handler(error));
   }
@@ -68,7 +69,7 @@ export class CadastroGruposPermisaoComponent implements OnInit {
   atualizar() {
     const accessGroup = this.createGrupoAcesso();
     this.grupoAcessoService
-      .atualizar(accessGroup.id, accessGroup)
+      .atualizar(accessGroup.id!, accessGroup)
       .then((resp) => {
         this.messageService.add({
           severity: 'success',
@@ -76,23 +77,24 @@ export class CadastroGruposPermisaoComponent implements OnInit {
           detail: 'Grupo de acesso atualizado com sucesso!',
         });
         this.form.reset();
+        this.router.navigate([`grupoacesso`]);
       })
       .catch((error) => this.erroService.handler(error));
   }
 
-  createGrupoAcesso(): GrupoAcesso {
-    const grupoPermisao: GrupoAcesso = new GrupoAcesso();
-    grupoPermisao.id = this.form.value.id;
-    grupoPermisao.descricao = this.form.value.descricao;
-    grupoPermisao.ativo = this.form.value.ativo;
-    this.selectPermissoes.map((a) => {
-      if (a.data) {
-        const s = new Permissao();
-        s.id = a.data;
-        grupoPermisao.permissoes.push(s);
-      }
-    });
-    return grupoPermisao;
+  createGrupoAcesso(): IAccessGroupInput {
+    const permissoes: IdInput[] = this.selectPermissoes
+      .filter((a) => a.data!)
+      .map((e) => ({
+        id: e.data!,
+      }));
+    console.log(permissoes);
+    return {
+      id: this.form.value.id,
+      descricao: this.form.value.descricao,
+      ativo: this.form.value.ativo,
+      permissoes,
+    };
   }
 
   criarForm() {
@@ -139,7 +141,7 @@ export class CadastroGruposPermisaoComponent implements OnInit {
     });
   }
 
-  converterPermissoesToTreeNode(list: any): TreeNode[] {
+  converterPermissoesToTreeNode(list: Permissao[]): TreeNode[] {
     const treeNod = new Array<TreeNode>();
     tipoAcesso.map((tipo) => {
       list.map((permisao) => {
@@ -151,10 +153,10 @@ export class CadastroGruposPermisaoComponent implements OnInit {
                 permisao.descricao.indexOf(' ') - 1
               ) + 'r',
             data: permisao.id,
-            key: permisao.id,
+            key: permisao.id.toString(),
             leaf: true,
             parent: this.filesTree.find((tree) => {
-              if (tree.label.includes(tipo)) {
+              if (tree.label!.includes(tipo)) {
                 tree.partialSelected = true;
                 tree.expanded = true;
                 return true;

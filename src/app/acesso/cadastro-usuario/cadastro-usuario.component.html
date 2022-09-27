@@ -16,9 +16,9 @@
     <div class="col-12 md:col-6 field">
       <label>Nome Funcionario</label>
       <input type="text" pInputText formControlName="nome" />
-      <div class="error-customize" *ngIf="formUsuario.get('nome').touched">
+      <div class="error-customize" *ngIf="formUsuario.get('nome')!.touched">
         <p-message
-          *ngIf="formUsuario.get('nome').hasError('required')"
+          *ngIf="formUsuario.get('nome')!.hasError('required')"
           severity="error"
           text="Selecione uma fabricante"
         ></p-message>
@@ -28,9 +28,9 @@
     <div class="col-12 md:col-6 field">
       <label>Usuario</label>
       <input type="text" pInputText formControlName="apelido" />
-      <div class="error-customize" *ngIf="formUsuario.get('apelido').touched">
+      <div class="error-customize" *ngIf="formUsuario.get('apelido')!.touched">
         <p-message
-          *ngIf="formUsuario.get('apelido').hasError('required')"
+          *ngIf="formUsuario.get('apelido')!.hasError('required')"
           severity="error"
           text="Selecione uma fabricante"
         ></p-message>
@@ -48,9 +48,9 @@
         pPassword
         formControlName="senha"
       />
-      <div class="error-customize" *ngIf="formUsuario.get('senha').touched">
+      <div class="error-customize" *ngIf="formUsuario.get('senha')!.touched">
         <p-message
-          *ngIf="formUsuario.get('senha').hasError('required')"
+          *ngIf="formUsuario.get('senha')!.hasError('required')"
           severity="error"
           text="Selecione uma fabricante"
         ></p-message>
@@ -66,10 +66,10 @@
       ></p-dropdown>
       <div
         class="error-customize"
-        *ngIf="formUsuario.get('grupoAcesso').touched"
+        *ngIf="formUsuario.get('grupoAcesso')!.touched"
       >
         <p-message
-          *ngIf="formUsuario.get('grupoAcesso').hasError('required')"
+          *ngIf="formUsuario.get('grupoAcesso')!.hasError('required')"
           severity="error"
           text="Selecione uma grupo"
         ></p-message>

@@ -19,15 +19,17 @@
           <input type="text" pInputText formControlName="descricao" />
           <div
             class="error-customize"
-            *ngIf="form.get('descricao').touched || form.get('descricao').dirty"
+            *ngIf="
+              form.get('descricao')!.touched || form.get('descricao')!.dirty
+            "
           >
             <p-message
-              *ngIf="form.get('descricao').hasError('required')"
+              *ngIf="form.get('descricao')!.hasError('required')"
               severity="error"
               text="Campo com preenchimento obrigatorio"
             ></p-message>
             <p-message
-              *ngIf="form.get('descricao').hasError('minlength')"
+              *ngIf="form.get('descricao')!.hasError('minlength')"
               severity="error"
               text="Digite no minimo 3 caracteres"
             ></p-message>

@@ -10,16 +10,21 @@ import {
 } from '@angular/core';
 
 import { MessageService } from 'primeng/api';
-import * as moment from 'moment';
-
+import { format } from 'date-fns';
 import {
   MotivoOsService,
   FiltroMotivoOs,
 } from '../../auxiliares/motivo-os.service';
 import { ErrorHandlerService } from '../../core/error-handler.service';
 import { OrdemServicoService } from '../ordem-servico.service';
-import { OrdemServico, Cliente } from '../../core/mode';
+import { OrdemServico, Cliente, MotivoOs } from '../../core/mode';
 import { ClienteService, FiltroCliente } from '../../cliente/cliente.service';
+import { Panel } from 'primeng/panel';
+
+interface IValueDropdown<T> {
+  label: string;
+  value: T;
+}
 
 @Component({
   selector: 'app-cadastro-ordem-servico',
@@ -27,16 +32,16 @@ import { ClienteService, FiltroCliente } from '../../cliente/cliente.service';
   styleUrls: ['./cadastro-ordem-servico.component.css'],
 })
 export class CadastroOrdemServicoComponent implements OnInit {
-  formOs: FormGroup;
-  @ViewChild('panel', { static: true }) painel;
-  @Input() display: boolean;
-  @Input() cliente: Cliente;
-  @Input() os: number;
+  formOs!: FormGroup;
+  @ViewChild('panel', { static: true }) painel!: Panel;
+  @Input() display!: boolean;
+  @Input() cliente!: Cliente;
+  @Input() os!: number;
   @Output() closed = new EventEmitter<boolean>();
-  motivosOss = [];
-  listCliente: Array<Cliente>;
-  listMotivoOs = [];
-  osBuscada = new OrdemServico();
+  motivosOss: IValueDropdown<MotivoOs>[] = [];
+  listCliente!: Array<Cliente>;
+  listMotivoOs: MotivoOs[] = [];
+  osBuscada: OrdemServico = {} as OrdemServico;
 
   prioridades = [
     { value: 'NORMAL', label: 'NORMAL' },
@@ -57,11 +62,11 @@ export class CadastroOrdemServicoComponent implements OnInit {
     this.criarFormulario();
     if (this.os) {
       this.carregarOs(this.os);
-      this.formOs.get('cliente').disable();
+      this.formOs.get('cliente')!.disable();
     }
     if (this.cliente) {
-      this.formOs.get('cliente').setValue(this.cliente);
-      this.formOs.get('cliente').disable();
+      this.formOs.get('cliente')!.setValue(this.cliente);
+      this.formOs.get('cliente')!.disable();
     }
   }
 
@@ -95,8 +100,9 @@ export class CadastroOrdemServicoComponent implements OnInit {
 
   novo() {
     const ordemServico = this.formOs.getRawValue();
-    ordemServico.dataAbertura = moment(ordemServico.dataAbertura).format(
-      'YYYY-MM-DD HH:mm:ss'
+    ordemServico.dataAbertura = format(
+      ordemServico.dataAbertura,
+      'yyyy-MM-dd HH:mm:ss'
     );
     this.ordemService
       .salvar(ordemServico)
@@ -114,8 +120,9 @@ export class CadastroOrdemServicoComponent implements OnInit {
 
   atualizar() {
     const ordemServico = this.formOs.getRawValue();
-    ordemServico.dataAbertura = moment(ordemServico.dataAbertura).format(
-      'YYYY-MM-DD HH:mm:ss'
+    ordemServico.dataAbertura = format(
+      ordemServico.dataAbertura,
+      'yyyy-MM-dd  HH:mm:ss'
     );
     this.ordemService
       .editar(this.os, ordemServico)
@@ -131,8 +138,8 @@ export class CadastroOrdemServicoComponent implements OnInit {
       .catch((error) => this.erroService.handler(error));
   }
 
-  filtroMotivoOs(event) {
-    const filtro = new FiltroMotivoOs();
+  filtroMotivoOs(event: { query: string }) {
+    const filtro: FiltroMotivoOs = {} as FiltroMotivoOs;
     filtro.descricao = event.query;
     filtro.size = 2000;
     this.motivoService
@@ -143,8 +150,8 @@ export class CadastroOrdemServicoComponent implements OnInit {
       .catch((error) => this.erroService.handler(error));
   }
 
-  filtroCliente(event) {
-    const filter = new FiltroCliente();
+  filtroCliente(event: { query: string }) {
+    const filter: FiltroCliente = {} as FiltroCliente;
     filter.ativo = true;
     if (parseInt(event.query)) {
       filter.tipoFiltro = 1;

@@ -16,6 +16,17 @@ import { ClienteService } from '../cliente.service';
 import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { IClientInput } from 'src/app/core/models-input';
+import { Cidade, Grupo } from 'src/app/core/mode';
+import { Bairro } from './../../core/mode';
+
+interface IValueDropdown<T> {
+  label: string;
+  value: T;
+}
+
+interface IEventQuery {
+  query: string;
+}
 
 @Component({
   selector: 'app-cadastro-cliente',
@@ -24,19 +35,19 @@ import { IClientInput } from 'src/app/core/models-input';
 })
 export class CadastroClienteComponent implements OnInit, AfterViewInit {
   @Input() cliente: any;
-  @ViewChild('bairro', { static: true }) bairroCampo;
-  formCliente: FormGroup;
-  filtroBairro = new FiltroBairro();
+  @ViewChild('bairro', { static: true }) bairroCampo!: ViewChild;
+  formCliente!: FormGroup;
+  filtroBairro: FiltroBairro = {} as FiltroBairro;
   status = [
     { label: 'Ativo', value: true },
     { label: 'Cancelado', value: false },
   ];
-  cidadeSelecionada;
-  grupos = [];
+  cidadeSelecionada!: Cidade;
+  grupos: IValueDropdown<Grupo>[] = [];
 
-  cidades = [];
+  cidades: Cidade[] = [];
 
-  bairros = [];
+  bairros: Bairro[] = [];
 
   constructor(
     private cd: ChangeDetectorRef,
@@ -126,8 +137,8 @@ export class CadastroClienteComponent implements OnInit, AfterViewInit {
 
   listaBairro(cidade: any) {
     this.formCliente
-      .get('endereco')
-      .get('bairro')
+      .get('endereco')!
+      .get('bairro')!
       .reset({ value: null, disabled: false });
     this.cidadeSelecionada = cidade;
   }
@@ -141,8 +152,8 @@ export class CadastroClienteComponent implements OnInit, AfterViewInit {
       .catch((error) => this.erroHandler.handler(error));
   }
 
-  filtroBairroComplete(event) {
-    const filtro = new FiltroBairro();
+  filtroBairroComplete(event: IEventQuery) {
+    const filtro: FiltroBairro = {} as FiltroBairro;
     if (this.cliente) {
       filtro.nome = '';
     } else {
@@ -158,8 +169,8 @@ export class CadastroClienteComponent implements OnInit, AfterViewInit {
       .catch((error) => this.erroHandler.handler(error));
   }
 
-  filtroCidade(event) {
-    const filtro = new FiltroCidade();
+  filtroCidade(event: IEventQuery) {
+    const filtro: FiltroCidade = {} as FiltroCidade;
     filtro.nome = event.query;
     filtro.size = 200;
     this.cidadeService

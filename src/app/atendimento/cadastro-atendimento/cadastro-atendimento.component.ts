@@ -11,10 +11,17 @@ import {
   EventEmitter,
   ViewChild,
 } from '@angular/core';
-import * as moment from 'moment';
+
+import { format } from 'date-fns';
 import { ErrorHandlerService } from '../../core/error-handler.service';
 import { ClienteService } from './../../cliente/cliente.service';
 import { MessageService } from 'primeng/api';
+import { Dialog } from 'primeng/dialog';
+import { Cliente } from './../../core/mode';
+
+interface SearchEvent {
+  query: string;
+}
 
 @Component({
   selector: 'app-cadastro-atendimento',
@@ -22,11 +29,11 @@ import { MessageService } from 'primeng/api';
   styleUrls: ['./cadastro-atendimento.component.css'],
 })
 export class CadastroAtendimentoComponent implements OnInit {
-  listCliente = [];
-  formAt: FormGroup;
+  listCliente: Cliente[] = [];
+  formAt!: FormGroup;
   solucao = false;
-  @ViewChild('panel', { static: true }) panel;
-  @Input() atendimentoId: number;
+  @ViewChild('panel', { static: true }) panel!: Dialog;
+  @Input() atendimentoId!: number;
   @Input() display = false;
   @Output() closed = new EventEmitter<boolean>();
 
@@ -40,9 +47,9 @@ export class CadastroAtendimentoComponent implements OnInit {
 
   ngOnInit() {
     if (this.atendimentoId) {
-      this.atendimentoService
-        .getById(this.atendimentoId)
-        .then((response: Atendimento) => console.log(response));
+      this.atendimentoService.getById(this.atendimentoId).then((response) => {
+        console.log(response);
+      });
     }
     this.criarForm();
   }
@@ -52,7 +59,9 @@ export class CadastroAtendimentoComponent implements OnInit {
   inicio() {
     this.solucao = true;
     const atendimento = this.formAt.getRawValue();
-    atendimento.dataInicio = moment(atendimento.dataInicio).format(
+
+    atendimento.dataInicio = format(
+      atendimento.dataInicio,
       'YYYY-MM-DD HH:mm:ss'
     );
     this.atendimentoService
@@ -64,7 +73,7 @@ export class CadastroAtendimentoComponent implements OnInit {
           detail: `Atendimento iniciado com sucesso !`,
         });
         this.formAt.patchValue(resp);
-        this.formAt.get('cliente').setValue(resp.cliente);
+        this.formAt.get('cliente')!.setValue(resp.cliente);
       })
       .catch((error) => this.erroService.handler(error));
   }
@@ -78,10 +87,11 @@ export class CadastroAtendimentoComponent implements OnInit {
       })
     );
     const atendimento = this.formAt.getRawValue();
-    atendimento.dataInicio = moment(atendimento.dataInicio).format(
+    atendimento.dataInicio = format(
+      atendimento.dataInicio,
       'YYYY-MM-DD HH:mm:ss'
     );
-    atendimento.dataTermino = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
+    atendimento.dataTermino = format(new Date(), 'YYYY-MM-DD HH:mm:ss');
     this.atendimentoService
       .atualizar(atendimento)
       .then((resp) => {
@@ -96,7 +106,7 @@ export class CadastroAtendimentoComponent implements OnInit {
       .catch((error) => this.erroService.handler(error));
   }
 
-  filtroCliente(event) {
+  filtroCliente(event: SearchEvent) {
     this.clienteService
       .pesquisarPorFantazia(event.query)
       .then((resp) => {

@@ -1,11 +1,12 @@
 import { AuthService } from './../../seguranca/auth.service';
-import { ConfirmationService } from 'primeng/api';
+import { ConfirmationService, LazyLoadEvent } from 'primeng/api';
 import { Fabricante } from './../../core/mode';
 import { MessageService } from 'primeng/api';
 import { FabricanteService, FabricanteFilter } from './../fabricante.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ErrorHandlerService } from 'src/app/core/error-handler.service';
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-fabricante',
@@ -14,14 +15,15 @@ import { ErrorHandlerService } from 'src/app/core/error-handler.service';
 })
 export class FabricanteComponent implements OnInit {
   fabricantes: any = [];
-  totalRegistros: number;
-  size: number;
-  @ViewChild('tab', { static: true }) tabela;
-  fabricanteSelect: Fabricante;
-  filter = new FabricanteFilter();
+  totalRegistros!: number;
+  size!: number;
+  rows = 5;
+  first = 0;
+  fabricanteSelect!: Fabricante | undefined;
+  filter: FabricanteFilter = {} as FabricanteFilter;
   new = false;
-  form: FormGroup;
-  formPes: FormGroup;
+  form!: FormGroup;
+  formPes!: FormGroup;
   constructor(
     public auth: AuthService,
     private confirmatioService: ConfirmationService,
@@ -54,14 +56,14 @@ export class FabricanteComponent implements OnInit {
           detail: 'Fabricante cadastrado com sucesso',
         });
         this.new = false;
-        this.pesquisar();
+        this.pesquisar(this.first / this.rows);
       })
       .catch((error) => this.erroHandler.handler(error));
   }
 
   update() {
     this.fabricanteService
-      .update(this.fabricanteSelect.id, this.form.value)
+      .update(this.fabricanteSelect!.id, this.form.value)
       .then((restp) => {
         this.messageService.add({
           severity: 'success',
@@ -69,8 +71,8 @@ export class FabricanteComponent implements OnInit {
           detail: 'Fabricante atualizado com sucesso',
         });
         this.new = false;
-        this.pesquisar();
-        this.fabricanteSelect = null;
+        this.pesquisar(this.first / this.rows);
+        this.fabricanteSelect = undefined;
       })
       .catch((error) => this.erroHandler.handler(error));
   }
@@ -93,7 +95,7 @@ export class FabricanteComponent implements OnInit {
           summary: 'Sucessao',
           detail: 'Fabricante excluido com sucesso',
         });
-        this.pesquisar();
+        this.pesquisar(this.first / this.rows);
       })
       .catch((error) => this.erroHandler.handler(error));
   }
@@ -104,23 +106,22 @@ export class FabricanteComponent implements OnInit {
     this.new = true;
   }
 
-  aoMudarPagina(event) {
-    const pagina = event.first / event.rows;
+  aoMudarPagina(event: LazyLoadEvent) {
+    this.rows = event.rows!;
+    this.first = event.first!;
+    const pagina = event.first! / event.rows!;
     this.pesquisar(pagina);
   }
 
   pesquisar(pagina = 0) {
     this.filter.descricao = this.formPes.value.descricao;
     this.filter.page = pagina;
-    this.filter.size = this.tabela.rows;
+    this.filter.size = this.rows;
     this.fabricanteService
       .findAll(this.filter)
       .then((result) => {
         this.fabricantes = result.conteudo;
         this.totalRegistros = result.total;
-        if (result.firstPage && this.tabela.first > 1) {
-          this.tabela.first = 0;
-        }
       })
       .catch((error) => this.erroHandler.handler(error));
   }

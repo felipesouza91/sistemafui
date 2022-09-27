@@ -8,15 +8,22 @@ import { Usuario } from '../../core/mode';
 import { MessageService } from 'primeng/api';
 import { IUserInput } from '../../core/models-input';
 import { Router } from '@angular/router';
+import { ResumoGrupoAcesso } from 'src/app/core/model-resumo';
+
+interface IDropdownValues {
+  label: string;
+  value: ResumoGrupoAcesso;
+}
+
 @Component({
   selector: 'app-cadastro-usuario',
   templateUrl: './cadastro-usuario.component.html',
   styleUrls: ['./cadastro-usuario.component.css'],
 })
 export class CadastroUsuarioComponent implements OnInit {
-  formUsuario: FormGroup;
-  usuario: Usuario;
-  grupos = [];
+  formUsuario!: FormGroup;
+  usuario!: Usuario;
+  grupos: IDropdownValues[] = [];
 
   status = [
     { value: true, label: 'Ativo' },
@@ -43,7 +50,6 @@ export class CadastroUsuarioComponent implements OnInit {
     } else {
       this.salvar();
     }
-    this.router.navigate(['usuario']);
   }
 
   atualizar() {}
@@ -58,6 +64,7 @@ export class CadastroUsuarioComponent implements OnInit {
           detail: 'Usuario cadastrado com sucesso',
         });
         this.formUsuario.reset();
+        this.router.navigate(['usuario']);
       })
       .catch((error) => this.erroService.handler(error));
   }
@@ -66,7 +73,7 @@ export class CadastroUsuarioComponent implements OnInit {
     this.grupoAcessoService
       .listaGrupoAcessoResumo()
       .then((resp) => {
-        resp.map((r) => {
+        resp!.map((r) => {
           this.grupos.push({ label: r.descricao, value: r });
         });
       })

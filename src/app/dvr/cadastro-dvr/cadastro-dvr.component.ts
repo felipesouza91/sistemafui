@@ -14,6 +14,7 @@ import {
 } from '@angular/core';
 import { ErrorHandlerService } from '../../core/error-handler.service';
 import { MessageService } from 'primeng/api';
+import { Panel } from 'primeng/panel';
 
 @Component({
   selector: 'app-cadastro-dvr',
@@ -21,11 +22,11 @@ import { MessageService } from 'primeng/api';
   styleUrls: ['./cadastro-dvr.component.css'],
 })
 export class CadastroDvrComponent implements OnInit, AfterViewInit {
-  formDvr: FormGroup;
+  formDvr!: FormGroup;
 
-  @ViewChild('panel') panel;
+  @ViewChild('panel') panel!: Panel;
   @Input() dvr: any;
-  @Input() cliente: number;
+  @Input() cliente!: number;
   @Input() display = false;
   @Output() closed = new EventEmitter<Boolean>();
 
@@ -66,18 +67,18 @@ export class CadastroDvrComponent implements OnInit, AfterViewInit {
   }
 
   edicaoDeValidacao(valor: string) {
-    if (this.formDvr.get('fabricante').value === 'INTELBRAS') {
+    if (this.formDvr.get('fabricante')!.value === 'INTELBRAS') {
       this.formDvr
-        .get('numeroSerie')
+        .get('numeroSerie')!
         .setValidators([
           Validators.required,
           Validators.minLength(7),
           Validators.maxLength(50),
         ]);
     } else {
-      this.formDvr.get('numeroSerie').setValue(null);
-      this.formDvr.get('numeroSerie').setValidators(null);
-      this.formDvr.get('numeroSerie').reset();
+      this.formDvr.get('numeroSerie')!.setValue(null);
+      this.formDvr.get('numeroSerie')!.setValidators(null);
+      this.formDvr.get('numeroSerie')!.reset();
     }
   }
 
@@ -104,7 +105,7 @@ export class CadastroDvrComponent implements OnInit, AfterViewInit {
   }
 
   novo() {
-    this.formDvr.get('cliente').get('id').setValue(this.cliente);
+    this.formDvr.get('cliente')!.get('id')!.setValue(this.cliente);
     this.dvrService
       .salvar(this.formDvr.value)
       .then((resp) => {

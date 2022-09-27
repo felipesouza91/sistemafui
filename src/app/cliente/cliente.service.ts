@@ -7,12 +7,12 @@ import { environment } from '../../environments/environment';
 import { Resultado } from './../core/mode';
 import { Cliente } from '../core/mode';
 import { IClientInput } from '../core/models-input';
-export class FiltroCliente {
+export interface FiltroCliente {
   ativo: boolean;
   tipoFiltro: number;
   descricao: string;
-  page = 0;
-  size = 5;
+  page: number;
+  size: number;
 }
 
 @Injectable()
@@ -140,6 +140,12 @@ export class ClienteService {
 
   private createUrlParams(filtro: FiltroCliente): HttpParams {
     let params = new HttpParams();
+    if (filtro.page === undefined) {
+      filtro.page = 0;
+    }
+    if (filtro.size === undefined) {
+      filtro.size = 5;
+    }
     if (filtro.page) {
       params = params.set('page', filtro.page.toString());
     }

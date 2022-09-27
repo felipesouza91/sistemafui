@@ -5,12 +5,12 @@ import { Produto, Resultado } from '../core/mode';
 import { environment } from 'src/environments/environment';
 import { IProductInput } from '../core/models-input';
 
-export class ProdutoFilter {
+export interface ProdutoFilter {
   modelo: string;
   nomeFabricante: string;
   idFabricante: number;
-  page = 0;
-  size = 5;
+  page: number;
+  size: number;
 }
 
 @Injectable()
@@ -33,7 +33,7 @@ export class ProdutoService implements BasicService<ProdutoFilter, Produto> {
     return this.http
       .get<Produto>(`${this.url}/${id}`)
       .toPromise()
-      .then((resp) => resp);
+      .then((resp) => resp as Produto);
   }
   save({
     descricao,
@@ -49,7 +49,7 @@ export class ProdutoService implements BasicService<ProdutoFilter, Produto> {
         valorUnitario,
       })
       .toPromise()
-      .then((resp) => resp);
+      .then((resp) => resp as Produto);
   }
   update(
     id: number,
@@ -63,16 +63,22 @@ export class ProdutoService implements BasicService<ProdutoFilter, Produto> {
         valorUnitario,
       })
       .toPromise()
-      .then((resp) => resp);
+      .then((resp) => resp as Produto);
   }
   delete(id: number): Promise<void> {
     return this.http
       .delete(`${this.url}/${id}`)
       .toPromise()
-      .then(() => Promise.resolve(null));
+      .then(() => Promise.resolve());
   }
   createParams(filtro: ProdutoFilter): HttpParams {
     let params = new HttpParams();
+    if (filtro.page === undefined) {
+      filtro.page = 0;
+    }
+    if (filtro.size === undefined) {
+      filtro.size = 5;
+    }
     if (filtro.modelo) {
       params = params.set('modelo', filtro.modelo);
     }

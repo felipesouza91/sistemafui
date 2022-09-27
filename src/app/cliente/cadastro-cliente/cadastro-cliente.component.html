@@ -1,5 +1,5 @@
 <div class="p-col mb-4">
-  <h1>{{ 'Cadastro Cliente' }}</h1>
+  <h1>{{ "Cadastro Cliente" }}</h1>
 </div>
 <form class="form-ajust" (ngSubmit)="criar()" [formGroup]="formCliente">
   <div class="p-fluid formgrid grid">
@@ -19,9 +19,9 @@
         name="codSigma"
         formControlName="codigoParticao"
       ></p-inputMask>
-      <div *ngIf="formCliente.get('codigoParticao').dirty">
+      <div *ngIf="formCliente.get('codigoParticao')!.dirty">
         <app-erro-message
-          *ngIf="formCliente.get('codigoParticao').hasError('required')"
+          *ngIf="formCliente.get('codigoParticao')!.hasError('required')"
           [message]="'Campo requerido'"
         ></app-erro-message>
       </div>
@@ -36,9 +36,9 @@
         #a
         formControlName="ativo"
       ></p-selectButton>
-      <div *ngIf="formCliente.get('ativo').dirty">
+      <div *ngIf="formCliente.get('ativo')!.dirty">
         <app-erro-message
-          *ngIf="formCliente.get('ativo').hasError('required')"
+          *ngIf="formCliente.get('ativo')!.hasError('required')"
           [message]="'Campo requerido'"
         ></app-erro-message>
       </div>
@@ -46,17 +46,20 @@
     <div class="field col-12">
       <label>Razão Social</label>
       <input type="text" pInputText formControlName="razaoSocial" />
-      <div class="error-customize" *ngIf="formCliente.get('razaoSocial').dirty">
+      <div
+        class="error-customize"
+        *ngIf="formCliente.get('razaoSocial')!.dirty"
+      >
         <app-erro-message
-          *ngIf="formCliente.get('razaoSocial').hasError('required')"
+          *ngIf="formCliente.get('razaoSocial')!.hasError('required')"
           [message]="'Razão Social requerido'"
         ></app-erro-message>
         <app-erro-message
-          *ngIf="formCliente.get('razaoSocial').hasError('minlength')"
+          *ngIf="formCliente.get('razaoSocial')!.hasError('minlength')"
           [message]="'Razão Social deve conter no minimo 10 caracteres'"
         ></app-erro-message>
         <app-erro-message
-          *ngIf="formCliente.get('razaoSocial').hasError('maxlength')"
+          *ngIf="formCliente.get('razaoSocial')!.hasError('maxlength')"
           [message]="'Razão Social deve conter no maximo 255 caracteres'"
         ></app-erro-message>
       </div>
@@ -64,17 +67,17 @@
     <div class="field col-12">
       <label>Nome Fantasia</label>
       <input type="text" pInputText formControlName="fantazia" />
-      <div class="error-customize" *ngIf="formCliente.get('fantazia').dirty">
+      <div class="error-customize" *ngIf="formCliente.get('fantazia')!.dirty">
         <app-erro-message
-          *ngIf="formCliente.get('fantazia').hasError('required')"
+          *ngIf="formCliente.get('fantazia')!.hasError('required')"
           [message]="'Nome Fantasia requerido'"
         ></app-erro-message>
         <app-erro-message
-          *ngIf="formCliente.get('fantazia').hasError('minlength')"
+          *ngIf="formCliente.get('fantazia')!.hasError('minlength')"
           [message]="'Nome Fantasia deve conter no minimo 10 caracteres'"
         ></app-erro-message>
         <app-erro-message
-          *ngIf="formCliente.get('fantazia').hasError('maxlength')"
+          *ngIf="formCliente.get('fantazia')!.hasError('maxlength')"
           [message]="'Nome Fantasia deve conter no maximo 255 caracteres'"
         ></app-erro-message>
       </div>
@@ -82,17 +85,17 @@
     <div class="field col-12">
       <label>Dominio</label>
       <input type="text" pInputText formControlName="dominio" />
-      <div class="error-customize" *ngIf="formCliente.get('dominio').dirty">
+      <div class="error-customize" *ngIf="formCliente.get('dominio')!.dirty">
         <app-erro-message
-          *ngIf="formCliente.get('dominio').hasError('required')"
+          *ngIf="formCliente.get('dominio')!.hasError('required')"
           [message]="'Dominio requerido'"
         ></app-erro-message>
         <app-erro-message
-          *ngIf="formCliente.get('dominio').hasError('minlength')"
+          *ngIf="formCliente.get('dominio')!.hasError('minlength')"
           [message]="'Dominio deve conter no minimo 10 caracteres'"
         ></app-erro-message>
         <app-erro-message
-          *ngIf="formCliente.get('dominio').hasError('maxlength')"
+          *ngIf="formCliente.get('dominio')!.hasError('maxlength')"
           [message]="'Dominio deve conter no maximo 255 caracteres'"
         ></app-erro-message>
       </div>
@@ -120,9 +123,9 @@
         [options]="grupos"
         placeholder="Selecione um Grupo"
       ></p-dropdown>
-      <div *ngIf="formCliente.get('grupo').touched">
+      <div *ngIf="formCliente.get('grupo')!.touched">
         <app-erro-message
-          *ngIf="formCliente.get('grupo').hasError('required')"
+          *ngIf="formCliente.get('grupo')!.hasError('required')"
           [message]="'Campo requerido'"
         ></app-erro-message>
       </div>
@@ -137,16 +140,20 @@
         <div
           class="error-customize"
           *ngIf="
-            formCliente.get('endereco').get('rua').dirty ||
-            formCliente.get('endereco').get('rua').touched
+            formCliente.get('endereco')!.get('rua')!.dirty ||
+            formCliente.get('endereco')!.get('rua')!.touched
           "
         >
           <app-erro-message
-            *ngIf="formCliente.get('endereco').get('rua').hasError('required')"
+            *ngIf="
+              formCliente.get('endereco')!.get('rua')!.hasError('required')
+            "
             [message]="'Campo obrigatorio'"
           ></app-erro-message>
           <app-erro-message
-            *ngIf="formCliente.get('endereco').get('rua').hasError('maxlength')"
+            *ngIf="
+              formCliente.get('endereco')!.get('rua')!.hasError('maxlength')
+            "
             [message]="'Rua deve conter no maximo 255 caracteres'"
           ></app-erro-message>
         </div>
@@ -156,11 +163,11 @@
         <input pInputText formControlName="numero" pKeyFilter="pint" />
         <div
           class="error-customize"
-          *ngIf="formCliente.get('endereco').get('numero').dirty"
+          *ngIf="formCliente.get('endereco')!.get('numero')!.dirty"
         >
           <app-erro-message
             *ngIf="
-              formCliente.get('endereco').get('numero').hasError('required')
+              formCliente.get('endereco')!.get('numero')!.hasError('required')
             "
             [message]="'Campo obrigatorio'"
           ></app-erro-message>
@@ -204,10 +211,12 @@
       ></p-autoComplete>
       <div
         class="error-customize"
-        *ngIf="formCliente.get('endereco').get('bairro').touched"
+        *ngIf="formCliente.get('endereco')!.get('bairro')!.touched"
       >
         <p-message
-          *ngIf="formCliente.get('endereco').get('bairro').hasError('required')"
+          *ngIf="
+            formCliente.get('endereco')!.get('bairro')!.hasError('required')
+          "
           severity="error"
           text="Campo requerido"
         ></p-message>
@@ -220,7 +229,7 @@
         label="Salvar"
         [disabled]="
           formCliente.invalid ||
-          formCliente.get('endereco').get('bairro').disabled ||
+          formCliente.get('endereco')!.get('bairro')!.disabled ||
           !auth.temPermissao('1')
         "
       ></button>

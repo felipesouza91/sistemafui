@@ -6,6 +6,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ErrorHandlerService } from '../../core/error-handler.service';
 import { MessageService, LazyLoadEvent } from 'primeng/api';
 import { ConfirmationService } from 'primeng/api';
+import { Table } from 'primeng/table';
+import { MotivoOs } from 'src/app/core/mode';
 
 @Component({
   selector: 'app-motivoos',
@@ -13,12 +15,12 @@ import { ConfirmationService } from 'primeng/api';
   styleUrls: ['./motivoos.component.css'],
 })
 export class MotivoosComponent implements OnInit {
-  @ViewChild('tab', { static: true }) tabela;
   opt = false;
-  filtro = new FiltroMotivoOs();
-  form: FormGroup;
+  filtro: FiltroMotivoOs = {} as FiltroMotivoOs;
+  form!: FormGroup;
   totalElementos = 0;
-  motivosOs = [];
+  motivosOs: MotivoOs[] = [];
+  rows =5 ;
 
   constructor(
     private confirmationService: ConfirmationService,
@@ -94,14 +96,12 @@ export class MotivoosComponent implements OnInit {
   pesquisar(pagina = 0) {
     this.filtro.descricao = this.form.value.descricao;
     this.filtro.page = pagina;
+    this.filtro.size = this.rows;
     this.motivoOsService
       .pesquisar(this.filtro)
       .then((resp) => {
         this.totalElementos = resp.total;
         this.motivosOs = resp.conteudo;
-        if (resp.firstPage && this.tabela.first > 1) {
-          this.tabela.first = 0;
-        }
       })
       .catch((error) => this.errorHandler.handler(error));
   }
@@ -125,7 +125,8 @@ export class MotivoosComponent implements OnInit {
   }
 
   aoMudarPagina(event: LazyLoadEvent) {
-    const pagina = event.first / event.rows;
+    this.rows  = event.rows!;
+    const pagina = event.first! / event.rows!;
     this.pesquisar(pagina);
   }
 

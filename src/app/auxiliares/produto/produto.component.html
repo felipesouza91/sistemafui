@@ -31,15 +31,14 @@
     <p-table
       [value]="produtos"
       [rowHover]="true"
-      [rows]="5"
-      [responsive]="true"
+      [(rows)]="rows"
       [paginator]="true"
       responsiveLayout="stack"
       [lazy]="true"
       [rowsPerPageOptions]="[5, 10, 15]"
       [totalRecords]="totalRegistros"
       (onLazyLoad)="aoMudarPagina($event)"
-      #tab
+      [first]="first"
     >
       <ng-template pTemplate="header">
         <tr>
@@ -71,12 +70,12 @@
           </td>
           <td>
             <span class="p-column-title">Valor Unitário</span>
-            {{ fab.valorUnitario | currency: 'BRL' }}
+            {{ fab.valorUnitario | currency: "BRL" }}
           </td>
-          <td class="md:justify-content-between justify-content-start flex">
+          <td>
             <span class="p-column-title">Ações</span>
             <a
-              class="margin-right: 10px"
+              class="mr-2"
               pButton
               icon="fas fa-pencil-alt"
               (click)="edit(fab)"
@@ -102,13 +101,17 @@
 </div>
 <div class="grid p-fluid">
   <div class="col-12 md:col-2">
-    <button pButton label="Novo Produto" (click)="new = true"></button>
+    <button
+      pButton
+      label="Novo Produto"
+      (click)="showCreateDialog = true"
+    ></button>
   </div>
 </div>
 
 <p-dialog
   header="Cadastro Fabricante"
-  [(visible)]="new"
+  [(visible)]="showCreateDialog"
   [responsive]="true"
   styleClass="custon"
   (onHide)="formCad.reset()"

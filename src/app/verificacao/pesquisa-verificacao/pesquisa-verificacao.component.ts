@@ -13,6 +13,7 @@ import {
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 
 import { AuthService } from 'src/app/seguranca/auth.service';
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-pesquisa-verificacao',
@@ -21,13 +22,14 @@ import { AuthService } from 'src/app/seguranca/auth.service';
 })
 export class PesquisaVerificacaoComponent implements OnInit {
   @Input() resumo = true;
-  @Input() cliente: Cliente;
-  @ViewChild('tab', { static: true }) tabela;
-  idVerificacao: number;
-  filtro = new VerificaGravacaoFilter();
-  totalElementos = 0;
-  listVerificao = [];
+  @Input() cliente!: Cliente;
 
+  idVerificacao!: number;
+  filtro: VerificaGravacaoFilter = {} as VerificaGravacaoFilter;
+  totalElementos = 0;
+  listVerificao: VerificacaoGravacao[] = [];
+  rows = 0;
+  first = 0;
   display = false;
 
   constructor(
@@ -51,9 +53,6 @@ export class PesquisaVerificacaoComponent implements OnInit {
       .then((resp) => {
         this.totalElementos = resp.total;
         this.listVerificao = resp.conteudo;
-        if (resp.firstPage && this.tabela.first > 1) {
-          this.tabela.first = 0;
-        }
       })
       .catch((erro) => this.erroService.handler(erro));
   }
@@ -82,18 +81,19 @@ export class PesquisaVerificacaoComponent implements OnInit {
   }
 
   aoMudarPagina(event: LazyLoadEvent) {
-    const pagina = event.first / event.rows;
+    this.rows = event.rows!;
+    const pagina = event.first! / event.rows!;
     this.pesquisar(pagina);
   }
 
   finalizou(tipo: Boolean) {
     this.display = !tipo;
-    this.tabela.first = 0;
+    this.first = 0;
     this.pesquisar();
   }
 
   showDialog(id?: number) {
-    this.idVerificacao = id;
+    this.idVerificacao = id!;
     this.display = !this.display;
   }
 }

@@ -11,7 +11,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
   styleUrls: ['./pesquisa-grupos-permisao.component.css'],
 })
 export class PesquisaGruposPermisaoComponent implements OnInit {
-  form: FormGroup;
+  form!: FormGroup;
   listGrupos: any;
   constructor(
     public auth: AuthService,
@@ -23,6 +23,9 @@ export class PesquisaGruposPermisaoComponent implements OnInit {
 
   ngOnInit() {
     this.configFormulsario();
+  }
+
+  ngAfterViewInit() {
     this.pesquisar();
   }
 

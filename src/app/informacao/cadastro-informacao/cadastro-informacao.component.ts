@@ -1,5 +1,3 @@
-import { Cliente } from './../../core/mode';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
 import {
   Component,
   OnInit,
@@ -8,12 +6,15 @@ import {
   EventEmitter,
   ViewChild,
 } from '@angular/core';
+import { Cliente } from './../../core/mode';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { MessageService } from 'primeng/api';
 
 import { ErrorHandlerService } from './../../core/error-handler.service';
 import { InformacaoService } from './../informacao.service';
 import { AuthService } from './../../seguranca/auth.service';
+import { Panel } from 'primeng/panel';
 
 @Component({
   selector: 'app-cadastro-informacao',
@@ -21,12 +22,12 @@ import { AuthService } from './../../seguranca/auth.service';
   styleUrls: ['./cadastro-informacao.component.css'],
 })
 export class CadastroInformacaoComponent implements OnInit {
-  @Input() display;
-  @Input() idInfo;
-  @ViewChild('panel', { static: true }) painel;
-  @Input() cliente: Cliente;
+  @Input() display!: boolean;
+  @Input() idInfo!: number;
+  @ViewChild('panel', { static: true }) painel!: Panel;
+  @Input() cliente!: Cliente;
   @Output() closed = new EventEmitter<Boolean>();
-  form: FormGroup;
+  form!: FormGroup;
   constructor(
     public auth: AuthService,
     private informacaoService: InformacaoService,
@@ -50,6 +51,7 @@ export class CadastroInformacaoComponent implements OnInit {
   }
 
   novo() {
+    console.log(this.form.value);
     this.informacaoService
       .save(this.cliente.id, this.form.value)
       .then((resp) => {

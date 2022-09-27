@@ -12,9 +12,9 @@ import { UsuarioService } from '../usuario.service';
   styleUrls: ['./pesquisa-usuario.component.css'],
 })
 export class PesquisaUsuarioComponent implements OnInit {
-  form: FormGroup;
-  listUsuario = [];
-
+  form!: FormGroup;
+  listUsuario: Usuario[] = [];
+  rows = 5;
   filtros = [
     { label: 'Todos', value: 0 },
     { label: 'Nome Funcionario', value: 1 },
@@ -30,8 +30,11 @@ export class PesquisaUsuarioComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.init();
     this.criarFormulario();
+  }
+
+  ngAfterViewInit() {
+    this.init();
   }
 
   pesquisar() {
@@ -42,7 +45,7 @@ export class PesquisaUsuarioComponent implements OnInit {
     this.usuarioService
       .buscarResumo()
       .then((resp) => {
-        this.listUsuario = resp;
+        this.listUsuario = resp!;
       })
       .catch((erro) => this.erroService.handler(erro));
   }

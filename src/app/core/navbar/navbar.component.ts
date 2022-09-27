@@ -18,13 +18,13 @@ import { SidebarModule } from 'primeng/sidebar';
   styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent implements OnInit {
-  @ViewChild('sideBar', { static: true }) sideBar;
+  @ViewChild('sideBar', { static: true }) sideBar!: ViewChild;
   display = false;
   showSidebar = false;
-  items: MenuItem[];
-  smallItems: MenuItem[];
-  @Output() atendimento = new EventEmitter<Boolean>();
-  nomeUsuario: String;
+  items!: MenuItem[];
+  smallItems!: MenuItem[];
+  @Output() atendimento = new EventEmitter<boolean>();
+  nomeUsuario!: String;
   constructor(
     private logoutService: LogoutService,
     public auth: AuthService,

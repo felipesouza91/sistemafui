@@ -3,10 +3,10 @@
     <h1>
       {{
         !opt
-          ? 'Pesquisar grupo'
+          ? "Pesquisar grupo"
           : !form.value.id
-          ? 'Novo Grupo'
-          : 'Editando Grupo'
+          ? "Novo Grupo"
+          : "Editando Grupo"
       }}
     </h1>
   </div>
@@ -20,19 +20,19 @@
     <div class="col-12 field">
       <label>Nome</label>
       <input type="text" pInputText formControlName="nome" />
-      <div class="error-customize" *ngIf="form.get('nome').dirty">
+      <div class="error-customize" *ngIf="form.get('nome')!.dirty">
         <p-message
-          *ngIf="form.get('nome').hasError('required')"
+          *ngIf="form.get('nome')!.hasError('required')"
           severity="error"
           text="Nome requerido"
         ></p-message>
         <p-message
-          *ngIf="form.get('nome').hasError('minlength')"
+          *ngIf="form.get('nome')!.hasError('minlength')"
           severity="error"
           text="Nome deve conter no minimo 3 caracteres"
         ></p-message>
         <p-message
-          *ngIf="form.get('nome').hasError('maxlength')"
+          *ngIf="form.get('nome')!.hasError('maxlength')"
           severity="error"
           text="Nome deve conter no maximo 70 caracteres"
         ></p-message>
@@ -53,7 +53,7 @@
       <button
         type="reset"
         pButton
-        label="Limpar"
+        [label]="opt ? 'Cancelar':'Limpar'"
         class="p-button-danger"
         (click)="configureForm(false)"
       ></button>
@@ -66,15 +66,16 @@
 <div class="grid">
   <div class="col-12">
     <p-table
+      #tab
       [value]="grupos"
       [rowHover]="true"
       [paginator]="true"
       responsiveLayout="stack"
-      [rows]="filtro.size"
+      [(rows)]="rows"
       [lazy]="true"
+
       [totalRecords]="totalRegistros"
       (onLazyLoad)="aoMudarPagina($event)"
-      #tab
     >
       <ng-template pTemplate="header">
         <tr>
@@ -88,10 +89,10 @@
             <span class="p-column-title">Nome: </span>
             {{ grupo.nome }}
           </td>
-          <td class="md:justify-content-between justify-content-start flex">
+          <td >
             <span class="p-column-title">Ações</span>
             <a
-              class="margin-right: 10px"
+              class="mr-2"
               pButton
               pTooltip="Editar"
               icon="fas fa-pencil-alt"

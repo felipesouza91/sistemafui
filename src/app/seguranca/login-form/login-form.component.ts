@@ -10,7 +10,7 @@ import { Router } from '../../../../node_modules/@angular/router';
   styleUrls: ['./login-form.component.css'],
 })
 export class LoginFormComponent implements OnInit {
-  form: FormGroup;
+  form!: FormGroup;
   constructor(
     private router: Router,
     private errorService: ErrorHandlerService,
@@ -35,7 +35,7 @@ export class LoginFormComponent implements OnInit {
         this.router.navigate(['/cliente']);
       })
       .catch((error) => {
-        this.form.get('senha').setValue('');
+        this.form.get('senha')!.setValue('');
         this.errorService.handler(error);
       });
   }

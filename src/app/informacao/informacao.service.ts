@@ -3,12 +3,12 @@ import { Informacao, ClienteInformacao, Resultado } from './../core/mode';
 import { HttpParams } from '@angular/common/http';
 import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
-import * as moment from 'moment';
+import { format, parseISO } from 'date-fns';
 
-export class InformacaoFilter {
+export interface InformacaoFilter {
   idCliente: number;
-  page = 0;
-  size = 5;
+  page: number;
+  size: number;
   idUserCreate: number;
   userCreate: string;
 }
@@ -38,9 +38,9 @@ export class InformacaoService {
 
   findById(clientId: number, infoId: number): Promise<ClienteInformacao> {
     return this.http
-      .get(`${this.informacaoUrl}/${clientId}/info/${infoId}`)
+      .get<Informacao>(`${this.informacaoUrl}/${clientId}/info/${infoId}`)
       .toPromise()
-      .then((resp: Informacao) => this.prepararInfo(resp) as ClienteInformacao);
+      .then((resp) => this.prepararInfo(resp!) as ClienteInformacao);
   }
 
   save(
@@ -59,16 +59,18 @@ export class InformacaoService {
     { descricao }: Informacao
   ): Promise<Informacao> {
     return this.http
-      .put(`${this.informacaoUrl}/${clientId}/info/${idInfo}`, { descricao })
+      .put<Informacao>(`${this.informacaoUrl}/${clientId}/info/${idInfo}`, {
+        descricao,
+      })
       .toPromise()
-      .then((resp: Informacao) => resp);
+      .then((value) => value as Informacao);
   }
 
   delete(clientId: number, idInfor: number): Promise<void> {
     return this.http
       .delete(`${this.informacaoUrl}/${clientId}/info/${idInfor}`)
       .toPromise()
-      .then(() => null);
+      .then();
   }
 
   private prepararInfo(ordem: Informacao): Informacao {
@@ -78,14 +80,8 @@ export class InformacaoService {
 
   private converterStringsParaDatas(infos: Informacao[]) {
     for (const info of infos) {
-      info.creationDate = moment(
-        info.creationDate,
-        'YYYY-MM-DD hh:mm'
-      ).toDate();
-      info.lastModifiedDate = moment(
-        info.lastModifiedDate,
-        'YYYY-MM-DD hh:mm'
-      ).toDate();
+      info.creationDate = parseISO(info.creationDate.toString());
+      if (info.lastModifiedDate) parseISO(info.lastModifiedDate.toISOString());
     }
   }
 

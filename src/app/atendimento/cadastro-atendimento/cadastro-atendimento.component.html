@@ -42,10 +42,12 @@
           ></p-autoComplete>
           <div
             class="error-customize"
-            *ngIf="formAt.get('cliente').touched || formAt.get('cliente').dirty"
+            *ngIf="
+              formAt.get('cliente')!.touched || formAt.get('cliente')!.dirty
+            "
           >
             <p-message
-              *ngIf="formAt.get('cliente').hasError('required')"
+              *ngIf="formAt.get('cliente')!.hasError('required')"
               severity="error"
               text="Informe o nome do cliente"
             ></p-message>
@@ -59,12 +61,12 @@
           <div
             class="error-customize"
             *ngIf="
-              formAt.get('solicitante').touched ||
-              formAt.get('solicitante').dirty
+              formAt.get('solicitante')!.touched ||
+              formAt.get('solicitante')!.dirty
             "
           >
             <p-message
-              *ngIf="formAt.get('solicitante').hasError('required')"
+              *ngIf="formAt.get('solicitante')!.hasError('required')"
               severity="error"
               text="Informe o nome do Solicitante"
             ></p-message>

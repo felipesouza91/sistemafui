@@ -15,12 +15,12 @@
       responsiveLayout="stack"
       [rowHover]="false"
       [paginator]="true"
-      [rows]="filtro.size"
+      [(rows)]="filtro.size"
       [responsive]="true"
       [lazy]="true"
+      [first]="first"
       [totalRecords]="totalElementos"
       (onLazyLoad)="aoMudarPagina($event)"
-      #tab
     >
       <ng-template pTemplate="header">
         <tr>
@@ -49,7 +49,7 @@
           </td>
           <td>
             <span class="p-column-title">Data do teste</span>
-            {{ verificacao.dataTeste | date: 'dd/MM/yyyy HH:mm' }}
+            {{ verificacao.dataTeste | date: "dd/MM/yyyy HH:mm" }}
           </td>
           <td>
             <span class="p-column-title">Equipamento: </span>

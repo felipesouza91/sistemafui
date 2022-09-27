@@ -1,6 +1,6 @@
 import { Resultado } from './../core/mode';
 import { SistemFHttp } from './../seguranca/sistemaf-http';
-import * as moment from 'moment';
+import { format, parseISO } from 'date-fns';
 
 import { Injectable } from '@angular/core';
 import { OrdemServico } from '../core/mode';
@@ -8,14 +8,14 @@ import { environment } from '../../environments/environment';
 import { HttpParams } from '@angular/common/http';
 import { IServiceOrderInput } from '../core/models-input';
 
-export class FiltroOrdemServico {
+export interface FiltroOrdemServico {
   codigoCliente: number;
   tipoFiltro: number;
   descricao: string;
   dataAberturaAte: string;
-  dataAberturaDe: string = null;
-  page = 0;
-  size = 5;
+  dataAberturaDe: string;
+  page: number;
+  size: number;
 }
 
 @Injectable()
@@ -42,7 +42,6 @@ export class OrdemServicoService {
         codigoService,
         codigoSigma,
         descricao,
-
         motivoOs: { id: motivoOs.id },
         prioridadeOs,
         solicitante,
@@ -112,6 +111,12 @@ export class OrdemServicoService {
 
   private createUrlParams(filtro: FiltroOrdemServico): HttpParams {
     let params = new HttpParams();
+    if (filtro.page === undefined) {
+      filtro.page = 0;
+    }
+    if (filtro.size === undefined) {
+      filtro.size = 5;
+    }
     if (filtro.page) {
       params = params.set('page', filtro.page.toString());
     }
@@ -160,7 +165,7 @@ export class OrdemServicoService {
 
   private converterStringsParaDatas(ordem: OrdemServico[]) {
     for (const os of ordem) {
-      os.dataAbertura = moment(os.dataAbertura, 'YYYY-MM-DD hh:mm').toDate();
+      os.dataAbertura = parseISO(format(os.dataAbertura, 'yyyy-MM-dd hh:mm'));
     }
   }
 }

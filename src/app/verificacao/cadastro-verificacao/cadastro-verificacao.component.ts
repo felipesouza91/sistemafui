@@ -9,13 +9,18 @@ import {
 } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
-import * as moment from 'moment';
-
+import { format, parseISO } from 'date-fns';
 import { AuthService } from './../../seguranca/auth.service';
 import { Cliente } from '../../core/mode';
 import { VerificacaoService } from './../verificacao.service';
 import { DvrService } from './../../dvr/dvr.service';
 import { ErrorHandlerService } from '../../core/error-handler.service';
+import { Panel } from 'primeng/panel';
+
+interface IDropdown {
+  label: string;
+  value: { id: number };
+}
 
 @Component({
   selector: 'app-cadastro-verificacao',
@@ -23,14 +28,14 @@ import { ErrorHandlerService } from '../../core/error-handler.service';
   styleUrls: ['./cadastro-verificacao.component.css'],
 })
 export class CadastroVerificacaoComponent implements OnInit {
-  form: FormGroup;
-  @ViewChild('panelV', { static: true }) painel;
-  @Input() cliente: Cliente;
-  @Input() display;
-  @Input() verificacao: number;
+  form!: FormGroup;
+  @ViewChild('panelV', { static: true }) painel!: Panel;
+  @Input() cliente!: Cliente;
+  @Input() display: boolean = false;
+  @Input() verificacao!: number;
   @Output() closed = new EventEmitter<Boolean>();
 
-  dvrs = [];
+  dvrs: IDropdown[] = [];
   status = [
     { label: 'Online', value: 'ONLINE' },
     { label: 'Offline', value: 'OFFLINE' },
@@ -66,8 +71,9 @@ export class CadastroVerificacaoComponent implements OnInit {
 
   novo() {
     const verificacao = this.form.getRawValue();
-    verificacao.dataTeste = moment(verificacao.dataAbertura).format(
-      'YYYY-MM-DD HH:mm:ss'
+    verificacao.dataTeste = format(
+      verificacao.dataTeste,
+      'yyyy-MM-dd HH:mm:ss'
     );
     this.verificaService
       .salvar(verificacao)
@@ -85,8 +91,9 @@ export class CadastroVerificacaoComponent implements OnInit {
 
   editar() {
     const verificacao = this.form.getRawValue();
-    verificacao.dataTeste = moment(verificacao.dataTeste).format(
-      'YYYY-MM-DD HH:mm:ss'
+    verificacao.dataTeste = format(
+      verificacao.dataTeste,
+      'yyyy-MM-dd HH:mm:ss'
     );
     this.verificaService
       .atualizar(this.verificacao, verificacao)
