@@ -18,25 +18,6 @@ export class LoginFormComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.initForm();
-  }
-
-  initForm() {
-    this.form = new FormGroup({
-      login: new FormControl(null, Validators.required),
-      senha: new FormControl(null, Validators.required),
-    });
-  }
-
-  login() {
-    this.authService
-      .login(this.form.value)
-      .then(() => {
-        this.router.navigate(['/cliente']);
-      })
-      .catch((error) => {
-        this.form.get('senha')!.setValue('');
-        this.errorService.handler(error);
-      });
+    this.authService.login();
   }
 }

@@ -13,35 +13,25 @@ export interface UsuarioLogin {
 export class AuthService {
   authUrl: string;
   jwtPayload: any;
-
+  oauthAuthorizeUrl: string;
   constructor(private http: HttpClient, private jwtHelper: JwtHelperService) {
-    this.authUrl = `${environment.apiUrl}/oauth/token`;
+    this.authUrl = `${environment.apiUrl}/oauth2/token`;
+    this.oauthAuthorizeUrl = `${environment.apiUrl}/oauth2/authorize`;
     this.carregarToken();
   }
 
-  login(usuario: UsuarioLogin): Promise<void> {
-    let headers = new HttpHeaders();
-    headers = headers.append('Authorization', 'Basic YW5ndWxhcjpAbmd1bEByMA==');
-    headers = headers.append(
-      'Content-Type',
-      'application/x-www-form-urlencoded'
+  login() {
+    const response_type = 'code';
+    const client_id = 'angular';
+    const state = 'abc';
+    const redirect_uri = 'https://oidcdebugger.com/debug';
+    const scope = 'READ WRITE';
+    const code_challange = 'bKE9UspwyIPg8LsQHkJaiehiTeUdstI5JZOvaoQRgJA';
+    const code_challange_method = 'S256';
+    const authorizeUri = encodeURI(
+      `${this.oauthAuthorizeUrl}?response_type=${response_type}&client_id=${client_id}&state=${state}&redirect_uri=${redirect_uri}&scope=${scope}&code_challange=${code_challange}&code_challange_method=${code_challange_method}`
     );
-    const body = `username=${usuario.login}&password=${usuario.senha}&grant_type=password`;
-    return this.http
-      .post(this.authUrl, body, { headers, withCredentials: true })
-      .toPromise()
-      .then((resp: any) => {
-        this.armazenarToken(resp.access_token);
-      })
-      .catch((resp) => {
-        if (resp.status === 400) {
-          const respJson = resp;
-          if (respJson.error.error === 'invalid_grant') {
-            return Promise.reject('Usuário ou senha incorreto');
-          }
-        }
-        return Promise.reject(resp);
-      });
+    window.location.href = authorizeUri;
   }
 
   isAccessTokenInvalid() {
