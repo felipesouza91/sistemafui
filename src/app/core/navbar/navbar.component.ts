@@ -199,7 +199,7 @@ export class NavbarComponent implements OnInit {
     this.logoutService
       .logout()
       .then(() => {
-        this.router.navigate(['/login']);
+        this.auth.login();
       })
       .catch((erro) => this.erroService.handler(erro));
   }

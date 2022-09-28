@@ -24,7 +24,7 @@ export class AuthService {
     const response_type = 'code';
     const client_id = 'angular';
     const state = 'abc';
-    const redirect_uri = 'https://oidcdebugger.com/debug';
+    const redirect_uri = 'http://127.0.0.1:4200';
     const scope = 'READ WRITE';
     const code_challange = 'bKE9UspwyIPg8LsQHkJaiehiTeUdstI5JZOvaoQRgJA';
     const code_challange_method = 'S256';

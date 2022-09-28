@@ -5,10 +5,11 @@ import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 
 import { NotAuthenticationErro } from '../seguranca/sistemaf-http';
+import { AuthService } from '../seguranca/auth.service';
 
 @Injectable()
 export class ErrorHandlerService {
-  constructor(private router: Router, private messageService: MessageService) {}
+  constructor(private router: Router, private messageService: MessageService, private authService: AuthService) {}
 
   handler(errorResponse: any) {
     let msg: string;
@@ -16,7 +17,7 @@ export class ErrorHandlerService {
       msg = errorResponse;
     } else if (errorResponse instanceof NotAuthenticationErro) {
       msg = 'Sua sessão expirou !';
-      this.router.navigate(['/login']);
+      this.authService.login();
     } else if (
       errorResponse instanceof HttpErrorResponse &&
       errorResponse.status >= 400 &&

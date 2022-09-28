@@ -34,10 +34,6 @@ export class AppComponent {
     }
   }
 
-  exibindoNavBar() {
-    return this.router.url !== '/login';
-  }
-
   teste(event: boolean) {
     this.display = true;
   }
