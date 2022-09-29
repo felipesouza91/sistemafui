@@ -18,13 +18,7 @@ export class AuthGuard implements CanActivate {
     state: RouterStateSnapshot
   ): Observable<boolean> | Promise<boolean> | boolean {
     if (this.auth.isAccessTokenInvalid()) {
-      return this.auth.obterNovoAccessToken().then(() => {
-        if (this.auth.isAccessTokenInvalid()) {
-          this.auth.login()
-          return false;
-        }
-        return true;
-      });
+      return true;
     } else if (
       next.data['roles'] &&
       !this.auth.temQualquerPermissao(next.data['roles'])

@@ -37,10 +37,6 @@ export class NavbarComponent implements OnInit {
     this.nomeUsuario = this.auth.jwtPayload ? this.auth.jwtPayload.nome : null;
   }
 
-  novoAccessToken() {
-    this.auth.obterNovoAccessToken();
-  }
-
   initMenu() {
     this.items = [
       {

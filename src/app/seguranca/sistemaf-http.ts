@@ -50,16 +50,7 @@ export class SistemFHttp extends HttpClient {
 
   private fazerRequisicao<T>(fn: Function): Observable<T> {
     if (this.auth.isAccessTokenInvalid()) {
-      const chamadaNovoAccessToken = this.auth
-        .obterNovoAccessToken()
-        .then(() => {
-          if (this.auth.isAccessTokenInvalid()) {
-            throw new NotAuthenticationErro();
-          }
-          return fn().toPromise();
-        });
-
-      return observableFrom(chamadaNovoAccessToken);
+      return fn();
     } else {
       return fn();
     }

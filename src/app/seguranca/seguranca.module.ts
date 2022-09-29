@@ -7,6 +7,7 @@ import { JwtModule } from '@auth0/angular-jwt';
 
 import { SegurancaRoutingModule } from './seguranca-routing.module';
 import { environment } from '../../environments/environment';
+import { AuthorizedComponent } from './authorized.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -24,7 +25,9 @@ export function tokenGetter() {
     }),
     SegurancaRoutingModule,
   ],
-  declarations: [],
+  declarations: [
+    AuthorizedComponent
+  ],
   exports: [],
   providers: [AuthGuard, LogoutService],
 })
