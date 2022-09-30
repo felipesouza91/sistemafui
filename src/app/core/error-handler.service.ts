@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 
 import { MessageService } from 'primeng/api';
 
-import { NotAuthenticationErro } from '../seguranca/sistemaf-http';
+import { NotAuthenticationErro } from '../seguranca/app-http-interceptor';
 import { AuthService } from '../seguranca/auth.service';
 
 @Injectable()

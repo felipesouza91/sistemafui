@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { SistemFHttp } from '../seguranca/sistemaf-http';
+import { HttpClient } from '@angular/common/http';
 
 interface IProfileData {
   nome: string;
@@ -13,7 +13,7 @@ interface IProfileData {
 @Injectable()
 export class ProfileService {
   private baseUrl: string;
-  constructor(private http: SistemFHttp) {
+  constructor(private http: HttpClient) {
     this.baseUrl = `${environment.apiUrl}/profile`;
   }
 

@@ -18,6 +18,11 @@ export class AuthGuard implements CanActivate {
     state: RouterStateSnapshot
   ): Observable<boolean> | Promise<boolean> | boolean {
     if (this.auth.isAccessTokenInvalid()) {
+      this.auth.getAccessTokenWithRefreshToken();
+      if (this.auth.isAccessTokenInvalid()) {
+        this.auth.login();
+        return false;
+      }
       return true;
     } else if (
       next.data['roles'] &&

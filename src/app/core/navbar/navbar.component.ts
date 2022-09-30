@@ -24,7 +24,7 @@ export class NavbarComponent implements OnInit {
   items!: MenuItem[];
   smallItems!: MenuItem[];
   @Output() atendimento = new EventEmitter<boolean>();
-  nomeUsuario!: String;
+  nomeUsuario!: string;
   constructor(
     private logoutService: LogoutService,
     public auth: AuthService,
@@ -34,7 +34,7 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit() {
     this.initMenu();
-    this.nomeUsuario = this.auth.jwtPayload ? this.auth.jwtPayload.nome : null;
+    this.nomeUsuario = this.auth.jwtPayload ? this.auth.getUsername() : null;
   }
 
   initMenu() {
@@ -192,12 +192,7 @@ export class NavbarComponent implements OnInit {
   }
 
   sair(): void {
-    this.logoutService
-      .logout()
-      .then(() => {
-        this.auth.login();
-      })
-      .catch((erro) => this.erroService.handler(erro));
+    this.logoutService.logout();
   }
 
   showMenu(): void {

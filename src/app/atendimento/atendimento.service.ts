@@ -1,12 +1,11 @@
-import { HttpParams } from '@angular/common/http';
-import { SistemFHttp } from './../seguranca/sistemaf-http';
+import { HttpParams, HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { environment } from './../../environments/environment';
 
 import { ResumoAtendimento } from './../core/model-resumo';
 import { Atendimento, Resultado } from './../core/mode';
-import { format , parseISO} from 'date-fns'
+import { format, parseISO } from 'date-fns';
 
 export interface AtendimentoFilter {
   idCliente: number;
@@ -17,7 +16,7 @@ export interface AtendimentoFilter {
 @Injectable()
 export class AtendimentoService {
   atendimentoUrl: string;
-  constructor(private http: SistemFHttp) {
+  constructor(private http: HttpClient) {
     this.atendimentoUrl = `${environment.apiUrl}/atendimentos`;
   }
 
@@ -103,7 +102,7 @@ export class AtendimentoService {
     for (const at of atendimentos) {
       at.dataInicio = parseISO(format(at.dataInicio, 'YYYY-MM-DD hh:mm'));
       if (at.dataTermino) {
-        at.dataTermino =parseISO( format(at.dataTermino, 'YYYY-MM-DD hh:mm'));
+        at.dataTermino = parseISO(format(at.dataTermino, 'YYYY-MM-DD hh:mm'));
       }
     }
   }

@@ -1,5 +1,4 @@
-import { HttpParams } from '@angular/common/http';
-import { SistemFHttp } from './../seguranca/sistemaf-http';
+import { HttpParams, HttpClient } from '@angular/common/http';
 import { Resultado } from './../core/mode';
 import { environment } from '../../environments/environment';
 import { Injectable } from '@angular/core';
@@ -20,7 +19,7 @@ export interface FiltroDvr {
 export class DvrService {
   dvrUrl: string;
 
-  constructor(private http: SistemFHttp) {
+  constructor(private http: HttpClient) {
     this.dvrUrl = `${environment.apiUrl}/dvrs`;
   }
 

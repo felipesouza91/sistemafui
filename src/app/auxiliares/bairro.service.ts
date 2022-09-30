@@ -1,5 +1,4 @@
-import { HttpParams } from '@angular/common/http';
-import { SistemFHttp } from './../seguranca/sistemaf-http';
+import { HttpParams, HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Injectable } from '@angular/core';
 
@@ -21,7 +20,7 @@ export interface FiltroBairro {
 export class BairroService {
   bairroUrl: string;
 
-  constructor(private http: SistemFHttp) {
+  constructor(private http: HttpClient) {
     this.bairroUrl = `${environment.apiUrl}/bairros`;
   }
 

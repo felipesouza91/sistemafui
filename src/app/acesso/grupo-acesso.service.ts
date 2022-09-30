@@ -1,10 +1,10 @@
-import { SistemFHttp } from './../seguranca/sistemaf-http';
 import { Permissao } from '../core/mode';
 import { Injectable } from '@angular/core';
 
 import { environment } from '../../environments/environment';
 import { IAccessGroupInput } from '../core/models-input';
 import { ResumoGrupoAcesso } from '../core/model-resumo';
+import { HttpClient } from '@angular/common/http';
 
 export interface Item {
   descricao: string;
@@ -38,7 +38,7 @@ export class GrupoAcessoService {
   private listItens: Item[] = new Array();
   private listPermissao: Permissao[] = [];
 
-  constructor(private http: SistemFHttp) {
+  constructor(private http: HttpClient) {
     this.grupoAcessoUrl = `${environment.apiUrl}/grupoacesso`;
     this.permissaoUrl = `${environment.apiUrl}/permissao`;
   }

@@ -1,6 +1,8 @@
 import { MenuItem } from 'primeng/api';
 import { Component } from '@angular/core';
 import { Router } from '../../node_modules/@angular/router';
+import { tipoAcesso } from './core/navbar/constants';
+import { AuthService } from 'src/app/seguranca/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -26,12 +28,16 @@ export class AppComponent {
   opt = false;
   display = false;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private authService: AuthService) {}
 
   finalizou(tipo: boolean, tela: number) {
     if (tela === 1) {
       this.displayAtendimento = tipo;
     }
+  }
+
+  showNavbar() {
+    return this.authService.isLoggedIn();
   }
 
   teste(event: boolean) {

@@ -1,10 +1,10 @@
-import { HttpParams } from '@angular/common/http';
+import { HttpParams, HttpClient } from '@angular/common/http';
 import { VerificacaoGravacao, Resultado } from './../core/mode';
 
-import {  format, parseISO} from 'date-fns'
+import { format, parseISO } from 'date-fns';
 import { environment } from '../../environments/environment';
 import { Injectable } from '@angular/core';
-import { SistemFHttp } from '../seguranca/sistemaf-http';
+
 import { IRecordingCheckInput } from '../core/models-input';
 
 export interface VerificaGravacaoFilter {
@@ -21,7 +21,7 @@ export interface VerificaGravacaoFilter {
 export class VerificacaoService {
   verificacaoUrl: string;
 
-  constructor(private http: SistemFHttp) {
+  constructor(private http: HttpClient) {
     this.verificacaoUrl = `${environment.apiUrl}/verificacoes`;
   }
 
@@ -39,7 +39,7 @@ export class VerificacaoService {
         status,
       })
       .toPromise()
-      .then((resp) => resp as VerificacaoGravacao);
+      .then((resp: any) => resp as VerificacaoGravacao);
   }
 
   atualizar(
@@ -54,7 +54,7 @@ export class VerificacaoService {
         status,
       })
       .toPromise()
-      .then((resp) => resp as VerificacaoGravacao);
+      .then((resp: any) => resp as VerificacaoGravacao);
   }
 
   excluir(id: number): Promise<any> {
@@ -91,7 +91,7 @@ export class VerificacaoService {
     return this.http
       .get(`${this.verificacaoUrl}/${id}`)
       .toPromise()
-      .then((resp) => {
+      .then((resp: any) => {
         const verificacao = resp as VerificacaoGravacao;
         this.converterStringsParaDatas([verificacao]);
         return verificacao;
@@ -100,10 +100,9 @@ export class VerificacaoService {
 
   private converterStringsParaDatas(verificacoes: VerificacaoGravacao[]) {
     for (const verificacao of verificacoes) {
-      verificacao.dataTeste = parseISO(format(
-        verificacao.dataTeste,
-        'YYYY-MM-DD hh:mm'
-      ));
+      verificacao.dataTeste = parseISO(
+        format(verificacao.dataTeste, 'YYYY-MM-DD hh:mm')
+      );
     }
   }
 

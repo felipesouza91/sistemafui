@@ -2,22 +2,13 @@ import { Injectable } from '@angular/core';
 import { environment } from './../../environments/environment';
 import { AuthService } from './auth.service';
 
-import { SistemFHttp } from './sistemaf-http';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class LogoutService {
-  tokenRevokeUrl: string;
-
-  constructor(private http: SistemFHttp, private auth: AuthService) {
-    this.tokenRevokeUrl = `${environment.apiUrl}/tokens/revoke`;
-  }
+  constructor(private auth: AuthService) {}
 
   logout() {
-    return this.http
-      .delete(this.tokenRevokeUrl, { withCredentials: true })
-      .toPromise()
-      .then(() => {
-        this.auth.limparAccessToken();
-      });
+    return this.auth.logout();
   }
 }

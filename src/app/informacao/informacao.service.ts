@@ -1,6 +1,5 @@
-import { SistemFHttp } from './../seguranca/sistemaf-http';
 import { Informacao, ClienteInformacao, Resultado } from './../core/mode';
-import { HttpParams } from '@angular/common/http';
+import { HttpParams, HttpClient } from '@angular/common/http';
 import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
 import { format, parseISO } from 'date-fns';
@@ -16,7 +15,7 @@ export interface InformacaoFilter {
 @Injectable()
 export class InformacaoService {
   informacaoUrl: string;
-  constructor(private http: SistemFHttp) {
+  constructor(private http: HttpClient) {
     this.informacaoUrl = `${environment.apiUrl}/clients`;
   }
 

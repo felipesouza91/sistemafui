@@ -1,11 +1,10 @@
 import { Resultado } from './../core/mode';
-import { SistemFHttp } from './../seguranca/sistemaf-http';
 import { format, parseISO } from 'date-fns';
 
 import { Injectable } from '@angular/core';
 import { OrdemServico } from '../core/mode';
 import { environment } from '../../environments/environment';
-import { HttpParams } from '@angular/common/http';
+import { HttpParams, HttpClient } from '@angular/common/http';
 import { IServiceOrderInput } from '../core/models-input';
 
 export interface FiltroOrdemServico {
@@ -22,7 +21,7 @@ export interface FiltroOrdemServico {
 export class OrdemServicoService {
   ordemServicoUrl: string;
 
-  constructor(private http: SistemFHttp) {
+  constructor(private http: HttpClient) {
     this.ordemServicoUrl = `${environment.apiUrl}/ordensservicos`;
   }
 

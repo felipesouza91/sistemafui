@@ -1,5 +1,4 @@
-import { HttpParams } from '@angular/common/http';
-import { SistemFHttp } from './../seguranca/sistemaf-http';
+import { HttpParams, HttpClient } from '@angular/common/http';
 import { Resultado } from './../core/mode';
 import { Usuario } from '../core/mode';
 import { Injectable } from '@angular/core';
@@ -18,7 +17,7 @@ export interface UsuarioFiltro {
 export class UsuarioService {
   usuarioUrl: string;
 
-  constructor(private http: SistemFHttp) {
+  constructor(private http: HttpClient) {
     this.usuarioUrl = `${environment.apiUrl}/usuario`;
   }
 

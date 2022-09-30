@@ -1,5 +1,4 @@
-import { HttpParams } from '@angular/common/http';
-import { SistemFHttp } from './../seguranca/sistemaf-http';
+import { HttpParams, HttpClient } from '@angular/common/http';
 import { MotivoOs, Resultado } from './../core/mode';
 import { environment } from '../../environments/environment';
 
@@ -16,7 +15,7 @@ export interface FiltroMotivoOs {
 export class MotivoOsService {
   motivoOsUrl: string;
 
-  constructor(private http: SistemFHttp) {
+  constructor(private http: HttpClient) {
     this.motivoOsUrl = `${environment.apiUrl}/motivososs`;
   }
 

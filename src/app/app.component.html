@@ -1,7 +1,5 @@
 <div class="flex h-screen flex-column sm:flex-row px-4 pt-4">
-  <app-navbar
-    (atendimento)="teste($event)"
-  ></app-navbar>
+  <app-navbar (atendimento)="teste($event)" *ngIf="showNavbar()"></app-navbar>
   <div class="flex flex-1 justify-content-center">
     <div class="w-full sm:ml-5">
       <p-card>

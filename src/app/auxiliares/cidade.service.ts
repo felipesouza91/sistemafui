@@ -1,5 +1,4 @@
-import { HttpParams } from '@angular/common/http';
-import { SistemFHttp } from './../seguranca/sistemaf-http';
+import { HttpParams, HttpClient } from '@angular/common/http';
 import { Cidade, Resultado } from './../core/mode';
 
 import { Injectable } from '@angular/core';
@@ -16,7 +15,7 @@ export interface FiltroCidade {
 export class CidadeService {
   cidadeUrl: string;
 
-  constructor(private http: SistemFHttp) {
+  constructor(private http: HttpClient) {
     this.cidadeUrl = `${environment.apiUrl}/cidades`;
   }
 

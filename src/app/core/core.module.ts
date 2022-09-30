@@ -34,7 +34,6 @@ import { GrupoAcessoService } from '../acesso/grupo-acesso.service';
 import { VerificacaoService } from '../verificacao/verificacao.service';
 import { AuthService } from '../seguranca/auth.service';
 import { NaoAutorizadoComponent } from './nao-autorizado.component';
-import { SistemFHttp } from '../seguranca/sistemaf-http';
 import { BadgeModule } from 'primeng/badge';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { ProfileService } from '../profile/profile.service';
@@ -74,7 +73,6 @@ export function tokenGetter() {
     NaoAutorizadoComponent,
   ],
   providers: [
-    SistemFHttp,
     UsuarioService,
     ConfirmationService,
     MessageService,
