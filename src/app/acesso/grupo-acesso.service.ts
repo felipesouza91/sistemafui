@@ -1,6 +1,6 @@
 import { Permissao } from '../core/mode';
 import { Injectable } from '@angular/core';
-
+import { firstValueFrom } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { IAccessGroupInput } from '../core/models-input';
 import { ResumoGrupoAcesso } from '../core/model-resumo';
@@ -44,9 +44,8 @@ export class GrupoAcessoService {
   }
 
   salvar({ ativo, descricao, permissoes }: IAccessGroupInput): Promise<any> {
-    return this.http
-      .post(this.grupoAcessoUrl, { ativo, descricao, permissoes })
-      .toPromise()
+    return firstValueFrom(this.http
+      .post(this.grupoAcessoUrl, { ativo, descricao, permissoes }))
       .then((resp) => resp);
   }
 
@@ -54,37 +53,38 @@ export class GrupoAcessoService {
     id: number,
     { ativo, descricao, permissoes }: IAccessGroupInput
   ): Promise<any> {
-    return this.http
-      .put(`${this.grupoAcessoUrl}/${id}`, { ativo, descricao, permissoes })
-      .toPromise()
-      .then((resp) => resp);
+    return firstValueFrom(
+      this.http.put(`${this.grupoAcessoUrl}/${id}`, {
+        ativo,
+        descricao,
+        permissoes,
+      })
+    ).then((resp) => resp);
   }
 
   excluir(codigo: number): Promise<any> {
-    return this.http
-      .delete(`${this.grupoAcessoUrl}/${codigo}`)
-      .toPromise()
+    return firstValueFrom(this.http
+      .delete(`${this.grupoAcessoUrl}/${codigo}`))
       .then(() => null);
   }
 
   listaGrupoAcessoResumo(): Promise<ResumoGrupoAcesso[] | undefined> {
-    return this.http
-      .get<ResumoGrupoAcesso[]>(`${this.grupoAcessoUrl}?resumo`)
-      .toPromise()
+
+    return firstValueFrom(this.http
+      .get<ResumoGrupoAcesso[]>(`${this.grupoAcessoUrl}?resumo`))
       .then((resp) => resp);
   }
 
   buscarPorCodigo(codigo: number): Promise<any> {
-    return this.http
-      .get(`${this.grupoAcessoUrl}/${codigo}`)
-      .toPromise()
+
+    return firstValueFrom(this.http
+      .get(`${this.grupoAcessoUrl}/${codigo}`))
       .then((resp) => resp);
   }
 
   listarPermissoes(): Promise<Permissao[]> {
-    return this.http
-      .get(this.permissaoUrl)
-      .toPromise()
+    return firstValueFrom (this.http
+      .get(this.permissaoUrl))
       .then((resp) => {
         const list: Permissao[] = resp as Permissao[];
         return list;

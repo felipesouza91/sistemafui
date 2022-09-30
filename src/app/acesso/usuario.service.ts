@@ -1,6 +1,8 @@
 import { HttpParams, HttpClient } from '@angular/common/http';
 import { Resultado } from './../core/mode';
 import { Usuario } from '../core/mode';
+import { firstValueFrom } from 'rxjs';
+
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { IUserInput } from '../core/models-input';
@@ -28,63 +30,58 @@ export class UsuarioService {
     nome,
     senha,
   }: IUserInput): Promise<Usuario> {
-    return this.http
-      .post(this.usuarioUrl, {
+    return firstValueFrom(
+      this.http.post(this.usuarioUrl, {
         apelido,
         ativo,
         grupoAcesso: { id: grupoAcesso.id },
         nome,
         senha,
       })
-      .toPromise()
-      .then((resp) => {
-        return resp as Usuario;
-      });
+    ).then((resp) => {
+      return resp as Usuario;
+    });
   }
 
   atualizar(
     id: number,
     { apelido, ativo, grupoAcesso, nome, senha }: IUserInput
   ): Promise<Usuario> {
-    return this.http
-      .put(`${this.usuarioUrl}/${id}`, {
+    return firstValueFrom(
+      this.http.put(`${this.usuarioUrl}/${id}`, {
         apelido,
         ativo,
         grupoAcesso: { id: grupoAcesso.id },
         nome,
         senha,
       })
-      .toPromise()
-      .then((resp) => resp as Usuario);
+    ).then((resp) => resp as Usuario);
   }
 
   pesquisar(filter: UsuarioFiltro): Promise<Resultado<Usuario>> {
-    return this.http
-      .get(this.usuarioUrl, { params: this.createUrlParams(filter) })
-      .toPromise()
-      .then((resp: any) => {
-        return new Resultado<Usuario>(
-          resp.totalElements,
-          resp.first,
-          resp.content as Usuario[]
-        );
-      });
+    return firstValueFrom(
+      this.http.get(this.usuarioUrl, { params: this.createUrlParams(filter) })
+    ).then((resp: any) => {
+      return new Resultado<Usuario>(
+        resp.totalElements,
+        resp.first,
+        resp.content as Usuario[]
+      );
+    });
   }
 
   buscarPorCodigo(codigo: number): Promise<Usuario> {
-    return this.http
-      .get(`${this.usuarioUrl}/${codigo}`)
-      .toPromise()
-      .then((resp) => resp as Usuario);
+    return firstValueFrom(this.http.get(`${this.usuarioUrl}/${codigo}`)).then(
+      (resp) => resp as Usuario
+    );
   }
 
   buscarResumo(): Promise<Usuario[] | undefined> {
-    return this.http
-      .get<Usuario[]>(`${this.usuarioUrl}?resumo`)
-      .toPromise()
-      .then((resp) => {
-        return resp;
-      });
+    return firstValueFrom(
+      this.http.get<Usuario[]>(`${this.usuarioUrl}?resumo`)
+    ).then((resp) => {
+      return resp;
+    });
   }
   private createUrlParams(filter: UsuarioFiltro) {
     if (filter.size == null) {
