@@ -118,9 +118,9 @@ export class CadastroVerificacaoComponent implements OnInit {
       dataTeste: new FormControl({ value: new Date(), disabled: true }),
       dvr: new FormControl(null, Validators.required),
       usuario: new FormGroup({
-        id: new FormControl(this.auth.jwtPayload.id),
+        id: new FormControl(this.auth.jwtPayload.userId),
         nome: new FormControl({
-          value: this.auth.jwtPayload.nome,
+          value: this.auth.jwtPayload.userName,
           disabled: true,
         }),
       }),

@@ -58,8 +58,15 @@ export class BairroComponent implements OnInit {
   }
 
   salvar() {
+    const { nome, cidade} = this.form.value;
+    const body = {
+      nome,
+      cidade: {
+        id: cidade.value.id
+      }
+    }
     this.bairroService
-      .salvar(this.form.value)
+      .salvar(body)
       .then((resp) => {
         this.messageService.add({
           severity: 'success',
@@ -73,10 +80,16 @@ export class BairroComponent implements OnInit {
   }
 
   editar() {
-    const id = this.form.value.id;
-    const neighborhood: INeighborhoodInput = this.form.value;
+
+    const { id ,nome, cidade} = this.form.value;
+    const body = {
+      nome,
+      cidade: {
+        id: cidade.value.id
+      }
+    }
     this.bairroService
-      .editar(id, neighborhood)
+      .editar(id, body)
       .then((resp) => {
         this.messageService.add({
           severity: 'success',
