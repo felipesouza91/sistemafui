@@ -1,6 +1,6 @@
 import { HttpParams, HttpClient } from '@angular/common/http';
 import { Cidade, Resultado } from './../core/mode';
-
+import { firstValueFrom } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { ICityInput } from '../core/models-input';
@@ -20,49 +20,44 @@ export class CidadeService {
   }
 
   autualizar(id: number, { nome }: ICityInput): Promise<Cidade> {
-    return this.http
-      .put(`${this.cidadeUrl}/${id}`, { nome })
-      .toPromise()
-      .then((response) => response as Cidade);
+    return firstValueFrom(
+      this.http.put(`${this.cidadeUrl}/${id}`, { nome })
+    ).then((response) => response as Cidade);
   }
 
   salvar({ nome }: ICityInput): Promise<Cidade> {
-    return this.http
-      .post(this.cidadeUrl, { nome })
-      .toPromise()
-      .then((response) => response as Cidade);
+    return firstValueFrom(this.http.post(this.cidadeUrl, { nome })).then(
+      (response) => response as Cidade
+    );
   }
 
   excluir(codigo: number): Promise<any> {
-    return this.http
-      .delete(`${this.cidadeUrl}/${codigo}`)
-      .toPromise()
-      .then(() => null);
+    return firstValueFrom(this.http.delete(`${this.cidadeUrl}/${codigo}`)).then(
+      () => null
+    );
   }
 
   pesquisar(filtro: FiltroCidade): Promise<Resultado<Cidade>> {
     const params = this.criarFiltros(filtro);
-    return this.http
-      .get(this.cidadeUrl, { params })
-      .toPromise()
-      .then((resp: any) => {
+    return firstValueFrom(this.http.get(this.cidadeUrl, { params })).then(
+      (resp: any) => {
         return new Resultado<Cidade>(
           resp.totalElements,
           resp.first,
           resp.content
         );
-      });
+      }
+    );
   }
 
   listarTodos(): Promise<Cidade[]> {
     const params = new HttpParams();
     params.append('size', '200');
-    return this.http
-      .get(this.cidadeUrl, { params })
-      .toPromise()
-      .then((result: any) => {
+    return firstValueFrom(this.http.get(this.cidadeUrl, { params })).then(
+      (result: any) => {
         return result.content as Cidade[];
-      });
+      }
+    );
   }
 
   criarFiltros(filtro: FiltroCidade): HttpParams {

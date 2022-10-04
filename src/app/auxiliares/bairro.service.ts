@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 
 import { Bairro, Resultado } from '../core/mode';
 import { INeighborhoodInput } from '../core/models-input';
-import { filter } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 
 export interface FiltroBairro {
   nome: string;
@@ -25,47 +25,45 @@ export class BairroService {
   }
 
   salvar({ nome, cidade }: INeighborhoodInput): Promise<any> {
-    return this.http
-      .post(this.bairroUrl, { nome, cidade: { id: cidade.id } })
-      .toPromise()
-      .then((resp) => resp);
+    return firstValueFrom(
+      this.http.post(this.bairroUrl, { nome, cidade: { id: cidade.id } })
+    ).then((resp) => resp);
   }
 
   editar(id: number, { nome, cidade }: INeighborhoodInput): Promise<Bairro> {
-    return this.http
-      .put(`${this.bairroUrl}/${id}`, { nome, cidade: { id: cidade.id } })
-      .toPromise()
-      .then((resp) => resp as Bairro);
+    return firstValueFrom(
+      this.http.put(`${this.bairroUrl}/${id}`, {
+        nome,
+        cidade: { id: cidade.id },
+      })
+    ).then((resp) => resp as Bairro);
   }
 
   excluir(codigo: number): Promise<any> {
-    return this.http
-      .delete(`${this.bairroUrl}/${codigo}`)
-      .toPromise()
-      .then(() => null);
+    return firstValueFrom(this.http.delete(`${this.bairroUrl}/${codigo}`)).then(
+      () => null
+    );
   }
 
   pesquisar(filtro: FiltroBairro): Promise<Resultado<Bairro>> {
     const params = this.createFilter(filtro);
-    return this.http
-      .get(this.bairroUrl, { params })
-      .toPromise()
-      .then((resp: any) => {
+    return firstValueFrom(this.http.get(this.bairroUrl, { params })).then(
+      (resp: any) => {
         return new Resultado<Bairro>(
           resp.totalElements,
           resp.first,
           resp.content as Bairro[]
         );
-      });
+      }
+    );
   }
 
   pesquisarPorCodigo(id: number): Promise<Bairro> {
-    return this.http
-      .get(`${this.bairroUrl}/${id}`)
-      .toPromise()
-      .then((result) => {
+    return firstValueFrom(this.http.get(`${this.bairroUrl}/${id}`)).then(
+      (result) => {
         return result as Bairro;
-      });
+      }
+    );
   }
 
   createFilter(filtro: FiltroBairro): HttpParams {

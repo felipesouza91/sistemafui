@@ -3,6 +3,7 @@ import { HttpParams, HttpClient } from '@angular/common/http';
 import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
 import { format, parseISO } from 'date-fns';
+import { firstValueFrom } from 'rxjs';
 
 export interface InformacaoFilter {
   idCliente: number;
@@ -20,36 +21,31 @@ export class InformacaoService {
   }
 
   findAll(filter: InformacaoFilter): Promise<Resultado<Informacao>> {
-    return this.http
-      .get(`${this.informacaoUrl}/${filter.idCliente}/info`, {
+    return firstValueFrom(
+      this.http.get(`${this.informacaoUrl}/${filter.idCliente}/info`, {
         params: this.createUrlParams(filter),
       })
-      .toPromise()
-      .then(
-        (resp: any) =>
-          new Resultado<Informacao>(
-            resp.totalElements,
-            resp.first,
-            resp.content
-          )
-      );
+    ).then(
+      (resp: any) =>
+        new Resultado<Informacao>(resp.totalElements, resp.first, resp.content)
+    );
   }
 
   findById(clientId: number, infoId: number): Promise<ClienteInformacao> {
-    return this.http
-      .get<Informacao>(`${this.informacaoUrl}/${clientId}/info/${infoId}`)
-      .toPromise()
-      .then((resp) => this.prepararInfo(resp!) as ClienteInformacao);
+    return firstValueFrom(
+      this.http.get<Informacao>(
+        `${this.informacaoUrl}/${clientId}/info/${infoId}`
+      )
+    ).then((resp) => this.prepararInfo(resp!) as ClienteInformacao);
   }
 
   save(
     idCliente: number,
     { descricao }: ClienteInformacao
   ): Promise<ClienteInformacao> {
-    return this.http
-      .post(`${this.informacaoUrl}/${idCliente}/info`, { descricao })
-      .toPromise()
-      .then((resp) => resp as ClienteInformacao);
+    return firstValueFrom(
+      this.http.post(`${this.informacaoUrl}/${idCliente}/info`, { descricao })
+    ).then((resp) => resp as ClienteInformacao);
   }
 
   update(
@@ -57,19 +53,20 @@ export class InformacaoService {
     idInfo: number,
     { descricao }: Informacao
   ): Promise<Informacao> {
-    return this.http
-      .put<Informacao>(`${this.informacaoUrl}/${clientId}/info/${idInfo}`, {
-        descricao,
-      })
-      .toPromise()
-      .then((value) => value as Informacao);
+    return firstValueFrom(
+      this.http.put<Informacao>(
+        `${this.informacaoUrl}/${clientId}/info/${idInfo}`,
+        {
+          descricao,
+        }
+      )
+    ).then((value) => value as Informacao);
   }
 
   delete(clientId: number, idInfor: number): Promise<void> {
-    return this.http
-      .delete(`${this.informacaoUrl}/${clientId}/info/${idInfor}`)
-      .toPromise()
-      .then();
+    return firstValueFrom(
+      this.http.delete(`${this.informacaoUrl}/${clientId}/info/${idInfor}`)
+    ).then();
   }
 
   private prepararInfo(ordem: Informacao): Informacao {

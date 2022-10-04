@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { BasicService } from '../core/service.interface';
 import { IManufactureInput } from '../core/models-input';
-
+import { firstValueFrom } from 'rxjs';
 export interface FabricanteFilter {
   descricao: string;
   page: number;
@@ -21,44 +21,34 @@ export class FabricanteService
   }
 
   findAll(filtro: FabricanteFilter): Promise<Resultado<Fabricante>> {
-    return this.http
-      .get(this.url, { params: this.createParams(filtro) })
-      .toPromise()
-      .then(
-        (resp: any) =>
-          new Resultado<Fabricante>(
-            resp.totalElements,
-            resp.first,
-            resp.content
-          )
-      );
+    return firstValueFrom(
+      this.http.get(this.url, { params: this.createParams(filtro) })
+    ).then(
+      (resp: any) =>
+        new Resultado<Fabricante>(resp.totalElements, resp.first, resp.content)
+    );
   }
 
   findById(id: number): Promise<Fabricante> {
-    return this.http
-      .get<Fabricante>(`${this.url}/${id}`)
-      .toPromise()
-      .then((resp) => resp as Fabricante);
+    return firstValueFrom(this.http.get<Fabricante>(`${this.url}/${id}`)).then(
+      (resp) => resp as Fabricante
+    );
   }
 
   save({ descricao }: IManufactureInput): Promise<Fabricante> {
-    return this.http
-      .post<Fabricante>(this.url, { descricao })
-      .toPromise()
-      .then((resp) => resp as Fabricante);
+    return firstValueFrom(
+      this.http.post<Fabricante>(this.url, { descricao })
+    ).then((resp) => resp as Fabricante);
   }
 
   update(id: number, { descricao }: IManufactureInput): Promise<Fabricante> {
-    return this.http
-      .put<Fabricante>(`${this.url}/${id}`, { descricao })
-      .toPromise()
-      .then((resp) => resp as Fabricante);
+    return firstValueFrom(
+      this.http.put<Fabricante>(`${this.url}/${id}`, { descricao })
+    ).then((resp) => resp as Fabricante);
   }
 
   delete(id: number): Promise<void> {
-    return this.http
-      .delete(`${this.url}/${id}`)
-      .toPromise()
+    return firstValueFrom(this.http.delete(`${this.url}/${id}`))
       .then(() => Promise.resolve());
   }
 

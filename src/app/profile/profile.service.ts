@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
+import { firstValueFrom } from 'rxjs';
 
 interface IProfileData {
   nome: string;
@@ -22,13 +23,12 @@ export class ProfileService {
     newPassword,
     oldPassword,
   }: IProfileData): Promise<void> {
-    return this.http
-      .put(`${this.baseUrl}/password`, {
+    return firstValueFrom(
+      this.http.put(`${this.baseUrl}/password`, {
         oldPassword,
         newPassword,
         confirmationNewPassword,
       })
-      .toPromise()
-      .then((resp) => Promise.resolve());
+    ).then((resp) => Promise.resolve());
   }
 }

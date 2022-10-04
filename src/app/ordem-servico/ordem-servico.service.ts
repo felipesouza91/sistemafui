@@ -1,6 +1,6 @@
 import { Resultado } from './../core/mode';
 import { format, parseISO } from 'date-fns';
-
+import { firstValueFrom } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { OrdemServico } from '../core/mode';
 import { environment } from '../../environments/environment';
@@ -35,8 +35,8 @@ export class OrdemServicoService {
     prioridadeOs,
     solicitante,
   }: IServiceOrderInput): Promise<OrdemServico> {
-    return this.http
-      .post(this.ordemServicoUrl, {
+    return firstValueFrom(
+      this.http.post(this.ordemServicoUrl, {
         cliente: { id: cliente.id },
         codigoService,
         codigoSigma,
@@ -45,8 +45,7 @@ export class OrdemServicoService {
         prioridadeOs,
         solicitante,
       })
-      .toPromise()
-      .then((resp) => resp as OrdemServico);
+    ).then((resp) => resp as OrdemServico);
   }
 
   editar(
@@ -62,8 +61,8 @@ export class OrdemServicoService {
       solicitante,
     }: IServiceOrderInput
   ): Promise<OrdemServico> {
-    return this.http
-      .put(`${this.ordemServicoUrl}/${id}`, {
+    return firstValueFrom(
+      this.http.put(`${this.ordemServicoUrl}/${id}`, {
         cliente: { id: cliente.id },
         codigoService,
         codigoSigma,
@@ -72,35 +71,33 @@ export class OrdemServicoService {
         prioridadeOs,
         solicitante,
       })
-      .toPromise()
-      .then((resp) => this.preparoOrdem(resp as OrdemServico));
+    ).then((resp) => this.preparoOrdem(resp as OrdemServico));
   }
 
   excluir(codigo: number): Promise<any> {
-    return this.http
-      .delete(`${this.ordemServicoUrl}/${codigo}`)
-      .toPromise()
-      .then(() => null);
+    return firstValueFrom(
+      this.http.delete(`${this.ordemServicoUrl}/${codigo}`)
+    ).then(() => null);
   }
 
   pesquisar(filtro: FiltroOrdemServico): Promise<Resultado<OrdemServico>> {
-    return this.http
-      .get(this.ordemServicoUrl, { params: this.createUrlParams(filtro) })
-      .toPromise()
-      .then((resp: any) => {
-        return new Resultado<OrdemServico>(
-          resp.totalElements,
-          resp.first,
-          resp.content
-        );
-      });
+    return firstValueFrom(
+      this.http.get(this.ordemServicoUrl, {
+        params: this.createUrlParams(filtro),
+      })
+    ).then((resp: any) => {
+      return new Resultado<OrdemServico>(
+        resp.totalElements,
+        resp.first,
+        resp.content
+      );
+    });
   }
 
   buscarPorCodigo(idOs: number): Promise<OrdemServico> {
-    return this.http
-      .get(`${this.ordemServicoUrl}/${idOs}`)
-      .toPromise()
-      .then((resp) => this.preparoOrdem(resp as OrdemServico));
+    return firstValueFrom(
+      this.http.get(`${this.ordemServicoUrl}/${idOs}`)
+    ).then((resp) => this.preparoOrdem(resp as OrdemServico));
   }
 
   private preparoOrdem(ordem: OrdemServico): OrdemServico {

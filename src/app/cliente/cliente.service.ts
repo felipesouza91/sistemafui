@@ -6,6 +6,7 @@ import { environment } from '../../environments/environment';
 import { Resultado } from './../core/mode';
 import { Cliente } from '../core/mode';
 import { IClientInput } from '../core/models-input';
+import { firstValueFrom } from 'rxjs';
 export interface FiltroCliente {
   ativo: boolean;
   tipoFiltro: number;
@@ -34,8 +35,8 @@ export class ClienteService {
     telefone1,
     telefone2,
   }: IClientInput): Promise<Cliente> {
-    return this.http
-      .post(this.clienteUrl, {
+    return firstValueFrom(
+      this.http.post(this.clienteUrl, {
         ativo,
         codigoParticao,
         codigoService,
@@ -54,8 +55,7 @@ export class ClienteService {
         telefone1,
         telefone2,
       })
-      .toPromise()
-      .then((resp) => resp as Cliente);
+    ).then((resp) => resp as Cliente);
   }
 
   update(
@@ -73,8 +73,8 @@ export class ClienteService {
       telefone2,
     }: IClientInput
   ): Promise<Cliente> {
-    return this.http
-      .put(`${this.clienteUrl}/${id}`, {
+    return firstValueFrom(
+      this.http.put(`${this.clienteUrl}/${id}`, {
         ativo,
         codigoParticao,
         codigoService,
@@ -93,48 +93,41 @@ export class ClienteService {
         telefone1,
         telefone2,
       })
-      .toPromise()
-      .then((resp) => resp as Cliente);
+    ).then((resp) => resp as Cliente);
   }
 
   excluir(codigo: number): Promise<any> {
-    return this.http
-      .delete(`${this.clienteUrl}/${codigo}`)
-      .toPromise()
-      .then(() => null);
+    return firstValueFrom(
+      this.http.delete(`${this.clienteUrl}/${codigo}`)
+    ).then(() => null);
   }
 
   pesquisar(filtro: FiltroCliente): Promise<Resultado<Cliente>> {
     const params = this.createUrlParams(filtro);
-    return this.http
-      .get(this.clienteUrl, { params })
-      .toPromise()
-      .then((resp: any) => {
+    return firstValueFrom(this.http.get(this.clienteUrl, { params })).then(
+      (resp: any) => {
         return new Resultado<Cliente>(
           resp.totalElements,
           resp.first,
           resp.content
         );
-      });
+      }
+    );
   }
 
   pesquisaPorCodigo(codigo: number): Promise<Cliente> {
-    return this.http
-      .get(`${this.clienteUrl}/${codigo}`)
-      .toPromise()
-      .then((resp) => resp as Cliente);
+    return firstValueFrom(this.http.get(`${this.clienteUrl}/${codigo}`)).then(
+      (resp) => resp as Cliente
+    );
   }
 
   pesquisarPorFantazia(value: any): Promise<Resultado<Cliente>> {
     const params = new HttpParams();
     params.append('fantazia', value);
-    return this.http
-      .get(this.clienteUrl, { params })
-      .toPromise()
-      .then(
-        (resp: any) =>
-          new Resultado<Cliente>(resp.totalElements, resp.first, resp.content)
-      );
+    return firstValueFrom(this.http.get(this.clienteUrl, { params })).then(
+      (resp: any) =>
+        new Resultado<Cliente>(resp.totalElements, resp.first, resp.content)
+    );
   }
 
   private createUrlParams(filtro: FiltroCliente): HttpParams {

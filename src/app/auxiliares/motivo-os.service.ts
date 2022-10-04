@@ -1,7 +1,7 @@
 import { HttpParams, HttpClient } from '@angular/common/http';
 import { MotivoOs, Resultado } from './../core/mode';
 import { environment } from '../../environments/environment';
-
+import { firstValueFrom } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { IServiceOrderReason } from '../core/models-input';
 
@@ -20,49 +20,42 @@ export class MotivoOsService {
   }
 
   salvar({ descricao }: IServiceOrderReason): Promise<MotivoOs> {
-    return this.http
-      .post(this.motivoOsUrl, { descricao })
-      .toPromise()
-      .then((resp) => resp as MotivoOs);
+    return firstValueFrom(this.http.post(this.motivoOsUrl, { descricao })).then(
+      (resp) => resp as MotivoOs
+    );
   }
 
   editar(id: number, { descricao }: IServiceOrderReason): Promise<MotivoOs> {
-    return this.http
-      .put(`${this.motivoOsUrl}/${id}`, { descricao })
-      .toPromise()
-      .then((resp) => resp as MotivoOs);
+    return firstValueFrom(
+      this.http.put(`${this.motivoOsUrl}/${id}`, { descricao })
+    ).then((resp) => resp as MotivoOs);
   }
 
   excluir(codigo: number): Promise<any> {
-    const headers = new Headers();
-    return this.http
-      .delete(`${this.motivoOsUrl}/${codigo}`)
-      .toPromise()
-      .then(() => null);
+    return firstValueFrom(
+      this.http.delete(`${this.motivoOsUrl}/${codigo}`)
+    ).then(() => null);
   }
 
   pesquisar(filtro: FiltroMotivoOs): Promise<Resultado<MotivoOs>> {
     const params = this.getParams(filtro);
-    return this.http
-      .get(this.motivoOsUrl, { params })
-      .toPromise()
-      .then((result: any) => {
+    return firstValueFrom(this.http.get(this.motivoOsUrl, { params })).then(
+      (result: any) => {
         return new Resultado<MotivoOs>(
           result.totalElements,
           result.first,
           result.content as MotivoOs[]
         );
-      });
+      }
+    );
   }
 
   pesquisarTodos(): Promise<MotivoOs[]> {
-    const headers = new Headers();
-    return this.http
-      .get(this.motivoOsUrl)
-      .toPromise()
-      .then((result: any) => {
+    return firstValueFrom(this.http.get(this.motivoOsUrl)).then(
+      (result: any) => {
         return result.content as MotivoOs[];
-      });
+      }
+    );
   }
 
   private getParams(filtro: FiltroMotivoOs): HttpParams {

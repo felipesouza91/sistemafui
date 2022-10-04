@@ -2,7 +2,7 @@ import { HttpParams, HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { environment } from './../../environments/environment';
-
+import { firstValueFrom } from 'rxjs';
 import { ResumoAtendimento } from './../core/model-resumo';
 import { Atendimento, Resultado } from './../core/mode';
 import { format, parseISO } from 'date-fns';
@@ -21,61 +21,57 @@ export class AtendimentoService {
   }
 
   salvar(atendimento: any): Promise<Atendimento> {
-    return this.http
-      .post(this.atendimentoUrl, atendimento)
-      .toPromise()
-      .then((resp) => {
-        const atendimentoSalvo = resp as Atendimento;
-        this.converterStringsParaDatas([atendimentoSalvo]);
-        return atendimentoSalvo;
-      });
+    return firstValueFrom(
+      this.http.post(this.atendimentoUrl, atendimento)
+    ).then((resp) => {
+      const atendimentoSalvo = resp as Atendimento;
+      this.converterStringsParaDatas([atendimentoSalvo]);
+      return atendimentoSalvo;
+    });
   }
 
   atualizar(atendimento: any): Promise<Atendimento> {
-    return this.http
-      .put(`${this.atendimentoUrl}/${atendimento.id}`, atendimento)
-      .toPromise()
-      .then((resp) => {
-        const atendimentoSalvo = resp as Atendimento;
-        this.converterStringsParaDatas([atendimentoSalvo]);
-        return atendimentoSalvo;
-      });
+    return firstValueFrom(
+      this.http.put(`${this.atendimentoUrl}/${atendimento.id}`, atendimento)
+    ).then((resp) => {
+      const atendimentoSalvo = resp as Atendimento;
+      this.converterStringsParaDatas([atendimentoSalvo]);
+      return atendimentoSalvo;
+    });
   }
 
   pesquisar(filter: AtendimentoFilter): Promise<Resultado<Atendimento>> {
-    return this.http
-      .get(this.atendimentoUrl, { params: this.criarFiltro(filter) })
-      .toPromise()
-      .then((resp: any) => {
-        return new Resultado<Atendimento>(
-          resp.totalElements,
-          resp.first,
-          resp.content as Atendimento[]
-        );
-      });
+    return firstValueFrom(
+      this.http.get(this.atendimentoUrl, { params: this.criarFiltro(filter) })
+    ).then((resp: any) => {
+      return new Resultado<Atendimento>(
+        resp.totalElements,
+        resp.first,
+        resp.content as Atendimento[]
+      );
+    });
   }
 
   getById(id: number): Promise<Atendimento | undefined> {
-    return this.http
-      .get<Atendimento>(`${this.atendimentoUrl}/${id}`)
-      .toPromise();
+    return firstValueFrom(
+      this.http.get<Atendimento>(`${this.atendimentoUrl}/${id}`)
+    );
   }
 
   pesquisarResumo(
     filter: AtendimentoFilter
   ): Promise<Resultado<ResumoAtendimento>> {
-    return this.http
-      .get(`${this.atendimentoUrl}?resumo`, {
+    return firstValueFrom(
+      this.http.get(`${this.atendimentoUrl}?resumo`, {
         params: this.criarFiltro(filter),
       })
-      .toPromise()
-      .then((resp: any) => {
-        return new Resultado<ResumoAtendimento>(
-          resp.totalElements,
-          resp.first,
-          resp.content as ResumoAtendimento[]
-        );
-      });
+    ).then((resp: any) => {
+      return new Resultado<ResumoAtendimento>(
+        resp.totalElements,
+        resp.first,
+        resp.content as ResumoAtendimento[]
+      );
+    });
   }
 
   private criarFiltro(filter: AtendimentoFilter): HttpParams {

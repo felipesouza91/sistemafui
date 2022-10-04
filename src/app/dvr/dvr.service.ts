@@ -4,6 +4,7 @@ import { environment } from '../../environments/environment';
 import { Injectable } from '@angular/core';
 
 import { Dvr } from '../core/mode';
+import { firstValueFrom } from 'rxjs';
 
 export interface FiltroDvr {
   codCliente: number;
@@ -24,48 +25,41 @@ export class DvrService {
   }
 
   editar(dvr: Dvr): Promise<Dvr> {
-    return this.http
-      .put(`${this.dvrUrl}/${dvr.id}`, dvr)
-      .toPromise()
-      .then((resp) => {
+    return firstValueFrom(this.http.put(`${this.dvrUrl}/${dvr.id}`, dvr)).then(
+      (resp) => {
         return resp as Dvr;
-      });
+      }
+    );
   }
 
   salvar(dvr: any): Promise<Dvr> {
-    return this.http
-      .post(this.dvrUrl, dvr)
-      .toPromise()
-      .then((resp) => resp as Dvr);
+    return firstValueFrom(this.http.post(this.dvrUrl, dvr)).then(
+      (resp) => resp as Dvr
+    );
   }
 
   excluir(codigo: number): Promise<any> {
-    return this.http
-      .delete(`${this.dvrUrl}/${codigo}`)
-      .toPromise()
-      .then(() => null);
+    return firstValueFrom(this.http.delete(`${this.dvrUrl}/${codigo}`)).then(
+      () => null
+    );
   }
 
   pesquisar(filtro: FiltroDvr): Promise<Resultado<Dvr>> {
-    return this.http
-      .get(this.dvrUrl, { params: this.createUrlParams(filtro) })
-      .toPromise()
-      .then(
-        (resp: any) =>
-          new Resultado<Dvr>(resp.totalElements, resp.first, resp.content)
-      );
+    return firstValueFrom(
+      this.http.get(this.dvrUrl, { params: this.createUrlParams(filtro) })
+    ).then(
+      (resp: any) =>
+        new Resultado<Dvr>(resp.totalElements, resp.first, resp.content)
+    );
   }
 
   buscarPorCodigoCliente(codigo: number): Promise<Dvr[]> {
-    let params = new HttpParams();
-
-    params = params.append('codCliente', codigo.toString());
-    return this.http
-      .get(this.dvrUrl, { params })
-      .toPromise()
-      .then((resp: any) => {
+    let params = new HttpParams().append('codCliente', codigo.toString());
+    return firstValueFrom(this.http.get(this.dvrUrl, { params })).then(
+      (resp: any) => {
         return resp.content as Dvr[];
-      });
+      }
+    );
   }
 
   private createUrlParams(filtro: FiltroDvr): HttpParams {
