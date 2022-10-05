@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { CheckboxModule } from 'primeng/checkbox';
 import { TreeModule } from 'primeng/tree';
 import { PasswordModule } from 'primeng/password';
 import { ToggleButtonModule } from 'primeng/togglebutton';
@@ -22,6 +23,7 @@ import { AcessoRoutingModule } from './acesso-routing.module';
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
     ReactiveFormsModule,
     AcessoRoutingModule,
     DropdownModule,
@@ -31,6 +33,7 @@ import { AcessoRoutingModule } from './acesso-routing.module';
     ToggleButtonModule,
     TooltipModule,
     MessageModule,
+    CheckboxModule,
     ButtonModule,
     InputTextModule,
     AutoCompleteModule,

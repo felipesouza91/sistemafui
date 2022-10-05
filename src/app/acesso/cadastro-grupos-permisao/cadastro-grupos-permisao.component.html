@@ -36,12 +36,46 @@
           </div>
         </div>
         <div class="col-12 md:col-6 field">
-          <p-tree
+          <p-table [value]="permissions.controls" formArrayName="permissions">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Nome</th>
+                <th>Visualizar</th>
+                <th>Editar</th>
+                <th>Excluir</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-permision>
+              <tr>
+                <td>{{ permision.value.description }}</td>
+                <td>
+                  <p-checkbox
+                    [binary]="true"
+                    [formControl]="permision.controls['read']"
+                  ></p-checkbox>
+                </td>
+                <td>
+                  <p-checkbox
+                    [binary]="true"
+                    [formControl]="permision.controls['write']"
+                  ></p-checkbox>
+                </td>
+                <td>
+                  <p-checkbox
+                    [binary]="true"
+                    [formControl]="permision.controls['delete']"
+                  ></p-checkbox>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+
+          <!--<p-tree
             scrollHeight="400px"
             [value]="filesTree"
             selectionMode="checkbox"
             [(selection)]="selectPermissoes"
-          ></p-tree>
+          ></p-tree>-->
         </div>
 
         <div class="grid">

@@ -2,7 +2,7 @@ import { GrupoAcesso, Permissao } from './../../core/mode';
 import { AuthService } from './../../seguranca/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { GrupoAcessoService } from '../grupo-acesso.service';
 import { ErrorHandlerService } from '../../core/error-handler.service';
@@ -21,6 +21,23 @@ export class CadastroGruposPermisaoComponent implements OnInit {
   listPermisao = new Array();
   teste = [];
   grupoAcesso: any;
+
+  permissionsList = [
+    {
+      description: 'Cliente',
+      read: true,
+      write: false,
+      delete: false,
+    },
+    {
+      description: 'Ordem de serviço',
+      read: true,
+      write: false,
+      delete: false,
+    },
+  ];
+  checked: boolean = false;
+
   filesTree: TreeNode[] = new Array();
   selectPermissoes: TreeNode<number>[] = [];
 
@@ -52,6 +69,8 @@ export class CadastroGruposPermisaoComponent implements OnInit {
   }
 
   salvar() {
+    console.log(this.form.value);
+    /*
     this.grupoAcessoService
       .salvar(this.createGrupoAcesso())
       .then((resp) => {
@@ -63,7 +82,7 @@ export class CadastroGruposPermisaoComponent implements OnInit {
         this.form.reset();
         this.router.navigate([`grupoacesso`]);
       })
-      .catch((error) => this.erroService.handler(error));
+      .catch((error) => this.erroService.handler(error));*/
   }
 
   atualizar() {
@@ -97,6 +116,10 @@ export class CadastroGruposPermisaoComponent implements OnInit {
     };
   }
 
+  get permissions() {
+    return this.form.get('permissions') as FormArray;
+  }
+
   criarForm() {
     this.form = new FormGroup({
       id: new FormControl(),
@@ -105,7 +128,36 @@ export class CadastroGruposPermisaoComponent implements OnInit {
         Validators.required,
         Validators.minLength(3),
       ]),
+      permissions: new FormArray([]),
     });
+    this.permissionsList.map((item) =>
+      (this.form.get('permissions') as FormArray).push(
+        new FormGroup({
+          description: new FormControl(),
+          read: new FormControl(false),
+          write: new FormControl(true),
+          delete: new FormControl(true),
+        })
+      )
+    );
+
+    this.form.patchValue({
+      permissions: [
+        {
+          description: 'Cliente',
+          read: true,
+          write: false,
+          delete: false,
+        },
+        {
+          description: 'Ordem de serviço',
+          read: false,
+          write: true,
+          delete: false,
+        },
+      ],
+    });
+    console.log(this.form.value);
   }
 
   buscarGrupoAcesso(codigo: number) {
@@ -189,6 +241,6 @@ export class CadastroGruposPermisaoComponent implements OnInit {
   }
 
   isValid() {
-    return this.selectPermissoes.length > 0 && this.form.valid;
+    return this.form.valid;
   }
 }
