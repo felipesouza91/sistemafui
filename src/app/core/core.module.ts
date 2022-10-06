@@ -1,3 +1,4 @@
+import { PermissionService } from './../acesso/permission.service';
 import { FabricanteService } from './../auxiliares/fabricante.service';
 import { ProdutoService } from './../auxiliares/produto.service';
 import { InformacaoService } from './../informacao/informacao.service';
@@ -93,6 +94,7 @@ export function tokenGetter() {
     ProdutoService,
     FabricanteService,
     ProfileService,
+    PermissionService
   ],
 })
 export class CoreModule {}

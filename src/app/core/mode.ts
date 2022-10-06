@@ -183,3 +183,11 @@ export interface Informacao {
 export interface ClienteInformacao extends Informacao {
   cliente: Cliente;
 }
+
+
+export interface IPermissionAvailableDto {
+  description: string;
+  read: boolean;
+  write: boolean;
+  remove: boolean;
+}

@@ -1,3 +1,4 @@
+import { PermissionService } from './../permission.service';
 import { GrupoAcesso, Permissao } from './../../core/mode';
 import { AuthService } from './../../seguranca/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -22,20 +23,6 @@ export class CadastroGruposPermisaoComponent implements OnInit {
   teste = [];
   grupoAcesso: any;
 
-  permissionsList = [
-    {
-      description: 'Cliente',
-      read: true,
-      write: false,
-      delete: false,
-    },
-    {
-      description: 'Ordem de serviço',
-      read: true,
-      write: false,
-      delete: false,
-    },
-  ];
   checked: boolean = false;
 
   filesTree: TreeNode[] = new Array();
@@ -47,7 +34,8 @@ export class CadastroGruposPermisaoComponent implements OnInit {
     private router: Router,
     private erroService: ErrorHandlerService,
     private messageService: MessageService,
-    private grupoAcessoService: GrupoAcessoService
+    private grupoAcessoService: GrupoAcessoService,
+    private permissionService: PermissionService
   ) {}
 
   ngOnInit() {
@@ -107,7 +95,7 @@ export class CadastroGruposPermisaoComponent implements OnInit {
       .map((e) => ({
         id: e.data!,
       }));
-    console.log(permissoes);
+
     return {
       id: this.form.value.id,
       descricao: this.form.value.descricao,
@@ -130,34 +118,19 @@ export class CadastroGruposPermisaoComponent implements OnInit {
       ]),
       permissions: new FormArray([]),
     });
-    this.permissionsList.map((item) =>
-      (this.form.get('permissions') as FormArray).push(
-        new FormGroup({
-          description: new FormControl(),
-          read: new FormControl(false),
-          write: new FormControl(true),
-          delete: new FormControl(true),
-        })
+    this.permissionService.loadAvailablePermissions()
+    .then(response => response.map(({description,remove,read,write}) =>
+        (this.form.get('permissions') as FormArray).push(
+          new FormGroup({
+            description: new FormControl(description),
+            read: new FormControl(read),
+            write: new FormControl(write),
+            delete: new FormControl(remove),
+          })
+        )
       )
     );
 
-    this.form.patchValue({
-      permissions: [
-        {
-          description: 'Cliente',
-          read: true,
-          write: false,
-          delete: false,
-        },
-        {
-          description: 'Ordem de serviço',
-          read: false,
-          write: true,
-          delete: false,
-        },
-      ],
-    });
-    console.log(this.form.value);
   }
 
   buscarGrupoAcesso(codigo: number) {
