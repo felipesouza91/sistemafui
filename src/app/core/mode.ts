@@ -186,7 +186,8 @@ export interface ClienteInformacao extends Informacao {
 
 
 export interface IPermissionAvailableDto {
-  description: string;
+  nameId: string;
+  formattedName: string;
   read: boolean;
   write: boolean;
   remove: boolean;

@@ -25,9 +25,6 @@ export class CadastroGruposPermisaoComponent implements OnInit {
 
   checked: boolean = false;
 
-  filesTree: TreeNode[] = new Array();
-  selectPermissoes: TreeNode<number>[] = [];
-
   constructor(
     private route: ActivatedRoute,
     public authService: AuthService,
@@ -41,7 +38,6 @@ export class CadastroGruposPermisaoComponent implements OnInit {
   ngOnInit() {
     this.listPermisao = [];
     this.criarForm();
-    this.startListPermisao();
     const id = this.route.snapshot.params['codigo'];
     if (id) {
       this.buscarGrupoAcesso(id);
@@ -74,34 +70,7 @@ export class CadastroGruposPermisaoComponent implements OnInit {
   }
 
   atualizar() {
-    const accessGroup = this.createGrupoAcesso();
-    this.grupoAcessoService
-      .atualizar(accessGroup.id!, accessGroup)
-      .then((resp) => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Sucesso',
-          detail: 'Grupo de acesso atualizado com sucesso!',
-        });
-        this.form.reset();
-        this.router.navigate([`grupoacesso`]);
-      })
-      .catch((error) => this.erroService.handler(error));
-  }
 
-  createGrupoAcesso(): IAccessGroupInput {
-    const permissoes: IdInput[] = this.selectPermissoes
-      .filter((a) => a.data!)
-      .map((e) => ({
-        id: e.data!,
-      }));
-
-    return {
-      id: this.form.value.id,
-      descricao: this.form.value.descricao,
-      ativo: this.form.value.ativo,
-      permissoes,
-    };
   }
 
   get permissions() {
@@ -119,10 +88,11 @@ export class CadastroGruposPermisaoComponent implements OnInit {
       permissions: new FormArray([]),
     });
     this.permissionService.loadAvailablePermissions()
-    .then(response => response.map(({description,remove,read,write}) =>
+    .then(response => response.map(({nameId, formattedName,remove,read,write}) =>
         (this.form.get('permissions') as FormArray).push(
           new FormGroup({
-            description: new FormControl(description),
+            nameId: new FormControl(nameId),
+            formattedName: new FormControl(formattedName),
             read: new FormControl(read),
             write: new FormControl(write),
             delete: new FormControl(remove),
@@ -140,75 +110,11 @@ export class CadastroGruposPermisaoComponent implements OnInit {
         resp.permissoes = this.grupoAcessoService.converterPermisao(
           resp.permissoes
         );
-        this.selectPermissoes = this.converterPermissoesToTreeNode(
-          resp.permissoes
-        );
+
         this.form.patchValue(resp);
       })
       .catch((error) => this.erroService.handler(error));
   }
-
-  startListPermisao() {
-    this.grupoAcessoService.itensPermisao().then((resp) => {
-      this.listPermisao = resp;
-      this.populateTree();
-    });
-  }
-
-  populateTree() {
-    tipoAcesso.map((tipo) => {
-      this.filesTree.push({
-        label: tipo,
-        expandedIcon: 'fa fa-folder-open',
-        collapsedIcon: 'fa fa-folder',
-        children: this.createChildenTree(tipo),
-      });
-    });
-  }
-
-  converterPermissoesToTreeNode(list: Permissao[]): TreeNode[] {
-    const treeNod = new Array<TreeNode>();
-    tipoAcesso.map((tipo) => {
-      list.map((permisao) => {
-        if (permisao.descricao.includes(tipo)) {
-          treeNod.push({
-            label:
-              permisao.descricao.substr(
-                0,
-                permisao.descricao.indexOf(' ') - 1
-              ) + 'r',
-            data: permisao.id,
-            key: permisao.id.toString(),
-            leaf: true,
-            parent: this.filesTree.find((tree) => {
-              if (tree.label!.includes(tipo)) {
-                tree.partialSelected = true;
-                tree.expanded = true;
-                return true;
-              }
-              return false;
-            }),
-          });
-        }
-      });
-    });
-    return treeNod;
-  }
-
-  createChildenTree(filter: string): TreeNode[] {
-    const treeNod = new Array<TreeNode>();
-    this.listPermisao.forEach((value) => {
-      if (filter.toUpperCase() === value.tipo) {
-        treeNod.push({
-          label: value.descricao,
-          data: value.id,
-          key: value.id,
-        });
-      }
-    });
-    return treeNod;
-  }
-
   clearForm() {
     this.form.reset();
   }
