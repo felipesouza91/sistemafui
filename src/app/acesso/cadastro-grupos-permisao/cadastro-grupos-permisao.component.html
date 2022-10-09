@@ -47,7 +47,7 @@
             </ng-template>
             <ng-template pTemplate="body" let-permision>
               <tr>
-                <td >{{ permision.value.formattedName }}</td>
+                <td>{{ permision.value.formattedName }}</td>
                 <td class="text-center">
                   <p-checkbox
                     [binary]="true"
@@ -63,7 +63,7 @@
                 <td class="text-center">
                   <p-checkbox
                     [binary]="true"
-                    [formControl]="permision.controls['delete']"
+                    [formControl]="permision.controls['remove']"
                   ></p-checkbox>
                 </td>
               </tr>

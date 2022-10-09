@@ -136,6 +136,21 @@ export interface GrupoAcesso {
   permissoes: Array<Permissao>;
 }
 
+export interface PermissionFormattedDto {
+  nameId: string;
+  formattedName: string;
+  read: boolean;
+  write: boolean;
+  remove: boolean;
+}
+
+export interface AccessGroupDto {
+  id: number;
+  ativo: boolean;
+  descricao: string;
+  permissions: IPermissionAvailableDto[];
+}
+
 export interface Usuario {
   id: number;
   ativo: boolean;
@@ -183,7 +198,6 @@ export interface Informacao {
 export interface ClienteInformacao extends Informacao {
   cliente: Cliente;
 }
-
 
 export interface IPermissionAvailableDto {
   nameId: string;

@@ -5,6 +5,7 @@ import { environment } from '../../environments/environment';
 import { IAccessGroupInput } from '../core/models-input';
 import { ResumoGrupoAcesso } from '../core/model-resumo';
 import { HttpClient } from '@angular/common/http';
+import { AccessGroupDto } from './../core/mode';
 
 export interface Item {
   descricao: string;
@@ -44,9 +45,9 @@ export class GrupoAcessoService {
   }
 
   salvar({ ativo, descricao, permissoes }: IAccessGroupInput): Promise<any> {
-    return firstValueFrom(this.http
-      .post(this.grupoAcessoUrl, { ativo, descricao, permissoes }))
-      .then((resp) => resp);
+    return firstValueFrom(
+      this.http.post(this.grupoAcessoUrl, { ativo, descricao, permissoes })
+    ).then((resp) => resp);
   }
 
   atualizar(
@@ -63,32 +64,28 @@ export class GrupoAcessoService {
   }
 
   excluir(codigo: number): Promise<any> {
-    return firstValueFrom(this.http
-      .delete(`${this.grupoAcessoUrl}/${codigo}`))
-      .then(() => null);
+    return firstValueFrom(
+      this.http.delete(`${this.grupoAcessoUrl}/${codigo}`)
+    ).then(() => null);
   }
 
   listaGrupoAcessoResumo(): Promise<ResumoGrupoAcesso[] | undefined> {
-
-    return firstValueFrom(this.http
-      .get<ResumoGrupoAcesso[]>(`${this.grupoAcessoUrl}?resumo`))
-      .then((resp) => resp);
+    return firstValueFrom(
+      this.http.get<ResumoGrupoAcesso[]>(`${this.grupoAcessoUrl}?resumo`)
+    ).then((resp) => resp);
   }
 
-  buscarPorCodigo(codigo: number): Promise<any> {
-
-    return firstValueFrom(this.http
-      .get(`${this.grupoAcessoUrl}/${codigo}`))
-      .then((resp) => resp);
+  buscarPorCodigo(codigo: number): Promise<AccessGroupDto> {
+    return firstValueFrom(
+      this.http.get<AccessGroupDto>(`${this.grupoAcessoUrl}/${codigo}`)
+    ).then((resp) => resp);
   }
 
   listarPermissoes(): Promise<Permissao[]> {
-    return firstValueFrom (this.http
-      .get(this.permissaoUrl))
-      .then((resp) => {
-        const list: Permissao[] = resp as Permissao[];
-        return list;
-      });
+    return firstValueFrom(this.http.get(this.permissaoUrl)).then((resp) => {
+      const list: Permissao[] = resp as Permissao[];
+      return list;
+    });
   }
 
   /*itensPermisao() {
