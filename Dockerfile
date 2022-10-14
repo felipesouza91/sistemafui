@@ -24,4 +24,7 @@ CMD ["/bin/sh", "-c", \
 "echo API_URL=[$API_URL], && \
 sed -i s#API_SERVER_URL#$API_URL#g /usr/share/nginx/html/main.*.js && \
 sed -i s#API_SERVER_IP#$API_IP#g /usr/share/nginx/html/main.*.js && \
+sed -i s#CALLBACK_URL#$CALLBACK_URL#g /usr/share/nginx/html/main.*.js && \
+sed -i s#APP_URL#$APP_URL#g /usr/share/nginx/html/main.*.js && \
+sed -i s#CLIENT_SECRET#$CLIENT_SECRET#g /usr/share/nginx/html/main.*.js && \
 nginx -g 'daemon off;'"]
