@@ -5,4 +5,5 @@ export const environment = {
   tokenBlacklistedRoutes: [new RegExp('/oauth2/token')],
   oauthCallbackUrl: `http://127.0.0.1:4200/authorized`,
   appUrl: 'http://127.0.0.1:4200',
+  clientSecret: 'YW5ndWxhcjpwYXNzd29yZA==',
 };

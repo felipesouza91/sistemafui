@@ -16,6 +16,7 @@ export class AuthService {
   authUrl: string;
   jwtPayload: any;
   _oauthAuthorizeUrl: string;
+  _basicCredentials: string;
 
   constructor(
     private http: HttpClient,
@@ -24,6 +25,7 @@ export class AuthService {
   ) {
     this.authUrl = `${environment.apiUrl}/oauth2/token`;
     this._oauthAuthorizeUrl = `${environment.apiUrl}/oauth2/authorize`;
+    this._basicCredentials = `Basic ${environment.clientSecret}`;
     this.carregarToken();
   }
 
@@ -57,7 +59,7 @@ export class AuthService {
     let headers = new HttpHeaders();
     headers = headers
       .append('Content-Type', 'application/x-www-form-urlencoded')
-      .append('Authorization', 'Basic YW5ndWxhcjpwYXNzd29yZA==');
+      .append('Authorization', this._basicCredentials);
 
     const payload = new HttpParams()
       .append('grant_type', 'refresh_token')
@@ -84,7 +86,7 @@ export class AuthService {
     }
     const codeVerifier = localStorage.getItem('codeVerifier')!;
     let headers = new HttpHeaders()
-      .append('Authorization', 'Basic YW5ndWxhcjpwYXNzd29yZA==')
+      .append('Authorization', this._basicCredentials)
       .append('Content-Type', 'application/x-www-form-urlencoded');
     const params = new HttpParams()
       .append('grant_type', 'authorization_code')
@@ -140,7 +142,6 @@ export class AuthService {
 
   logout() {
     this.limparAccessToken();
-
     window.location.href = `${environment.apiUrl}/logout?redirectTo=${environment.appUrl}`;
   }
 
