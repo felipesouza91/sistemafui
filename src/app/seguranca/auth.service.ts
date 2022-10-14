@@ -57,13 +57,15 @@ export class AuthService {
     let headers = new HttpHeaders();
     headers = headers
       .append('Content-Type', 'application/x-www-form-urlencoded')
-      .append('Authorization', 'Basic YW5ndWxhcjpAbmd1bEByMA==');
+      .append('Authorization', 'Basic YW5ndWxhcjpwYXNzd29yZA==');
 
     const payload = new HttpParams()
       .append('grant_type', 'refresh_token')
       .append('refresh_token', localStorage.getItem('refresh_token')!);
-
-    return firstValueFrom(this.http.post(this.authUrl, payload, { headers }))
+    console.log('Aqui');
+    return firstValueFrom(
+      this.http.post('http://127.0.0.1:8080/oauth2/token', payload, { headers })
+    )
       .then((response: any) => {
         this.armazenarToken(response.access_token);
         this.armazenaRefreshToken(response.refresh_token);

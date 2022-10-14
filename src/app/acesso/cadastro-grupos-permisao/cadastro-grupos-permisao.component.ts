@@ -9,6 +9,7 @@ import { GrupoAcessoService } from '../grupo-acesso.service';
 import { ErrorHandlerService } from '../../core/error-handler.service';
 
 import { MessageService, TreeNode } from 'primeng/api';
+import { AccessGroupInput } from './../../core/models-input';
 
 @Component({
   selector: 'app-cadastro-grupos-permisao',
@@ -37,6 +38,7 @@ export class CadastroGruposPermisaoComponent implements OnInit {
     this.criarForm().then(() => {
       const id = this.route.snapshot.params['codigo'];
       if (id) {
+        console.log('Aqui');
         this.buscarGrupoAcesso(id);
       }
     });
@@ -51,10 +53,23 @@ export class CadastroGruposPermisaoComponent implements OnInit {
   }
 
   salvar() {
-    console.log(this.form.value);
-    /*
+    const { ativo, descricao, permissions } = this.form
+      .value as AccessGroupInput;
+    const inputFormated = permissions.map(
+      ({ nameId, read, write, remove }) => ({
+        nameId,
+        read,
+        write,
+        remove,
+      })
+    );
+
     this.grupoAcessoService
-      .salvar(this.createGrupoAcesso())
+      .salvar({
+        ativo,
+        descricao,
+        permissions: inputFormated,
+      })
       .then((resp) => {
         this.messageService.add({
           severity: 'success',
@@ -64,7 +79,7 @@ export class CadastroGruposPermisaoComponent implements OnInit {
         this.form.reset();
         this.router.navigate([`grupoacesso`]);
       })
-      .catch((error) => this.erroService.handler(error));*/
+      .catch((error) => this.erroService.handler(error));
   }
 
   atualizar() {}

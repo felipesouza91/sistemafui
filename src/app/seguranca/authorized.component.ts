@@ -17,7 +17,6 @@ export class AuthorizedComponent implements OnInit {
   ngOnInit(): void {
     this.activetedRoute.queryParamMap.subscribe((params: any) => {
       const { code, state } = params.params;
-      console.log(code);
       if (code) {
         this.authService
           .getAccessTokeWithToken(code, state)

@@ -22,11 +22,17 @@ export interface IServiceOrderInput {
   solicitante: string;
 }
 
-export interface IAccessGroupInput {
-  id?: number;
+export interface AccessGroupInput {
   ativo: boolean;
   descricao: string;
-  permissoes: IdInput[];
+  permissions: IPermissionInput[];
+}
+
+export interface IPermissionInput {
+  nameId: string;
+  read: boolean;
+  write: boolean;
+  remove: boolean;
 }
 
 export interface IProductInput {

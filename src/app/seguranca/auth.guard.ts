@@ -4,6 +4,7 @@ import {
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
   Router,
+  UrlTree,
 } from '@angular/router';
 
 import { AuthService } from './auth.service';
@@ -16,14 +17,19 @@ export class AuthGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Observable<boolean> | Promise<boolean> | boolean {
+  ):
+    | Observable<boolean | UrlTree>
+    | Promise<boolean | UrlTree>
+    | boolean
+    | UrlTree {
     if (this.auth.isAccessTokenInvalid()) {
-      this.auth.getAccessTokenWithRefreshToken();
-      if (this.auth.isAccessTokenInvalid()) {
-        this.auth.login();
-        return false;
-      }
-      return true;
+      return this.auth.getAccessTokenWithRefreshToken().then(() => {
+        if (this.auth.isAccessTokenInvalid()) {
+          this.auth.login();
+          return false;
+        }
+        return true;
+      });
     } else if (
       next.data['roles'] &&
       !this.auth.temQualquerPermissao(next.data['roles'])
