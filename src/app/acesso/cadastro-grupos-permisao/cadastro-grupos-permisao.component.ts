@@ -81,7 +81,34 @@ export class CadastroGruposPermisaoComponent implements OnInit {
       .catch((error) => this.erroService.handler(error));
   }
 
-  atualizar() {}
+  atualizar() {
+    const { ativo, descricao, permissions } = this.form
+      .value as AccessGroupInput;
+    const inputFormated = permissions.map(
+      ({ nameId, read, write, remove }) => ({
+        nameId,
+        read,
+        write,
+        remove,
+      })
+    );
+    this.grupoAcessoService
+      .atualizar(this.form.value.id, {
+        ativo,
+        descricao,
+        permissions: inputFormated,
+      })
+      .then((response) => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Sucesso',
+          detail: 'Grupo de acessso atualizado com sucesso!',
+        });
+        this.form.reset();
+        this.router.navigate([`grupoacesso`]);
+      })
+      .catch((error) => this.erroService.handler(error));
+  }
 
   get permissions() {
     return this.form.get('permissions') as FormArray;
@@ -116,7 +143,15 @@ export class CadastroGruposPermisaoComponent implements OnInit {
     this.grupoAcessoService
       .buscarPorCodigo(codigo)
       .then((resp) => {
-        this.form.patchValue(resp);
+        const { ativo, descricao, id, permissions } = resp;
+        this.form.patchValue({
+          id,
+          ativo,
+          descricao,
+          permissions: permissions.sort((item0, item1) =>
+            item0.formattedName > item1.formattedName ? 1 : -1
+          ),
+        });
       })
       .catch((error) => this.erroService.handler(error));
   }

@@ -47,15 +47,13 @@ export class BairroService {
 
   pesquisar(filtro: FiltroBairro): Promise<Resultado<Bairro>> {
     const params = this.createFilter(filtro);
-    return firstValueFrom(this.http.get(this.bairroUrl, { params })).then(
-      (resp: any) => {
-        return new Resultado<Bairro>(
-          resp.totalElements,
-          resp.first,
-          resp.content as Bairro[]
-        );
-      }
-    );
+    return firstValueFrom(this.http.get(this.bairroUrl)).then((resp: any) => {
+      return new Resultado<Bairro>(
+        resp.totalElements,
+        resp.first,
+        resp.content as Bairro[]
+      );
+    });
   }
 
   pesquisarPorCodigo(id: number): Promise<Bairro> {
