@@ -38,7 +38,6 @@ export class CadastroGruposPermisaoComponent implements OnInit {
     this.criarForm().then(() => {
       const id = this.route.snapshot.params['codigo'];
       if (id) {
-        console.log('Aqui');
         this.buscarGrupoAcesso(id);
       }
     });

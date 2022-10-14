@@ -79,7 +79,6 @@ export class CadastroAtendimentoComponent implements OnInit {
   }
 
   finalizar() {
-    console.log('Finalizar');
     this.formAt.addControl(
       'usuarioTermino',
       new FormGroup({

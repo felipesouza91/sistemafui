@@ -51,7 +51,6 @@ export class CadastroInformacaoComponent implements OnInit {
   }
 
   novo() {
-    console.log(this.form.value);
     this.informacaoService
       .save(this.cliente.id, this.form.value)
       .then((resp) => {
@@ -90,7 +89,10 @@ export class CadastroInformacaoComponent implements OnInit {
       descricao: new FormControl(null, [Validators.required]),
       creationDate: new FormControl({ value: new Date(), disabled: true }),
       createdBy: new FormGroup({
-        id: new FormControl({ value: this.auth.jwtPayload.userId, disabled: true }),
+        id: new FormControl({
+          value: this.auth.jwtPayload.userId,
+          disabled: true,
+        }),
         nome: new FormControl({
           value: this.auth.jwtPayload.userName,
           disabled: true,

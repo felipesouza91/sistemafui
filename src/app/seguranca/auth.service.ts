@@ -64,7 +64,7 @@ export class AuthService {
     const payload = new HttpParams()
       .append('grant_type', 'refresh_token')
       .append('refresh_token', localStorage.getItem('refresh_token')!);
-    console.log('Aqui');
+
     return firstValueFrom(
       this.http.post('http://127.0.0.1:8080/oauth2/token', payload, { headers })
     )

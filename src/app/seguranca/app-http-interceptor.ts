@@ -19,9 +19,6 @@ export class AppHttpInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    console.log('interceptor');
-    console.log('req ' + !req.url.includes('/oauth2/token'));
-    console.log(this.auth.isAccessTokenInvalid());
     if (
       !req.url.includes('/oauth2/token') &&
       this.auth.isAccessTokenInvalid()

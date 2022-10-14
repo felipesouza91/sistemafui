@@ -83,7 +83,6 @@ export class GrupoComponent implements OnInit {
       .then((response) => {
         this.totalRegistros = response.total;
         this.grupos = response.conteudo;
-
       })
       .catch((error) => {
         console.log(error);
