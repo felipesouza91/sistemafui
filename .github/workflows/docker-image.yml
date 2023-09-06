@@ -12,7 +12,12 @@ jobs:
     steps:
       - name: Chekout git files
         uses: actions/checkout@v3
-
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+        
       - name: create envfile
         run: |
           echo "export const environment = {
@@ -24,6 +29,7 @@ jobs:
            appUrl: 'APP_URL',
            clientSecret: 'CLIENT_SECRET'
            };" > ./src/environments/environment.prod.ts
+      
       - name: get-npm-version
         id: package-version
         uses: martinbeentjes/npm-get-version-action@main
@@ -33,9 +39,11 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: docker build
-        run: docker build -f "Dockerfile" -t ${{secrets.DOCKERHUB_USERNAME}}/sistemafui:${{steps.package-version.outputs.current-version}} "."
-
-      - name: docker push image
-        run: docker push ${{secrets.DOCKERHUB_USERNAME}}/sistemafui:${{steps.package-version.outputs.current-version}}
+          
+      - name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+            context: .
+            platforms: linux/amd64,linux/arm64,linux/arm/v7
+            push: true
+            tags: ${{secrets.DOCKERHUB_USERNAME}}/sistemafui:${{steps.package-version.outputs.current-version}}
