@@ -66,7 +66,7 @@ export class AuthService {
       .append('refresh_token', localStorage.getItem('refresh_token')!);
 
     return firstValueFrom(
-      this.http.post('http://127.0.0.1:8080/oauth2/token', payload, { headers })
+      this.http.post(this.authUrl, payload, { headers })
     )
       .then((response: any) => {
         this.armazenarToken(response.access_token);
