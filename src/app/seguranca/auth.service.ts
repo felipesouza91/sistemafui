@@ -93,7 +93,6 @@ export class AuthService {
       .append('code', code)
       .append('redirect_uri', environment.oauthCallbackUrl)
       .append('code_verifier', codeVerifier);
-    console.log(params.toString())
     return firstValueFrom(this.http.post(this.authUrl,
       params  , { headers }))
       .then((resp: any) => {
@@ -104,7 +103,7 @@ export class AuthService {
       })
       .catch((error) => {
         console.log(error)
-        console.log("Aqui")
+
         console.error('Erro ao gerar o token com o code.', error);
         return Promise.reject();
       });

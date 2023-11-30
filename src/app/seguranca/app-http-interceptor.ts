@@ -1,12 +1,12 @@
-import { Observable, from } from 'rxjs';
-import { mergeMap } from 'rxjs/operators';
-import { Injectable } from '@angular/core';
 import {
-  HttpInterceptor,
-  HttpHandler,
   HttpEvent,
+  HttpHandler,
+  HttpInterceptor,
   HttpRequest,
 } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable, from } from 'rxjs';
+import { mergeMap } from 'rxjs/operators';
 
 import { AuthService } from './auth.service';
 
