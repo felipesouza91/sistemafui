@@ -1,10 +1,10 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import * as CryptoJS from 'crypto-js';
 import { Injectable } from '@angular/core';
-import { environment } from '../../environments/environment';
-import { JwtHelperService } from '@auth0/angular-jwt';
 import { Router } from '@angular/router';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import * as CryptoJS from 'crypto-js';
 import { firstValueFrom } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface UsuarioLogin {
   login: string;
@@ -24,7 +24,7 @@ export class AuthService {
     private router: Router
   ) {
     this.authUrl = `${environment.apiUrl}/oauth2/token`;
-    this._oauthAuthorizeUrl = `${environment.apiUrl}/oauth2/authorized`;
+    this._oauthAuthorizeUrl = `${environment.apiUrl}/oauth2/authorize`;
     this._basicCredentials = `Basic ${environment.clientSecret}`;
     this.carregarToken();
   }
@@ -93,7 +93,9 @@ export class AuthService {
       .append('code', code)
       .append('redirect_uri', environment.oauthCallbackUrl)
       .append('code_verifier', codeVerifier);
-    return firstValueFrom(this.http.post(this.authUrl, params, { headers }))
+    console.log(params.toString())
+    return firstValueFrom(this.http.post(this.authUrl,
+      params  , { headers }))
       .then((resp: any) => {
         this.armazenarToken(resp.access_token);
         this.armazenaRefreshToken(resp.refresh_token);
@@ -101,8 +103,10 @@ export class AuthService {
         return Promise.resolve();
       })
       .catch((error) => {
+        console.log(error)
+        console.log("Aqui")
         console.error('Erro ao gerar o token com o code.', error);
-        return Promise.resolve();
+        return Promise.reject();
       });
   }
 

@@ -1,6 +1,6 @@
-import { AuthService } from 'src/app/seguranca/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from 'src/app/seguranca/auth.service';
 
 @Component({
   selector: 'app-authorized',
@@ -17,6 +17,7 @@ export class AuthorizedComponent implements OnInit {
   ngOnInit(): void {
     this.activetedRoute.queryParamMap.subscribe((params: any) => {
       const { code, state } = params.params;
+      console.log(code)
       if (code) {
         this.authService
           .getAccessTokeWithToken(code, state)
