@@ -24,7 +24,7 @@ export class AuthService {
     private router: Router
   ) {
     this.authUrl = `${environment.apiUrl}/oauth2/token`;
-    this._oauthAuthorizeUrl = `${environment.apiUrl}/oauth2/authorize`;
+    this._oauthAuthorizeUrl = `${environment.apiUrl}/oauth2/authorized`;
     this._basicCredentials = `Basic ${environment.clientSecret}`;
     this.carregarToken();
   }
