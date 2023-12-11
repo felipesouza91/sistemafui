@@ -1,6 +1,6 @@
 {
   "name": "sistemafui",
-  "version": "0.7.0",
+  "version": "0.7.0a",
   "scripts": {
     "ng": "ng",
     "config": "ts-node ./set-env.ts",
