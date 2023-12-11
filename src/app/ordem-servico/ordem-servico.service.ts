@@ -1,11 +1,11 @@
-import { Resultado } from './../core/mode';
-import { format, parseISO } from 'date-fns';
-import { firstValueFrom } from 'rxjs';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { OrdemServico } from '../core/mode';
+import { formatISO, parseISO } from 'date-fns';
+import { firstValueFrom } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { HttpParams, HttpClient } from '@angular/common/http';
+import { OrdemServico } from '../core/mode';
 import { IServiceOrderInput } from '../core/models-input';
+import { Resultado } from './../core/mode';
 
 export interface FiltroOrdemServico {
   codigoCliente: number;
@@ -161,7 +161,7 @@ export class OrdemServicoService {
 
   private converterStringsParaDatas(ordem: OrdemServico[]) {
     for (const os of ordem) {
-      os.dataAbertura = parseISO(format(os.dataAbertura, 'yyyy-MM-dd hh:mm'));
+      os.dataAbertura = parseISO(formatISO(new Date(os.dataAbertura)));
     }
   }
 }
