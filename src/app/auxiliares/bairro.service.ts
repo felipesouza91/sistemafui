@@ -1,10 +1,10 @@
-import { HttpParams, HttpClient } from '@angular/common/http';
-import { environment } from '../../environments/environment';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from '../../environments/environment';
 
+import { firstValueFrom } from 'rxjs';
 import { Bairro, Resultado } from '../core/mode';
 import { INeighborhoodInput } from '../core/models-input';
-import { firstValueFrom } from 'rxjs';
 
 export interface FiltroBairro {
   nome: string;
@@ -47,7 +47,7 @@ export class BairroService {
 
   pesquisar(filtro: FiltroBairro): Promise<Resultado<Bairro>> {
     const params = this.createFilter(filtro);
-    return firstValueFrom(this.http.get(this.bairroUrl)).then((resp: any) => {
+    return firstValueFrom(this.http.get(this.bairroUrl, { params })).then((resp: any) => {
       return new Resultado<Bairro>(
         resp.totalElements,
         resp.first,
