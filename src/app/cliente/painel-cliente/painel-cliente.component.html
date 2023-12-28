@@ -45,4 +45,13 @@
       <app-pesquisa-atendimento></app-pesquisa-atendimento>
     </ng-template>
   </p-tabPanel>
+  <p-tabPanel >
+    <ng-template pTemplate="header">
+      <i class="fas fa-solid fa-file p-tabview-left-icon"></i>
+      <span>Arquivos</span>
+    </ng-template>
+    <ng-template pTemplate="content">
+      <app-file-list [clientId]="c.id"></app-file-list>
+    </ng-template>
+  </p-tabPanel>
 </p-tabView>

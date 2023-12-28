@@ -1,23 +1,23 @@
-import { AuthService } from './../../seguranca/auth.service';
-import { BairroService, FiltroBairro } from '../../auxiliares/bairro.service';
-import { CidadeService, FiltroCidade } from '../../auxiliares/cidade.service';
-import { ErrorHandlerService } from '../../core/error-handler.service';
-import { GrupoService } from '../../auxiliares/grupo.service';
-import { FormGroup, Validators, FormControl } from '@angular/forms';
 import {
-  Component,
-  OnInit,
-  ChangeDetectorRef,
   AfterViewInit,
+  ChangeDetectorRef,
+  Component,
   Input,
+  OnInit,
   ViewChild,
 } from '@angular/core';
-import { ClienteService } from '../cliente.service';
-import { MessageService } from 'primeng/api';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { IClientInput } from 'src/app/core/models-input';
+import { MessageService } from 'primeng/api';
 import { Cidade, Grupo } from 'src/app/core/mode';
+import { IClientInput } from 'src/app/core/models-input';
+import { BairroService, FiltroBairro } from '../../auxiliares/bairro.service';
+import { CidadeService, FiltroCidade } from '../../auxiliares/cidade.service';
+import { GrupoService } from '../../auxiliares/grupo.service';
+import { ErrorHandlerService } from '../../core/error-handler.service';
+import { ClienteService } from '../cliente.service';
 import { Bairro } from './../../core/mode';
+import { AuthService } from './../../seguranca/auth.service';
 
 interface IValueDropdown<T> {
   label: string;

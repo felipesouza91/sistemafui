@@ -1,12 +1,12 @@
-import { HttpParams, HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { environment } from '../../environments/environment';
 
-import { Resultado } from './../core/mode';
+import { firstValueFrom } from 'rxjs';
 import { Cliente } from '../core/mode';
 import { IClientInput } from '../core/models-input';
-import { firstValueFrom } from 'rxjs';
+import { Resultado } from './../core/mode';
 export interface FiltroCliente {
   ativo: boolean;
   tipoFiltro: number;
@@ -15,12 +15,26 @@ export interface FiltroCliente {
   size: number;
 }
 
+interface IUploadURLResponse {
+  fileReferenceId: string;
+  uploadUrl: string
+}
+
+interface IFileUploadData {
+  clientId: number;
+  fileName: string;
+  contentType: string
+}
+
 @Injectable()
 export class ClienteService {
+
   clienteUrl: string;
+  clientUrlV2: string;
 
   constructor(private http: HttpClient) {
     this.clienteUrl = `${environment.apiUrl}/clientes`;
+    this.clientUrlV2 = `${environment.apiUrl}/clients`
   }
 
   salvar({
@@ -128,6 +142,13 @@ export class ClienteService {
       (resp: any) =>
         new Resultado<Cliente>(resp.totalElements, resp.first, resp.content)
     );
+  }
+
+  generateUploadUrl({ clientId, fileName, contentType }: IFileUploadData): Promise<IUploadURLResponse> {
+    return firstValueFrom(this.http.post(`${this.clientUrlV2}/${clientId}/files/upload`, { fileName, contentType }))
+    .then(response => response as IUploadURLResponse)
+
+
   }
 
   private createUrlParams(filtro: FiltroCliente): HttpParams {
