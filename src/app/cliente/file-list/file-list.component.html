@@ -3,11 +3,11 @@
     <h1>Arquivos</h1>
   </div>
   <div class="ui-g-12 mb-2">
-    <p-fileUpload  name="file" (onSelect)="generateUploadUrl($event)"
-    method="put" [customUpload]="true" (uploadHandler)="uploadFile($event)"
-
+    <p-fileUpload #fileUpload name="file" (onSelect)="generateUploadUrl($event)"
+      chooseLabel="Selecionar" uploadLabel="Enviar" cancelLabel="Cancelar"
+      method="put" [customUpload]="true" (uploadHandler)="uploadFile($event)"
     ></p-fileUpload>
   </div>
-
+  
 </div>
 

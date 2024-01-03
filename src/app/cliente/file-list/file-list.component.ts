@@ -1,6 +1,7 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
-import { firstValueFrom } from 'rxjs';
+import { HttpClient, HttpEventType, HttpHeaders } from '@angular/common/http';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { MessageService } from 'primeng/api';
+import { FileUpload } from 'primeng/fileupload';
 import { ClienteService } from './../cliente.service';
 @Component({
   selector: 'app-file-list',
@@ -9,30 +10,66 @@ import { ClienteService } from './../cliente.service';
 })
 export class FileListComponent implements OnInit {
 
-  constructor(private clientService: ClienteService, private httpClient: HttpClient) { }
+  constructor(private clientService: ClienteService, private httpClient: HttpClient, private messageService: MessageService,) { }
 
+  @ViewChild("fileUpload") fileUpload!: FileUpload;
   @Input() clientId!: number;
   @Input() showUploadDialog: boolean = false;
   @Input() uploadUrl!: string;
+  @Input() headers!: HttpHeaders;
   ngOnInit(): void {
   }
 
 
   async generateUploadUrl(event: any) {
     const file = event.currentFiles[0] as File
-    console.log(file);
     const response = await this.clientService.generateUploadUrl({ clientId: this.clientId, fileName: file.name, contentType: file.type })
-    console.log(response);
     this.uploadUrl = response.uploadUrl;
+    this.headers = new HttpHeaders()
+    this.headers.append("Content-Type", file.type);
   }
 
-  async uploadFile(event: any) {
-    console.log("Aqui")
+   uploadFile(event: any) {
+    this.fileUpload.disabled = true
+    this.fileUpload.uploading = true
+    this.fileUpload.showUploadButton = false
     const file: File = event.files[0]
     let formData = new FormData();
     formData.append("myfile", event.files[0]);
-    console.log();
-    firstValueFrom(this.httpClient.put(this.uploadUrl, file))
-      .then(response => response)
+
+    this.httpClient.put(this.uploadUrl, file, {
+       reportProgress: true,
+       observe: "events"
+    }).subscribe({
+      next: (event) => {
+        if (event.type === HttpEventType.UploadProgress) {
+          console.log(event.type)
+          this.fileUpload.progress = Math.round((event.loaded / event.total!) * 100)
+          this.fileUpload.cd.detectChanges()
+        }
+      },
+      complete: () => {
+        this.fileUpload.disabled = false;
+        this.fileUpload.uploading = false;
+        this.fileUpload.showUploadButton = true
+        this.fileUpload.clear();
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Sucesso',
+          detail: 'Arquivo enviado com sucesso',
+        })
+      },
+      error: (err) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Erro',
+          detail: 'Erro ao enviar arquivo',
+        })
+      },
+  })
+  }
+
+  test(event: any) {
+    console.log(event)
   }
 }
