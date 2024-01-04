@@ -1,13 +1,51 @@
 <div class="p-grid p-nogutter">
-  <div class="ui-g-12">
+  <div class="col-12">
     <h1>Arquivos</h1>
   </div>
-  <div class="ui-g-12 mb-2">
+  <div class="col-6 mb-2">
     <p-fileUpload #fileUpload name="file" (onSelect)="generateUploadUrl($event)"
       chooseLabel="Selecionar" uploadLabel="Enviar" cancelLabel="Cancelar"
       method="put" [customUpload]="true" (uploadHandler)="uploadFile($event)"
     ></p-fileUpload>
   </div>
-  
+  <div class="col-12 grid">
+    <div class="col-6">
+      <p-table [value]="files" [rows]="5" [paginator]="true">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Nome</th>
+                <th>Ação</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-file>
+            <tr  [pSelectableRow]="file">
+                <td>{{file.fileName}}</td>
+                <td>
+                  <a
+                  pButton
+                  icon="pi pi-eye"
+                  pTooltip="Visualizar"
+                  tooltipPosition="top"
+                  class="mr-2"
+                  (click)="setFile(file)"
+                ></a>
+                <a pButton icon="pi pi-download"
+                  pTooltip="Baixar" tooltipPosition="top"
+                  target="_blank"
+                  [href]="file.fileUrl"
+                  [download]="file.fileName">
+                </a>
+
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+    </div>
+
+  </div>
 </div>
+<p-dialog header="Visualizar" [(visible)]="!!selectedFile">
+  <p-image [src]="selectedFile ? selectedFile.fileUrl : ''" alt="Image" ></p-image>
+</p-dialog>
+
 

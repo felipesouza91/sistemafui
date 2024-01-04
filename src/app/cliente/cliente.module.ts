@@ -2,8 +2,14 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { ReactiveFormsModule } from '@angular/forms';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ButtonModule } from 'primeng/button';
+import { CardModule } from 'primeng/card';
+import { DataViewModule } from 'primeng/dataview';
+import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
+import { FileUploadModule } from 'primeng/fileupload';
+import { ImageModule } from 'primeng/image';
 import { InputMaskModule } from 'primeng/inputmask';
 import { InputTextModule } from 'primeng/inputtext';
 import { KeyFilterModule } from 'primeng/keyfilter';
@@ -12,11 +18,6 @@ import { SelectButtonModule } from 'primeng/selectbutton';
 import { TableModule } from 'primeng/table';
 import { TabViewModule } from 'primeng/tabview';
 import { TooltipModule } from 'primeng/tooltip';
-
-import { AutoCompleteModule } from 'primeng/autocomplete';
-import { CardModule } from 'primeng/card';
-import { DialogModule } from 'primeng/dialog';
-import { FileUploadModule } from 'primeng/fileupload';
 import { DvrModule } from '../dvr/dvr.module';
 import { OrdemServicoModule } from '../ordem-servico/ordem-servico.module';
 import { VerificacaoModule } from '../verificacao/verificacao.module';
@@ -41,6 +42,8 @@ import { PesquisaClienteComponent } from './pesquisa-cliente/pesquisa-cliente.co
     InformacaoModule,
     AutoCompleteModule,
     FileUploadModule,
+    ImageModule,
+    DataViewModule,
     KeyFilterModule,
     InputTextModule,
     DialogModule,

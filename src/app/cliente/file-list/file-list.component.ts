@@ -3,6 +3,14 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { FileUpload } from 'primeng/fileupload';
 import { ClienteService } from './../cliente.service';
+
+interface FileDTO {
+  id: string;
+  fileName: string;
+  contentType: string;
+  fileUrl: string
+}
+
 @Component({
   selector: 'app-file-list',
   templateUrl: './file-list.component.html',
@@ -17,7 +25,12 @@ export class FileListComponent implements OnInit {
   @Input() showUploadDialog: boolean = false;
   @Input() uploadUrl!: string;
   @Input() headers!: HttpHeaders;
+  selectedFile!: FileDTO;
+  files: FileDTO[] = [];
   ngOnInit(): void {
+    if (this.clientId) {
+      this.clientService.getAllFiles(this.clientId).then(data => this.files = data)
+    }
   }
 
 
@@ -69,7 +82,9 @@ export class FileListComponent implements OnInit {
   })
   }
 
-  test(event: any) {
-    console.log(event)
+  setFile(file: FileDTO) {
+    console.log("test")
+    this.selectedFile = file;
   }
+
 }

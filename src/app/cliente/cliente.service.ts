@@ -15,6 +15,13 @@ export interface FiltroCliente {
   size: number;
 }
 
+interface FileDTO {
+  id: string;
+  fileName: string;
+  contentType: string;
+  fileUrl: string
+}
+
 interface IUploadURLResponse {
   fileReferenceId: string;
   uploadUrl: string
@@ -147,8 +154,11 @@ export class ClienteService {
   generateUploadUrl({ clientId, fileName, contentType }: IFileUploadData): Promise<IUploadURLResponse> {
     return firstValueFrom(this.http.post(`${this.clientUrlV2}/${clientId}/files/upload`, { fileName, contentType }))
     .then(response => response as IUploadURLResponse)
+  }
 
-
+  getAllFiles(clientId: number): Promise<FileDTO[]> {
+    return firstValueFrom(this.http.get(`${this.clientUrlV2}/${clientId}/files`))
+    .then(result => result as FileDTO[]);
   }
 
   private createUrlParams(filtro: FiltroCliente): HttpParams {

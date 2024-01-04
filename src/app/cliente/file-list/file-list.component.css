@@ -1,0 +1,21 @@
+.product-list-item {
+  display: flex;
+  padding: 12px 0 12px 0;
+  flex-direction: row;
+  gap: 20px;
+  justify-content: start;
+  align-items: center;
+}
+
+.file-info {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  justify-content: start;
+  align-items: center;
+}
+
+.product-list-item img {
+  max-width: 200px;
+  max-width: 200px;
+}
