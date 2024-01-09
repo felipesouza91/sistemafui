@@ -161,6 +161,11 @@ export class ClienteService {
     .then(result => result as FileDTO[]);
   }
 
+  deleteFile(clientId: number,fileId: string) {
+    return firstValueFrom(this.http.delete(`${this.clientUrlV2}/${clientId}/files/${fileId}`))
+  }
+
+
   private createUrlParams(filtro: FiltroCliente): HttpParams {
     let params = new HttpParams();
     if (filtro.page === undefined) {

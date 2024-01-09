@@ -33,9 +33,17 @@
                   pTooltip="Baixar" tooltipPosition="top"
                   target="_blank"
                   [href]="file.fileUrl"
+                  class="mr-2"
                   [download]="file.fileName">
                 </a>
-
+                <button
+                pButton
+                class="p-button-danger"
+                icon="pi pi-trash"
+                pTooltip="Excluir"
+                tooltipPosition="top"
+                (click)="remover(file)"
+              ></button>
                 </td>
             </tr>
         </ng-template>

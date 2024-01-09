@@ -1,6 +1,6 @@
 import { HttpClient, HttpEventType, HttpHeaders } from '@angular/common/http';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { FileUpload } from 'primeng/fileupload';
 import { ClienteService } from './../cliente.service';
 
@@ -18,7 +18,11 @@ interface FileDTO {
 })
 export class FileListComponent implements OnInit {
 
-  constructor(private clientService: ClienteService, private httpClient: HttpClient, private messageService: MessageService,) { }
+  constructor(
+    private clientService: ClienteService,
+    private httpClient: HttpClient,
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService) { }
 
   @ViewChild("fileUpload") fileUpload!: FileUpload;
   @Input() clientId!: number;
@@ -29,7 +33,7 @@ export class FileListComponent implements OnInit {
   files: FileDTO[] = [];
   ngOnInit(): void {
     if (this.clientId) {
-      this.clientService.getAllFiles(this.clientId).then(data => this.files = data)
+      this.loadFileData()
     }
   }
 
@@ -79,12 +83,37 @@ export class FileListComponent implements OnInit {
           detail: 'Erro ao enviar arquivo',
         })
       },
-  })
+    })
+    this.loadFileData()
   }
 
   setFile(file: FileDTO) {
-    console.log("test")
     this.selectedFile = file;
   }
 
+  remover(file: FileDTO) {
+    this.confirmationService.confirm({
+      message: `Deseja excluir o arquivo: ${file.fileName}?`,
+      accept: () => {
+        this.clientService.deleteFile(this.clientId, file.id)
+          .then(() => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Sucesso',
+              detail: 'Arquivo excluido com sucesso',
+            })
+          }).catch((error) => {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Erro',
+              detail: 'Erro ao remover arquivo',
+            })
+        }).finally(() => this.loadFileData())
+      },
+    });
+  }
+
+  private loadFileData() {
+    this.clientService.getAllFiles(this.clientId).then(data => this.files = data)
+  }
 }
