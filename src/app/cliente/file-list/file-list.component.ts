@@ -56,8 +56,9 @@ export class FileListComponent implements OnInit {
     formData.append("myfile", event.files[0]);
 
     this.httpClient.put(this.uploadUrl, file, {
-       reportProgress: true,
-       observe: "events"
+      reportProgress: true,
+      headers: {},
+      observe: "events"
     }).subscribe({
       next: (event) => {
         if (event.type === HttpEventType.UploadProgress) {
