@@ -50,7 +50,8 @@ export class FileListComponent implements OnInit {
     this.fileUpload.disabled = true
     this.fileUpload.uploading = true
     this.fileUpload.showUploadButton = false
-    const file: File = event.files[0]
+     const file: File = event.files[0]
+     console.log(file)
     let formData = new FormData();
     formData.append("myfile", event.files[0]);
 
@@ -66,9 +67,6 @@ export class FileListComponent implements OnInit {
         }
       },
       complete: () => {
-        this.fileUpload.disabled = false;
-        this.fileUpload.uploading = false;
-        this.fileUpload.showUploadButton = true
         this.fileUpload.clear();
         this.messageService.add({
           severity: 'success',
@@ -77,6 +75,7 @@ export class FileListComponent implements OnInit {
         })
       },
       error: (err) => {
+        console.log(err)
         this.messageService.add({
           severity: 'error',
           summary: 'Erro',
@@ -84,6 +83,9 @@ export class FileListComponent implements OnInit {
         })
       },
     })
+    this.fileUpload.disabled = false;
+    this.fileUpload.uploading = false;
+    this.fileUpload.showUploadButton = true
     this.loadFileData()
   }
 
