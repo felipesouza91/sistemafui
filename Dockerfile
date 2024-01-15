@@ -27,4 +27,5 @@ CMD ["/bin/sh", "-c", \
   sed -i s#CALLBACK_URL#$CALLBACK_URL#g /usr/share/nginx/html/main.*.js && \
   sed -i s#APP_URL#$APP_URL#g /usr/share/nginx/html/main.*.js && \
   sed -i s#CLIENT_SECRET#$CLIENT_SECRET#g /usr/share/nginx/html/main.*.js && \
+  sed -i s#FILE_SERVICE_URL#$FILE_SERVICE_URL#g /usr/share/nginx/html/main.*.js && \
   nginx -g 'daemon off;'"]
