@@ -57,7 +57,6 @@ export class FileListComponent implements OnInit {
 
     this.httpClient.put(this.uploadUrl, file, {
       reportProgress: true,
-      headers: {},
       observe: "events"
     }).subscribe({
       next: (event) => {
