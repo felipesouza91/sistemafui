@@ -1,16 +1,15 @@
-import { Router } from '@angular/router';
-import { ErrorHandlerService } from './../error-handler.service';
-import { LogoutService } from './../../seguranca/logout.service';
-import { AuthService } from './../../seguranca/auth.service';
 import {
   Component,
+  EventEmitter,
   OnInit,
   Output,
-  EventEmitter,
   ViewChild,
 } from '@angular/core';
+import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
-import { SidebarModule } from 'primeng/sidebar';
+import { AuthService } from './../../seguranca/auth.service';
+import { LogoutService } from './../../seguranca/logout.service';
+import { ErrorHandlerService } from './../error-handler.service';
 
 @Component({
   selector: 'app-navbar',
@@ -111,6 +110,25 @@ export class NavbarComponent implements OnInit {
         ],
       },
       {
+        label: 'Estoque',
+        command: () => (!this.display ? this.showMenu() : null),
+        icon: 'fa fa-solid fa-cart-plus',
+        items: [
+          {
+            label: 'Fabricante',
+            routerLink: 'fabricante',
+            command: () => this.closeSideBar(),
+            visible: this.auth.temPermissao('38'),
+          },
+          {
+            label: 'Produtos',
+            routerLink: 'produto',
+            command: () => this.closeSideBar(),
+            visible: this.auth.temPermissao('42'),
+          },
+        ],
+      },
+      {
         label: 'Configurações',
         command: () => (!this.display ? this.showMenu() : null),
         icon: 'fas fa-cogs',
@@ -160,18 +178,7 @@ export class NavbarComponent implements OnInit {
                 command: () => this.closeSideBar(),
                 visible: this.auth.temPermissao('17'),
               },
-              {
-                label: 'Fabricante',
-                routerLink: 'fabricante',
-                command: () => this.closeSideBar(),
-                visible: this.auth.temPermissao('38'),
-              },
-              {
-                label: 'Produtos',
-                routerLink: 'produto',
-                command: () => this.closeSideBar(),
-                visible: this.auth.temPermissao('42'),
-              },
+
             ],
           },
         ],
